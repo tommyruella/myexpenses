@@ -1,29 +1,34 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Eye, EyeOff, Filter } from 'lucide-react';
+import { PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Eye, EyeOff, Activity, CreditCard, Sparkles, Grid, Layers } from 'lucide-react';
 
-const CATEGORIE = ["CIBO", "MEZZI", "GYM", "OTHERS"];
+const CATEGORIES = ["FOOD", "TRANSPORT", "FITNESS", "MISC"];
 
-const PASTEL_COLORS = {
-  primary: '#1a1a1a',
-  secondary: '#6b7280',
-  background: '#ffffff',
-  surface: '#f8fafc',
-  accent: '#e0e7ff',
-  success: '#dcfce7',
-  danger: '#fef2f2',
-  warning: '#fef3c7',
-  info: '#dbeafe',
-  
-  // Pastel chart colors
-  chart: ['#a855f7', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] as string[],
-  
-  // Category colors
-  CIBO: '#fbbf24' as string,
-  MEZZI: '#06b6d4' as string, 
-  GYM: '#10b981' as string,
-  OTHERS: '#a855f7' as string
+const THEME = {
+  gradients: {
+    primary: 'var(--gradient-primary)',
+    secondary: 'var(--gradient-secondary)', 
+    surface: 'var(--gradient-surface)',
+    accent: 'var(--gradient-accent)',
+    success: 'var(--gradient-success)',
+    danger: 'var(--gradient-danger)',
+  },
+  colors: {
+    background: '#0a0a0a',
+    surface: '#121212',
+    border: '#1f1f1f',
+    text: '#fafafa',
+    textMuted: '#a3a3a3',
+    textDimmed: '#525252',
+  },
+  categories: {
+    FOOD: '#f97316',
+    TRANSPORT: '#06b6d4',
+    FITNESS: '#10b981',
+    MISC: '#8b5cf6'
+  },
+  chartColors: ['#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#ec4899']
 } as const;
 
 interface Spesa {
@@ -49,9 +54,8 @@ function calcolaSaldo(spese: Spesa[]) {
 
 function getStats(spese: Spesa[]) {
   const totali: Record<string, number> = {};
-  for (const cat of CATEGORIE) totali[cat] = 0;
-  let entrate = 0,
-    uscite = 0;
+  for (const cat of CATEGORIES) totali[cat] = 0;
+  let entrate = 0, uscite = 0;
   for (const s of spese) {
     if (s.tipo === "USCITA") {
       totali[s.categoria] += Number(s.importo);
@@ -69,7 +73,7 @@ export default function Home() {
     descrizione: "",
     importo: "",
     data_spesa: "",
-    categoria: CATEGORIE[0],
+    categoria: CATEGORIES[0],
     tipo: "USCITA" as "USCITA" | "ENTRATA",
   });
   const [loading, setLoading] = useState(false);
@@ -117,7 +121,7 @@ export default function Home() {
         tipo: form.tipo,
       }),
     });
-    setForm({ descrizione: "", importo: "", data_spesa: "", categoria: CATEGORIE[0], tipo: "USCITA" });
+    setForm({ descrizione: "", importo: "", data_spesa: "", categoria: CATEGORIES[0], tipo: "USCITA" });
     setModal(false);
     fetchSpese();
   }
@@ -132,10 +136,10 @@ export default function Home() {
   const stats = getStats(spese);
   
   // Prepare chart data
-  const categoryData = CATEGORIE.map(cat => ({
+  const categoryData = CATEGORIES.map(cat => ({
     name: cat,
     value: stats.totali[cat],
-    color: PASTEL_COLORS[cat as keyof Pick<typeof PASTEL_COLORS, 'CIBO' | 'MEZZI' | 'GYM' | 'OTHERS'>]
+    color: THEME.categories[cat as keyof typeof THEME.categories]
   })).filter(item => item.value > 0);
 
   const filteredSpese = spese.filter(spesa => 
@@ -158,222 +162,279 @@ export default function Home() {
   const monthlyChartData = Object.values(monthlyData).sort((a, b) => a.month.localeCompare(b.month));
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="page-background">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
-        <div className="max-w-md mx-auto px-4 py-4">
+      <header className="glass-surface border-primary border-b sticky top-0 z-40 backdrop-blur-xl">
+        <div className="max-w-md mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-                <Wallet className="w-4 h-4 text-white" />
+              <div className="header-icon flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-xl font-bold text-gray-900">Expenses</h1>
+              <div>
+                <h1 className="text-xl font-bold text-primary">Flux</h1>
+                <p className="text-xs text-secondary">Expense Tracker</p>
+              </div>
             </div>
             <button
               onClick={() => setShowBalance(!showBalance)}
-              className="p-2 rounded-full hover:bg-gray-50 transition-colors"
+              className="icon-button"
             >
-              {showBalance ? <Eye className="w-5 h-5 text-gray-600" /> : <EyeOff className="w-5 h-5 text-gray-600" />}
+              {showBalance ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Balance Card */}
-      <div className="max-w-md mx-auto px-4 py-6">
-        <div className="bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-2xl p-6 shadow-sm animate-fade-in">
-          <div className="text-center">
-            <p className="text-sm text-gray-500 mb-2">Saldo Attuale</p>
-            <div className="text-3xl font-bold mb-4">
+      <div className="max-w-md mx-auto px-6 py-6 space-y-6">
+        {/* Balance Card */}
+        <div className="balance-card glass-surface card-shadow">
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Wallet className="w-4 h-4 text-secondary" />
+              <p className="text-sm text-secondary font-medium">Current Balance</p>
+            </div>
+            <div className="text-4xl font-mono font-bold leading-none">
               {showBalance ? (
-                <span className={`transition-colors duration-300 ${saldo >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                <span className={`text-gradient ${saldo >= 0 ? 'success' : 'danger'}`}>
                   €{saldo.toFixed(2)}
                 </span>
               ) : (
-                <span className="text-gray-400">••••••</span>
+                <span className="text-secondary">••••••</span>
               )}
             </div>
-            <div className="flex justify-center gap-6">
-              <div className="text-center">
-                <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-full mb-2 mx-auto transition-transform hover:scale-110">
-                  <TrendingUp className="w-4 h-4 text-green-600" />
+            <div className="stats-grid">
+              <div className="stat-item">
+                <div className="stat-icon success">
+                  <TrendingUp className="w-4 h-4" />
                 </div>
-                <p className="text-xs text-gray-500">Entrate</p>
-                <p className="text-sm font-semibold text-green-600">€{stats.entrate.toFixed(2)}</p>
+                <div>
+                  <p className="text-xs text-secondary">Income</p>
+                  <p className="text-sm font-semibold text-success">€{stats.entrate.toFixed(2)}</p>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-full mb-2 mx-auto transition-transform hover:scale-110">
-                  <TrendingDown className="w-4 h-4 text-red-500" />
+              <div className="stat-item">
+                <div className="stat-icon danger">
+                  <TrendingDown className="w-4 h-4" />
                 </div>
-                <p className="text-xs text-gray-500">Uscite</p>
-                <p className="text-sm font-semibold text-red-500">€{stats.uscite.toFixed(2)}</p>
+                <div>
+                  <p className="text-xs text-secondary">Expenses</p>
+                  <p className="text-sm font-semibold text-danger">€{stats.uscite.toFixed(2)}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Charts Section */}
-      {categoryData.length > 0 && (
-        <div className="max-w-md mx-auto px-4 pb-6 animate-fade-in">
-          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Spese per Categoria</h3>
-            <div className="h-48">
+        {/* Category Cards Grid */}
+        {Object.entries(stats.totali).some(([_, value]) => value > 0) && (
+          <div className="card-grid">
+            {Object.entries(stats.totali)
+              .filter(([_, value]) => value > 0)
+              .map(([category, amount], index) => (
+                <div 
+                  key={category} 
+                  className="category-card glass-surface card-shadow animate-fade-in"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <div 
+                        className="category-dot"
+                        style={{ backgroundColor: THEME.categories[category as keyof typeof THEME.categories] }}
+                      />
+                      <span className="text-sm font-medium text-primary">{category}</span>
+                    </div>
+                    <Activity className="w-4 h-4 text-secondary" />
+                  </div>
+                  <div className="text-2xl font-mono font-bold text-primary">
+                    €{amount.toFixed(0)}
+                  </div>
+                  <div className="category-bar">
+                    <div 
+                      className="category-bar-fill"
+                      style={{ 
+                        width: `${(amount / Math.max(...Object.values(stats.totali))) * 100}%`,
+                        backgroundColor: THEME.categories[category as keyof typeof THEME.categories]
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
+
+        {/* Charts Section */}
+        {categoryData.length > 0 && (
+          <div className="chart-container glass-surface card-shadow">
+            <div className="flex items-center gap-2 mb-4">
+              <Grid className="w-5 h-5 text-secondary" />
+              <h3 className="text-lg font-semibold text-primary">Category Breakdown</h3>
+            </div>
+            <div className="h-48 mb-4">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={categoryData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={40}
-                    outerRadius={70}
-                    paddingAngle={2}
+                    innerRadius={50}
+                    outerRadius={80}
+                    paddingAngle={4}
                     dataKey="value"
                     animationBegin={0}
-                    animationDuration={800}
+                    animationDuration={1000}
                   >
                     {categoryData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color} 
+                        stroke="rgba(255,255,255,0.1)" 
+                        strokeWidth={1}
+                      />
                     ))}
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-2 gap-2 mt-4">
+            <div className="chart-legend">
               {categoryData.map((item, index) => (
-                <div key={item.name} className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                <div key={item.name} className="legend-item">
                   <div 
-                    className="w-3 h-3 rounded-full"
+                    className="legend-dot"
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="text-xs text-gray-600">{item.name}</span>
-                  <span className="text-xs font-medium ml-auto">€{item.value.toFixed(0)}</span>
+                  <span className="text-xs text-secondary">{item.name}</span>
+                  <span className="text-xs font-mono font-medium text-primary ml-auto">
+                    €{item.value.toFixed(0)}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Monthly Trend */}
-      {monthlyChartData.length > 1 && (
-        <div className="max-w-md mx-auto px-4 pb-6 animate-fade-in">
-          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Trend Mensile</h3>
-            <div className="h-48">
+        {/* Monthly Trend */}
+        {monthlyChartData.length > 1 && (
+          <div className="chart-container glass-surface card-shadow">
+            <div className="flex items-center gap-2 mb-4">
+              <Layers className="w-5 h-5 text-secondary" />
+              <h3 className="text-lg font-semibold text-primary">Monthly Trend</h3>
+            </div>
+            <div className="h-48 mb-4">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={monthlyChartData}>
+                <AreaChart data={monthlyChartData}>
+                  <defs>
+                    <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="expenseGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
                   <XAxis 
                     dataKey="month" 
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fontSize: 10, fill: '#6b7280' }}
+                    tick={{ fontSize: 10, fill: '#a3a3a3' }}
                   />
                   <YAxis 
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fontSize: 10, fill: '#6b7280' }}
+                    tick={{ fontSize: 10, fill: '#a3a3a3' }}
                   />
-                  <Line 
+                  <Area 
                     type="monotone" 
                     dataKey="entrate" 
                     stroke="#10b981" 
                     strokeWidth={2}
-                    dot={{ fill: '#10b981', strokeWidth: 0, r: 3 }}
-                    animationDuration={1000}
+                    fill="url(#incomeGradient)"
+                    animationDuration={1500}
                   />
-                  <Line 
+                  <Area 
                     type="monotone" 
                     dataKey="uscite" 
                     stroke="#ef4444" 
                     strokeWidth={2}
-                    dot={{ fill: '#ef4444', strokeWidth: 0, r: 3 }}
-                    animationDuration={1000}
+                    fill="url(#expenseGradient)"
+                    animationDuration={1500}
                   />
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </div>
-            <div className="flex justify-center gap-6 mt-4">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-xs text-gray-600">Entrate</span>
+            <div className="chart-legend">
+              <div className="legend-item">
+                <div className="legend-dot" style={{ backgroundColor: '#10b981' }} />
+                <span className="text-xs text-secondary">Income</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <span className="text-xs text-gray-600">Uscite</span>
+              <div className="legend-item">
+                <div className="legend-dot" style={{ backgroundColor: '#ef4444' }} />
+                <span className="text-xs text-secondary">Expenses</span>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Filter Buttons */}
-      <div className="max-w-md mx-auto px-4 pb-4">
-        <div className="flex gap-2">
+        {/* Filter Buttons */}
+        <div className="filter-container">
           {(['ALL', 'ENTRATA', 'USCITA'] as const).map(type => (
             <button
               key={type}
               onClick={() => setFilterType(type)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                filterType === type
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+              className={`filter-button ${filterType === type ? 'active' : ''}`}
             >
-              {type === 'ALL' ? 'Tutti' : type === 'ENTRATA' ? 'Entrate' : 'Uscite'}
+              {type === 'ALL' ? 'All' : type === 'ENTRATA' ? 'Income' : 'Expenses'}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Transactions List */}
-      <div className="max-w-md mx-auto px-4 pb-24">
-        <div className="space-y-3">
+        {/* Transactions List */}
+        <div className="transactions-list">
           {filteredSpese.map((spesa, index) => (
             <div
               key={spesa.id}
               onClick={() => setActiveId(activeId === spesa.id ? null : spesa.id)}
-              className={`bg-white border rounded-2xl p-4 transition-all duration-200 cursor-pointer transform hover:scale-[1.01] animate-fade-in ${
-                activeId === spesa.id
-                  ? 'border-black shadow-lg scale-[1.02]'
-                  : 'border-gray-100 hover:border-gray-200 hover:shadow-md'
+              className={`transaction-item glass-surface card-shadow ${
+                activeId === spesa.id ? 'active' : ''
               }`}
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-3 mb-2">
                     <div 
-                      className="w-3 h-3 rounded-full transition-transform duration-200 hover:scale-125"
-                      style={{ backgroundColor: PASTEL_COLORS[spesa.categoria as keyof Pick<typeof PASTEL_COLORS, 'CIBO' | 'MEZZI' | 'GYM' | 'OTHERS'>] }}
+                      className="category-indicator"
+                      style={{ backgroundColor: THEME.categories[spesa.categoria as keyof typeof THEME.categories] }}
                     />
-                    <span className="font-medium text-gray-900 truncate">{spesa.descrizione}</span>
+                    <span className="transaction-title">{spesa.descrizione}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <span>{new Date(spesa.data_spesa).toLocaleDateString('it-IT')}</span>
-                    <span>•</span>
-                    <span className="px-2 py-1 bg-gray-100 rounded-full text-xs">{spesa.categoria}</span>
+                  <div className="transaction-meta">
+                    <span className="transaction-date">
+                      {new Date(spesa.data_spesa).toLocaleDateString('en-US')}
+                    </span>
+                    <span className="transaction-separator">•</span>
+                    <span className="transaction-category">{spesa.categoria}</span>
                   </div>
                 </div>
-                <div className={`text-lg font-semibold transition-colors duration-200 ${
-                  spesa.tipo === 'ENTRATA' ? 'text-green-600' : 'text-red-500'
-                }`}>
+                <div className={`transaction-amount ${spesa.tipo.toLowerCase()}`}>
                   {spesa.tipo === 'ENTRATA' ? '+' : '-'}€{spesa.importo.toFixed(2)}
                 </div>
               </div>
               
               {activeId === spesa.id && (
-                <div className="mt-4 pt-4 border-t border-gray-100 animate-fade-in">
+                <div className="transaction-actions">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDelete(spesa.id);
                     }}
                     disabled={loading}
-                    className="flex items-center gap-2 text-red-500 hover:text-red-700 transition-all duration-200 disabled:opacity-50 hover:bg-red-50 px-3 py-2 rounded-lg -ml-3"
+                    className="delete-button"
                   >
                     <Trash2 className="w-4 h-4" />
-                    <span className="text-sm font-medium">Elimina</span>
+                    <span>Delete</span>
                   </button>
                 </div>
               )}
@@ -381,12 +442,12 @@ export default function Home() {
           ))}
           
           {filteredSpese.length === 0 && (
-            <div className="text-center py-12 animate-fade-in">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-scale">
-                <Wallet className="w-8 h-8 text-gray-400" />
+            <div className="empty-state">
+              <div className="empty-icon">
+                <CreditCard className="w-8 h-8" />
               </div>
-              <p className="text-gray-500">Nessun movimento trovato</p>
-              <p className="text-sm text-gray-400 mt-1">Tocca il pulsante + per aggiungerne uno</p>
+              <p className="empty-title">No transactions found</p>
+              <p className="empty-subtitle">Tap the + button to add your first transaction</p>
             </div>
           )}
         </div>
@@ -395,8 +456,8 @@ export default function Home() {
       {/* Floating Action Button */}
       <button
         onClick={() => setModal(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 active:scale-95 transition-all duration-200 flex items-center justify-center z-50 hover:shadow-xl animate-pulse-scale"
-        aria-label="Aggiungi movimento"
+        className="fab"
+        aria-label="Add transaction"
       >
         <Plus className="w-6 h-6" />
       </button>
@@ -404,40 +465,45 @@ export default function Home() {
       {/* Modal */}
       {modal && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-end sm:items-center justify-center z-50 p-4 animate-fade-in"
+          className="modal-overlay"
           onClick={() => setModal(false)}
         >
           <form
             onClick={(e) => e.stopPropagation()}
             onSubmit={handleSubmit}
-            className="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-md p-6 space-y-4 animate-slide-up shadow-2xl"
+            className="modal-content glass-surface"
           >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900">Nuovo Movimento</h2>
+            <div className="modal-header">
+              <div className="flex items-center gap-3">
+                <div className="modal-icon">
+                  <Plus className="w-5 h-5" />
+                </div>
+                <h2 className="modal-title">New Transaction</h2>
+              </div>
               <button
                 type="button"
                 onClick={() => setModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                className="icon-button"
               >
-                <Plus className="w-5 h-5 text-gray-500 rotate-45 transition-transform duration-200" />
+                <Plus className="w-5 h-5 rotate-45" />
               </button>
             </div>
             
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Descrizione</label>
+            <div className="modal-body">
+              <div className="form-group">
+                <label className="form-label">Description</label>
                 <input
                   type="text"
-                  placeholder="Es. Spesa supermercato"
+                  placeholder="e.g. Grocery shopping"
                   value={form.descrizione}
                   onChange={(e) => setForm(f => ({ ...f, descrizione: e.target.value }))}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  className="form-input"
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Importo</label>
+              <div className="form-group">
+                <label className="form-label">Amount</label>
                 <input
                   type="number"
                   step="0.01"
@@ -445,52 +511,46 @@ export default function Home() {
                   value={form.importo}
                   onChange={(e) => setForm(f => ({ ...f, importo: e.target.value }))}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  className="form-input"
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Data</label>
+              <div className="form-group">
+                <label className="form-label">Date</label>
                 <input
                   type="date"
                   value={form.data_spesa}
                   onChange={(e) => setForm(f => ({ ...f, data_spesa: e.target.value }))}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  className="form-input"
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Categoria</label>
+              <div className="form-group">
+                <label className="form-label">Category</label>
                 <select
                   value={form.categoria}
                   onChange={(e) => setForm(f => ({ ...f, categoria: e.target.value }))}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  className="form-input"
                 >
-                  {CATEGORIE.map(cat => (
+                  {CATEGORIES.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
-                <div className="flex gap-3">
+              <div className="form-group">
+                <label className="form-label">Type</label>
+                <div className="type-buttons">
                   {(['USCITA', 'ENTRATA'] as const).map(tipo => (
                     <button
                       key={tipo}
                       type="button"
                       onClick={() => setForm(f => ({ ...f, tipo }))}
-                      className={`flex-1 py-3 px-4 rounded-xl border transition-all duration-200 ${
-                        form.tipo === tipo
-                          ? tipo === 'ENTRATA'
-                            ? 'bg-green-50 border-green-200 text-green-700 scale-105'
-                            : 'bg-red-50 border-red-200 text-red-700 scale-105'
-                          : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100 hover:scale-105'
-                      }`}
+                      className={`type-button ${form.tipo === tipo ? 'active' : ''} ${tipo.toLowerCase()}`}
                     >
-                      {tipo === 'ENTRATA' ? 'Entrata' : 'Uscita'}
+                      {tipo === 'ENTRATA' ? 'Income' : 'Expense'}
                     </button>
                   ))}
                 </div>
@@ -500,15 +560,15 @@ export default function Home() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-black text-white py-4 rounded-xl font-semibold hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 mt-6 transform hover:scale-105 active:scale-95"
+              className="submit-button"
             >
               {loading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Salvando...
+                <div className="loading-state">
+                  <div className="loading-spinner" />
+                  Saving...
                 </div>
               ) : (
-                'Salva Movimento'
+                'Save Transaction'
               )}
             </button>
           </form>
