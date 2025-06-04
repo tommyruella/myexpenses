@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
   if (req.method === 'DELETE') {
     // const { error } = await supabase.from('expenses').delete().eq('id', id);
     // return res.status(204).end();
