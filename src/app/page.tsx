@@ -26,9 +26,22 @@ export default function Home() {
 
   async function fetchSpese() {
     setLoading(true);
-    const res = await fetch("/api/spese");
-    const data = await res.json();
-    setSpese(data || []);
+    try {
+      const res = await fetch("/api/spese");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setSpese(data);
+      } else if (data && data.error) {
+        setSpese([]);
+        alert("Errore API: " + data.error);
+      } else {
+        setSpese([]);
+        alert("Errore sconosciuto nella risposta API");
+      }
+    } catch (err) {
+      setSpese([]);
+      alert("Errore di rete o server: " + (err as Error).message);
+    }
     setLoading(false);
   }
 
