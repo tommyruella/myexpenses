@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { Plus, Trash2, TrendingUp, TrendingDown, Wallet, Eye, EyeOff, Activity, CreditCard, Sparkles, Grid, Layers } from 'lucide-react';
 
 const CATEGORIES = ["FOOD", "TRANSPORT", "FITNESS", "MISC"];
@@ -227,10 +227,10 @@ export default function Home() {
         </div>
 
         {/* Category Cards Grid */}
-        {Object.entries(stats.totali).some(([_, value]) => value > 0) && (
+        {Object.entries(stats.totali).some(([, value]) => value > 0) && (
           <div className="card-grid">
             {Object.entries(stats.totali)
-              .filter(([_, value]) => value > 0)
+              .filter(([, value]) => value > 0)
               .map(([category, amount], index) => (
                 <div 
                   key={category} 
@@ -298,7 +298,7 @@ export default function Home() {
               </ResponsiveContainer>
             </div>
             <div className="chart-legend">
-              {categoryData.map((item, index) => (
+              {categoryData.map((item) => (
                 <div key={item.name} className="legend-item">
                   <div 
                     className="legend-dot"
