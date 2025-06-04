@@ -9,12 +9,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json(data);
   } else if (req.method === 'POST') {
     // Inserisce una nuova spesa
-    const { descrizione, importo, data_spesa, categoria } = req.body;
-    if (!descrizione || !importo || !data_spesa || !categoria) {
+    const { descrizione, importo, data_spesa, categoria, tipo } = req.body;
+    if (!descrizione || !importo || !data_spesa || !categoria || !tipo) {
       return res.status(400).json({ error: 'Tutti i campi sono obbligatori' });
     }
     const { data, error } = await supabase.from('expenses').insert([
-      { descrizione, importo, data_spesa, categoria }
+      { descrizione, importo, data_spesa, categoria, tipo }
     ]).select();
     if (error) return res.status(500).json({ error: error.message });
     return res.status(201).json(data && data[0]);

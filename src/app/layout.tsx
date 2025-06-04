@@ -10,8 +10,6 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Flux · Expense Tracker",
   description: "Minimal expense tracking with elegant design",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
-  themeColor: "#0f0f0f",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -22,6 +20,14 @@ export const metadata: Metadata = {
     email: false,
     address: false
   }
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#0f0f0f',
 };
 
 export default function RootLayout({
