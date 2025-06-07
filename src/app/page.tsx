@@ -170,7 +170,7 @@ export default function Home() {
               balance chart
             </span>
           </div>
-          <BalanceChart saldo={saldo} entrate={entrate} uscite={uscite} />
+          <BalanceChart saldo={saldo} />
         </div>
       </main>
       <DynamicExpenseModal
