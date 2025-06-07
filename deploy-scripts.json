@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build:production": "next build",
+    "start:production": "next start",
+    "deploy:vercel": "vercel --prod",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit"
+  }
+}
