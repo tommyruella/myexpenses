@@ -1,9 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import DynamicExpenseModal from "./components/DynamicExpenseModal";
-import SpeseList from "./components/SpeseList";
-import BalanceCards from "./components/BalanceCards";
-import BalanceChart from "./components/BalanceChart";
+import { DynamicExpenseModal, SpeseList, BalanceCards, BalanceChart } from "./components";
 import "./globals.css";
 
 interface Spesa {
@@ -119,7 +116,7 @@ export default function Home() {
           pointerEvents: "none",
           userSelect: "none",
         }}>
-          Tommy Tegamino's Stats
+          Tommy Tegamino&apos;s Stats
         </h1>
       </header>
       {/* Balance + entrate/uscite in linea */}

@@ -2,12 +2,10 @@ import React from "react";
 
 interface BalanceChartProps {
   saldo: number;
-  entrate: number;
-  uscite: number;
 }
 
 // Placeholder minimal chart: sostituibile con una vera chart in futuro
-export default function BalanceChart({ saldo, entrate, uscite }: BalanceChartProps) {
+export default function BalanceChart({ saldo }: BalanceChartProps) {
   // In futuro: passare i dati storici come prop, qui mock per esempio
   const mockData = [
     { date: '2025-06-01', saldo: 1200 },

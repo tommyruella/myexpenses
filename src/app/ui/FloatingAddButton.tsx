@@ -1,37 +1,5 @@
 import React, { useState } from "react";
 
-// Icona hamburger animata (3 linee)
-const HamburgerIcon = ({ open }: { open: boolean }) => (
-  <span style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 24, height: 24 }}>
-    <span style={{
-      width: 20,
-      height: 3,
-      background: '#fff',
-      borderRadius: 2,
-      marginBottom: 3,
-      transition: 'all 0.25s',
-      transform: open ? 'rotate(45deg) translateY(7px)' : 'none',
-    }} />
-    <span style={{
-      width: 20,
-      height: 3,
-      background: '#fff',
-      borderRadius: 2,
-      marginBottom: 3,
-      opacity: open ? 0 : 1,
-      transition: 'all 0.25s',
-    }} />
-    <span style={{
-      width: 20,
-      height: 3,
-      background: '#fff',
-      borderRadius: 2,
-      transition: 'all 0.25s',
-      transform: open ? 'rotate(-45deg) translateY(-7px)' : 'none',
-    }} />
-  </span>
-);
-
 interface FloatingAddButtonProps {
   onClick: () => void;
 }
