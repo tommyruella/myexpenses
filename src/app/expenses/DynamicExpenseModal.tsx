@@ -2,15 +2,17 @@ import React, { useState } from "react";
 
 const CATEGORIES = ["FOOD", "TRANSPORT", "FITNESS", "MISC"];
 
+interface FormState {
+  descrizione: string;
+  importo: string;
+  data_spesa: string;
+  categoria: string;
+  tipo: "USCITA" | "ENTRATA";
+}
+
 interface DynamicExpenseModalProps {
-  form: {
-    descrizione: string;
-    importo: string;
-    data_spesa: string;
-    categoria: string;
-    tipo: "USCITA" | "ENTRATA";
-  };
-  setForm: React.Dispatch<React.SetStateAction<any>>;
+  form: FormState;
+  setForm: React.Dispatch<React.SetStateAction<FormState>>;
   loading: boolean;
   onSubmit: (e: React.FormEvent) => void;
 }
@@ -102,7 +104,7 @@ export default function DynamicExpenseModal({ form, setForm, loading, onSubmit }
                 type="text"
                 placeholder="descrizione"
                 value={form.descrizione}
-                onChange={e => setForm((f: any) => ({ ...f, descrizione: e.target.value }))}
+                onChange={e => setForm(f => ({ ...f, descrizione: e.target.value }))}
                 required
                 style={{ padding: 10, border: 0, borderBottom: "2px solid #181818", outline: "none", fontSize: 17, fontFamily: 'inherit', background: 'none', color: '#181818' }}
               />
@@ -111,20 +113,20 @@ export default function DynamicExpenseModal({ form, setForm, loading, onSubmit }
                 step="0.01"
                 placeholder="importo"
                 value={form.importo}
-                onChange={e => setForm((f: any) => ({ ...f, importo: e.target.value }))}
+                onChange={e => setForm(f => ({ ...f, importo: e.target.value }))}
                 required
                 style={{ padding: 10, border: 0, borderBottom: "2px solid #181818", outline: "none", fontSize: 17, fontFamily: 'inherit', background: 'none', color: '#181818' }}
               />
               <input
                 type="date"
                 value={form.data_spesa}
-                onChange={e => setForm((f: any) => ({ ...f, data_spesa: e.target.value }))}
+                onChange={e => setForm(f => ({ ...f, data_spesa: e.target.value }))}
                 required
                 style={{ padding: 10, border: 0, borderBottom: "2px solid #181818", outline: "none", fontSize: 17, fontFamily: 'inherit', background: 'none', color: '#181818' }}
               />
               <select
                 value={form.categoria}
-                onChange={e => setForm((f: any) => ({ ...f, categoria: e.target.value }))}
+                onChange={e => setForm(f => ({ ...f, categoria: e.target.value }))}
                 style={{ padding: 10, border: 0, borderBottom: "2px solid #181818", outline: "none", fontSize: 17, fontFamily: 'inherit', background: 'none', color: '#181818' }}
               >
                 {CATEGORIES.map(cat => (
@@ -133,7 +135,7 @@ export default function DynamicExpenseModal({ form, setForm, loading, onSubmit }
               </select>
               <select
                 value={form.tipo}
-                onChange={e => setForm((f: any) => ({ ...f, tipo: e.target.value as "USCITA" | "ENTRATA" }))}
+                onChange={e => setForm(f => ({ ...f, tipo: e.target.value as "USCITA" | "ENTRATA" }))}
                 style={{ padding: 10, border: 0, borderBottom: "2px solid #181818", outline: "none", fontSize: 17, fontFamily: 'inherit', background: 'none', color: '#181818' }}
               >
                 <option value="USCITA">uscita</option>
