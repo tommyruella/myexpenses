@@ -28,15 +28,15 @@ export default function SpesaItem({ spesa, onDelete, loading }: SpesaItemProps) 
         justifyContent: "space-between",
         fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
         boxShadow: "none",
-        border: "1.5px solid #181818"
+        border: spesa.tipo === "ENTRATA" ? "1.5px solidrgb(105, 172, 115)" : "1.5px solid #181818"
       }}
     >
       <div>
-        <div style={{ fontWeight: 600, fontSize: 18, marginBottom: 2 }}>{spesa.descrizione}</div>
+        <div style={{ fontWeight: 600, fontSize: 18, marginBottom: 2, color: spesa.tipo === "ENTRATA" ? "#6adf7b" : "#181818" }}>{spesa.descrizione}</div>
         <div style={{ fontSize: 13, color: "#181818" }}>{spesa.data_spesa}   {spesa.categoria}</div>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <span style={{ fontWeight: 700, fontSize: 18, color: '#181818', fontFamily: 'inherit' }}>
+        <span style={{ fontWeight: 700, fontSize: 18, color: spesa.tipo === "ENTRATA" ? "#6adf7b" : '#181818', fontFamily: 'inherit' }}>
           {spesa.tipo === "ENTRATA" ? "+" : "-"}€{spesa.importo.toFixed(2)}
         </span>
         <button

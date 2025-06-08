@@ -70,9 +70,28 @@ export default function Home() {
   }
 
   // Calcolo saldo, entrate, uscite
-  const saldo = spese.reduce((acc, s) => acc + (s.tipo === "ENTRATA" ? s.importo : -s.importo), 0);
-  const entrate = spese.filter(s => s.tipo === "ENTRATA").reduce((acc, s) => acc + s.importo, 0);
-  const uscite = spese.filter(s => s.tipo === "USCITA").reduce((acc, s) => acc + s.importo, 0);
+  let saldo = 1200;
+  let entrate = 0;
+  let uscite = 0;
+  for (const s of spese) {
+    if (s.tipo === "ENTRATA") {
+      saldo += s.importo;
+      entrate += s.importo;
+    } else {
+      saldo -= s.importo;
+      uscite += s.importo;
+    }
+  }
+
+  // Calcolo storico saldo per il grafico (ordinato per data crescente)
+  const sortedSpese = [...spese].sort((a, b) => a.data_spesa.localeCompare(b.data_spesa));
+  let runningSaldo = 1200;
+  const saldoHistory = sortedSpese.map(s => {
+    runningSaldo += s.tipo === "ENTRATA" ? s.importo : -s.importo;
+    return { date: s.data_spesa, saldo: runningSaldo };
+  });
+  // Se non ci sono spese, mostra almeno un punto
+  const chartData = saldoHistory.length > 0 ? saldoHistory : [{ date: new Date().toISOString().slice(0, 10), saldo: 1200 }];
 
   return (
     <div style={{
@@ -134,7 +153,7 @@ export default function Home() {
         paddingRight: 100,
         gap: 48,
       }}>
-        {/* Colonna spese */}
+        {/* Colonna spese (sinistra) */}
         <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 32, marginBottom: 18 }}>
             <span style={{
@@ -153,8 +172,8 @@ export default function Home() {
           </div>
           <SpeseList spese={spese} onDelete={handleDelete} loading={loading} />
         </div>
-        {/* Colonna grafico */}
-        <div style={{ width: '50%', minWidth: 260, maxWidth: 420, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+        {/* Colonna grafici (destra) */}
+        <div style={{ width: '50%', minWidth: 260, maxWidth: 420, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', gap: 32 }}>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 32, marginBottom: 18 }}>
             <span style={{
               fontSize: 38,
@@ -170,7 +189,37 @@ export default function Home() {
               balance chart
             </span>
           </div>
-          <BalanceChart saldo={saldo} />
+          <div
+            style={{ cursor: 'pointer', border: '1.5px solid #181818', borderRadius: 6, boxShadow: 'none', padding: 18, boxSizing: 'border-box', background: '#fff', transition: 'box-shadow 0.15s', width: '100%' }}
+            onClick={() => window.location.assign('/balance-chart')}
+            tabIndex={0}
+            role="button"
+            aria-label="Apri il grafico del saldo"
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') window.location.assign('/balance-chart'); }}
+          >
+            <BalanceChart data={chartData} />
+          </div>
+          {/* Balance chart duplicato */}
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 32, marginBottom: 8, marginTop: 24 }}>
+            <span style={{
+              fontSize: 38,
+              fontWeight: 800,
+              letterSpacing: -1.5,
+              color: '#181818',
+              fontFamily: 'inherit',
+              lineHeight: 1.1,
+              margin: 0,
+              padding: 0,
+              whiteSpace: 'nowrap',
+            }}>
+              balance chart (duplicato)
+            </span>
+          </div>
+          <div
+            style={{ border: '1.5px solid #181818', borderRadius: 6, boxShadow: 'none', padding: 18, boxSizing: 'border-box', background: '#fff', transition: 'box-shadow 0.15s', width: '100%' }}
+          >
+            <BalanceChart data={chartData} />
+          </div>
         </div>
       </main>
       <DynamicExpenseModal

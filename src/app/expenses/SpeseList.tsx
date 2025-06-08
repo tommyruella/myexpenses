@@ -17,7 +17,10 @@ interface SpeseListProps {
 }
 
 export default function SpeseList({ spese, onDelete, loading }: SpeseListProps) {
-  if (spese.length === 0) {
+  // Mostra solo le ultime 5 spese
+  const speseToShow = spese.slice(-3);
+
+  if (speseToShow.length === 0) {
     return (
       <div style={{ color: '#181818', textAlign: 'center', marginTop: 60, fontSize: 18, fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif' }}>
         nessuna spesa
@@ -28,13 +31,13 @@ export default function SpeseList({ spese, onDelete, loading }: SpeseListProps) 
     <div style={{ 
       display: 'flex', 
       flexDirection: 'column', 
-      gap: 18, 
-      minHeight: 60, 
+      gap: 5, 
+      minHeight: 40, 
       fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
-      width: '100%', // ora occupa tutto lo spazio della colonna
+      width: '100%',
       alignSelf: 'flex-start',
     }}>
-      {spese.map(spesa => (
+      {speseToShow.map(spesa => (
         <SpesaItem key={spesa.id} spesa={spesa} onDelete={onDelete} loading={loading} />
       ))}
     </div>
