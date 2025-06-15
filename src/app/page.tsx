@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DynamicExpenseModal, SpeseList, BalanceCards, BalanceChart } from "./components";
 import "./globals.css";
 
 interface Spesa {
@@ -94,151 +93,115 @@ export default function Home() {
   const chartData = saldoHistory.length > 0 ? saldoHistory : [{ date: new Date().toISOString().slice(0, 10), saldo: 1200 }];
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      width: "100vw",
-      background: "#fff",
-      fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-      color: "#181818",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      position: "relative",
-      overflowX: "hidden",
-    }}>
+    <div className="dashboard-root">
       {/* Header decorativo */}
-      <header style={{
-        width: "100vw",
-        padding: "32px 0 0 0",
-        background: "none",
-        textAlign: "center",
-        position: "relative",
-        height: 120,
-        overflow: "hidden",
-        margin: 0,
-      }}>
-        <h1 style={{
-          fontSize: 110,
-          fontWeight: 800,
-          letterSpacing: -2,
-          margin: 0,
-          color: "#181818",
-          fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-          position: "absolute",
-          top: "-70px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          opacity: 1,
-          whiteSpace: "nowrap",
-          width: "120vw",
-          minWidth: 900,
-          pointerEvents: "none",
-          userSelect: "none",
-        }}>
-          Tommy Tegamino&apos;s Stats
-        </h1>
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Tommy Tegamino&apos;s Stats</h1>
       </header>
-      {/* Balance + entrate/uscite in linea */}
-      <BalanceCards saldo={saldo} entrate={entrate} uscite={uscite} />
-      {/* Lista spese + grafico affiancati */}
-      <main style={{
-        width: '100vw',
-        flex: 1,
-        padding: '0 12px',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        minHeight: 0,
-        paddingLeft: 100,
-        paddingRight: 100,
-        gap: 48,
-      }}>
-        {/* Colonna spese (sinistra) */}
-        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 32, marginBottom: 18 }}>
-            <span style={{
-              fontSize: 38,
-              fontWeight: 800,
-              letterSpacing: -1.5,
-              color: '#181818',
-              fontFamily: 'inherit',
-              lineHeight: 1.1,
-              margin: 0,
-              padding: 0,
-              whiteSpace: 'nowrap',
-            }}>
-              last expenses
-            </span>
+      {/* Griglia principale responsive */}
+      <div className="dashboard-grid">
+        {/* Prima riga: saldo + entrate/uscite */}
+        <section className="dashboard-balance-row">
+          <div className="balance-block">
+            <span className="balance-label">current balance</span>
+            <span className="balance-value">€{saldo.toFixed(2)}</span>
           </div>
-          <SpeseList spese={spese} onDelete={handleDelete} loading={loading} />
-        </div>
-        {/* Colonna grafici (destra) */}
-        <div style={{ width: '50%', minWidth: 260, maxWidth: 420, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', gap: 32 }}>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 32, marginBottom: 18 }}>
-            <span style={{
-              fontSize: 38,
-              fontWeight: 800,
-              letterSpacing: -1.5,
-              color: '#181818',
-              fontFamily: 'inherit',
-              lineHeight: 1.1,
-              margin: 0,
-              padding: 0,
-              whiteSpace: 'nowrap',
-            }}>
-              balance chart
-            </span>
+          <div className="inout-blocks">
+            <div className="in-block">
+              <span className="in-value">+€{entrate.toFixed(2)}</span>
+              <span className="in-label">Entrate</span>
+            </div>
+            <div className="out-block">
+              <span className="out-value">-€{uscite.toFixed(2)}</span>
+              <span className="out-label">Uscite</span>
+            </div>
           </div>
-          <div
-            style={{ cursor: 'pointer', border: '1.5px solid #181818', borderRadius: 6, boxShadow: 'none', padding: 18, boxSizing: 'border-box', background: '#fff', transition: 'box-shadow 0.15s', width: '100%' }}
-            onClick={() => window.location.assign('/balance-chart')}
-            tabIndex={0}
-            role="button"
-            aria-label="Apri il grafico del saldo"
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') window.location.assign('/balance-chart'); }}
-          >
-            <BalanceChart data={chartData} />
+        </section>
+        {/* Seconda riga: spese recenti | grafici */}
+        <main className="dashboard-main-row">
+          <div className="expenses-list-block">
+            <div className="section-title">last expenses</div>
+            <ul className="expenses-list">
+              {spese.map((spesa) => (
+                <li key={spesa.id} className="expense-item">
+                  <span className="expense-desc">{spesa.descrizione}</span>
+                  <span className="expense-cat">{spesa.categoria}</span>
+                  <span className={spesa.tipo === 'USCITA' ? 'expense-amount out' : 'expense-amount in'}>
+                    {spesa.tipo === 'USCITA' ? '-' : '+'}€{spesa.importo.toFixed(2)}
+                  </span>
+                  <span className="expense-date">{spesa.data_spesa}</span>
+                  <button
+                    onClick={() => handleDelete(spesa.id)}
+                    className="expense-delete"
+                    disabled={loading}
+                    aria-label="Elimina"
+                  >×</button>
+                </li>
+              ))}
+            </ul>
           </div>
-          {/* Balance chart duplicato */}
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 32, marginBottom: 8, marginTop: 24 }}>
-            <span style={{
-              fontSize: 38,
-              fontWeight: 800,
-              letterSpacing: -1.5,
-              color: '#181818',
-              fontFamily: 'inherit',
-              lineHeight: 1.1,
-              margin: 0,
-              padding: 0,
-              whiteSpace: 'nowrap',
-            }}>
-              balance chart (duplicato)
-            </span>
+          <div className="charts-block">
+            <div className="section-title">balance chart</div>
+            <div className="balance-chart-placeholder">(grafico saldo non disponibile)</div>
+            <div className="piecharts-row">
+              {CATEGORIES.map(cat => (
+                <div key={cat} className="piechart-block">
+                  {cat}
+                  <span className="piechart-label">(non disp.)</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div
-            style={{ border: '1.5px solid #181818', borderRadius: 6, boxShadow: 'none', padding: 18, boxSizing: 'border-box', background: '#fff', transition: 'box-shadow 0.15s', width: '100%' }}
-          >
-            <BalanceChart data={chartData} />
-          </div>
-        </div>
-      </main>
-      <DynamicExpenseModal
-        form={form}
-        setForm={setForm}
-        loading={loading}
-        onSubmit={handleSubmit}
-      />
+        </main>
+      </div>
+      {/* Form aggiunta spesa minimal */}
+      <form onSubmit={handleSubmit} className="expense-form">
+        <input
+          type="text"
+          placeholder="Descrizione"
+          value={form.descrizione}
+          onChange={e => setForm(f => ({ ...f, descrizione: e.target.value }))}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Importo"
+          value={form.importo}
+          onChange={e => setForm(f => ({ ...f, importo: e.target.value }))}
+          required
+          min={0.01}
+          step={0.01}
+        />
+        <input
+          type="date"
+          value={form.data_spesa}
+          onChange={e => setForm(f => ({ ...f, data_spesa: e.target.value }))}
+          required
+        />
+        <select
+          value={form.categoria}
+          onChange={e => setForm(f => ({ ...f, categoria: e.target.value }))}
+        >
+          {CATEGORIES.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+        <select
+          value={form.tipo}
+          onChange={e => setForm(f => ({ ...f, tipo: e.target.value as "USCITA" | "ENTRATA" }))}
+        >
+          <option value="USCITA">Uscita</option>
+          <option value="ENTRATA">Entrata</option>
+        </select>
+        <button
+          type="submit"
+          disabled={loading}
+        >
+          Aggiungi
+        </button>
+      </form>
       {/* Footer minimal */}
-      <footer style={{
-        width: '100vw',
-        padding: '18px 0 12px 0',
-        textAlign: 'center',
-        color: '#bbb',
-        fontSize: 14,
-        letterSpacing: 0.2,
-        fontWeight: 500,
-        margin: 0,
-      }}>
+      <footer className="dashboard-footer">
         <span>© {new Date().getFullYear()} Spese Minimal</span>
       </footer>
     </div>
