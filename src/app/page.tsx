@@ -1,5 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import AddExpenseModal from "./dashboard/components/AddExpenseModal";
+import BalanceChart from "./BalanceChart";
+import PieChart from "./PieChart";
 import "./globals.css";
 
 interface Spesa {
@@ -23,6 +26,7 @@ export default function Home() {
     tipo: "USCITA" as "USCITA" | "ENTRATA",
   });
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     fetchSpese();
@@ -96,7 +100,18 @@ export default function Home() {
     <div className="dashboard-root">
       {/* Header decorativo */}
       <header className="dashboard-header">
-        <h1 className="dashboard-title">Tommy Tegamino&apos;s Stats</h1>
+        <div className="dashboard-title marquee">
+          <div className="marquee-inner">
+            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino's tracker_</span>
+          </div>
+        </div>
       </header>
       {/* Griglia principale responsive */}
       <div className="dashboard-grid">
@@ -122,7 +137,7 @@ export default function Home() {
           <div className="expenses-list-block">
             <div className="section-title">last expenses</div>
             <ul className="expenses-list">
-              {spese.map((spesa) => (
+              {[...spese].sort((a, b) => b.data_spesa.localeCompare(a.data_spesa)).slice(0, 5).map((spesa) => (
                 <li key={spesa.id} className="expense-item">
                   <span className="expense-desc">{spesa.descrizione}</span>
                   <span className="expense-cat">{spesa.categoria}</span>
@@ -142,64 +157,34 @@ export default function Home() {
           </div>
           <div className="charts-block">
             <div className="section-title">balance chart</div>
-            <div className="balance-chart-placeholder">(grafico saldo non disponibile)</div>
+            <div className="balance-chart-container">
+              <BalanceChart data={chartData} />
+            </div>
             <div className="piecharts-row">
-              {CATEGORIES.map(cat => (
-                <div key={cat} className="piechart-block">
-                  {cat}
-                  <span className="piechart-label">(non disp.)</span>
-                </div>
-              ))}
+              {CATEGORIES.map(cat => {
+                const uscitaTotale = spese.filter(s => s.tipo === 'USCITA').reduce((acc, s) => acc + s.importo, 0);
+                const catTotale = spese.filter(s => s.tipo === 'USCITA' && s.categoria === cat).reduce((acc, s) => acc + s.importo, 0);
+                const percent = uscitaTotale > 0 ? (catTotale / uscitaTotale) * 100 : 0;
+                return (
+                  <PieChart key={cat} percent={percent} label={cat} />
+                );
+              })}
             </div>
           </div>
         </main>
       </div>
-      {/* Form aggiunta spesa minimal */}
-      <form onSubmit={handleSubmit} className="expense-form">
-        <input
-          type="text"
-          placeholder="Descrizione"
-          value={form.descrizione}
-          onChange={e => setForm(f => ({ ...f, descrizione: e.target.value }))}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Importo"
-          value={form.importo}
-          onChange={e => setForm(f => ({ ...f, importo: e.target.value }))}
-          required
-          min={0.01}
-          step={0.01}
-        />
-        <input
-          type="date"
-          value={form.data_spesa}
-          onChange={e => setForm(f => ({ ...f, data_spesa: e.target.value }))}
-          required
-        />
-        <select
-          value={form.categoria}
-          onChange={e => setForm(f => ({ ...f, categoria: e.target.value }))}
-        >
-          {CATEGORIES.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
-        </select>
-        <select
-          value={form.tipo}
-          onChange={e => setForm(f => ({ ...f, tipo: e.target.value as "USCITA" | "ENTRATA" }))}
-        >
-          <option value="USCITA">Uscita</option>
-          <option value="ENTRATA">Entrata</option>
-        </select>
-        <button
-          type="submit"
-          disabled={loading}
-        >
-          Aggiungi
-        </button>
-      </form>
+      <button className="floating-add-btn" onClick={() => setModalOpen(true)}>
+        + Aggiungi spesa
+      </button>
+      <AddExpenseModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleSubmit}
+        form={form}
+        setForm={setForm}
+        loading={loading}
+        categories={CATEGORIES}
+      />
       {/* Footer minimal */}
       <footer className="dashboard-footer">
         <span>© {new Date().getFullYear()} Spese Minimal</span>

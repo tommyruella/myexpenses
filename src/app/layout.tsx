@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Flux · Expense Tracker",
-  description: "Minimal expense tracking with elegant design",
+  title: "TommyTegamino's Tracker",
+  description: "my personal tracker",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
