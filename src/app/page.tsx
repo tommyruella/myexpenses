@@ -108,12 +108,12 @@ export default function Home() {
           </div>
           <div className="inout-blocks">
             <div className="in-block">
+              <span className="in-label">in</span>
               <span className="in-value">+€{entrate.toFixed(2)}</span>
-              <span className="in-label">Entrate</span>
             </div>
             <div className="out-block">
+              <span className="out-label">out</span>
               <span className="out-value">-€{uscite.toFixed(2)}</span>
-              <span className="out-label">Uscite</span>
             </div>
           </div>
         </section>
