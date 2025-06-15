@@ -102,14 +102,14 @@ export default function Home() {
       <header className="dashboard-header">
         <div className="dashboard-title marquee">
           <div className="marquee-inner">
-            <span>TommyTegamino's tracker_</span>
-            <span>TommyTegamino's tracker_</span>
-            <span>TommyTegamino's tracker_</span>
-            <span>TommyTegamino's tracker_</span>
-            <span>TommyTegamino's tracker_</span>
-            <span>TommyTegamino's tracker_</span>
-            <span>TommyTegamino's tracker_</span>
-            <span>TommyTegamino's tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
+            <span>TommyTegamino&apos;s tracker_</span>
           </div>
         </div>
       </header>

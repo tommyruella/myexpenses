@@ -11,7 +11,13 @@ interface AddExpenseModalProps {
     categoria: string;
     tipo: "USCITA" | "ENTRATA";
   };
-  setForm: React.Dispatch<React.SetStateAction<any>>;
+  setForm: React.Dispatch<React.SetStateAction<{
+    descrizione: string;
+    importo: string;
+    data_spesa: string;
+    categoria: string;
+    tipo: "USCITA" | "ENTRATA";
+  }>>;
   loading: boolean;
   categories: string[];
 }
@@ -27,7 +33,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
             type="text"
             placeholder="Descrizione"
             value={form.descrizione}
-            onChange={e => setForm((f: any) => ({ ...f, descrizione: e.target.value }))}
+            onChange={e => setForm(f => ({ ...f, descrizione: e.target.value }))}
             required
             maxLength={40}
             autoFocus
@@ -37,7 +43,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
             type="number"
             placeholder="Importo (€)"
             value={form.importo}
-            onChange={e => setForm((f: any) => ({ ...f, importo: e.target.value }))}
+            onChange={e => setForm(f => ({ ...f, importo: e.target.value }))}
             required
             min={0.01}
             step={0.01}
@@ -47,13 +53,13 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
           <input
             type="date"
             value={form.data_spesa}
-            onChange={e => setForm((f: any) => ({ ...f, data_spesa: e.target.value }))}
+            onChange={e => setForm(f => ({ ...f, data_spesa: e.target.value }))}
             required
             className="modal-input"
           />
           <select
             value={form.categoria}
-            onChange={e => setForm((f: any) => ({ ...f, categoria: e.target.value }))}
+            onChange={e => setForm(f => ({ ...f, categoria: e.target.value }))}
             className="modal-input"
           >
             {categories.map(cat => (
@@ -62,7 +68,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
           </select>
           <select
             value={form.tipo}
-            onChange={e => setForm((f: any) => ({ ...f, tipo: e.target.value as "USCITA" | "ENTRATA" }))}
+            onChange={e => setForm(f => ({ ...f, tipo: e.target.value as "USCITA" | "ENTRATA" }))}
             className="modal-input"
           >
             <option value="USCITA">Uscita</option>
