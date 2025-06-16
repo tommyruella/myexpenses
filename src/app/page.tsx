@@ -14,7 +14,7 @@ interface Spesa {
   tipo: "USCITA" | "ENTRATA";
 }
 
-const CATEGORIES = ["FOOD", "TRANSPORT", "FITNESS", "MISC"];
+const CATEGORIES = ["HANGOUT","CLOTH", "FOOD", "TRANSPORT", "GYM", "TRAVEL", "OTHERS"];
 
 export default function Home() {
   const [spese, setSpese] = useState<Spesa[]>([]);
