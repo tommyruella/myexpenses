@@ -4,6 +4,7 @@ import AddExpenseModal from "./dashboard/components/AddExpenseModal";
 import BalanceChart from "./BalanceChart";
 import PieChart from "./PieChart";
 import "./globals.css";
+import Navbar from "./Navbar";
 
 interface Spesa {
   id: number;
@@ -97,98 +98,88 @@ export default function Home() {
   const chartData = saldoHistory.length > 0 ? saldoHistory : [{ date: new Date().toISOString().slice(0, 10), saldo: 1200 }];
 
   return (
-    <div className="dashboard-root">
-      {/* Header decorativo */}
-      <header className="dashboard-header">
-        <div className="dashboard-title marquee">
-          <div className="marquee-inner">
-            <span>TommyTegamino&apos;s tracker_</span>
-            <span>TommyTegamino&apos;s tracker_</span>
-            <span>TommyTegamino&apos;s tracker_</span>
-            <span>TommyTegamino&apos;s tracker_</span>
-            <span>TommyTegamino&apos;s tracker_</span>
-            <span>TommyTegamino&apos;s tracker_</span>
-            <span>TommyTegamino&apos;s tracker_</span>
-            <span>TommyTegamino&apos;s tracker_</span>
-          </div>
+    <>
+      <Navbar />
+      <div className="dashboard-root">
+        {/* Header decorativo */}
+        {/* Marquee rimossa */}
+        {/* Griglia principale responsive */}
+        <div className="dashboard-grid">
+          {/* Prima riga: saldo + entrate/uscite */}
+          <section className="dashboard-balance-row">
+            <div className="balance-block">
+              <span className="balance-label">current balance</span>
+              <span className="balance-value">€{saldo.toFixed(2)}</span>
+            </div>
+            <div className="inout-blocks">
+              <div className="in-block">
+                <span className="in-label">in</span>
+                <span className="in-value">+€{entrate.toFixed(2)}</span>
+              </div>
+              <div className="out-block">
+                <span className="out-label">out</span>
+                <span className="out-value">-€{uscite.toFixed(2)}</span>
+              </div>
+            </div>
+          </section>
+          {/* Seconda riga: spese recenti | grafici */}
+          <main className="dashboard-main-row">
+            <div className="expenses-list-block">
+              <div className="section-title">last expenses</div>
+              <ul className="expenses-list">
+                {[...spese].sort((a, b) => b.data_spesa.localeCompare(a.data_spesa)).slice(0, 5).map((spesa) => (
+                  <li key={spesa.id} className="expense-item">
+                    <span className="expense-desc">{spesa.descrizione}</span>
+                    <span className="expense-cat">{spesa.categoria}</span>
+                    <span className={spesa.tipo === 'USCITA' ? 'expense-amount out' : 'expense-amount in'}>
+                      {spesa.tipo === 'USCITA' ? '-' : '+'}€{spesa.importo.toFixed(2)}
+                    </span>
+                    <span className="expense-date">{spesa.data_spesa}</span>
+                    <button
+                      onClick={() => handleDelete(spesa.id)}
+                      className="expense-delete"
+                      disabled={loading}
+                      aria-label="Elimina"
+                    >×</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="charts-block">
+              <div className="section-title">balance chart</div>
+              <div className="balance-chart-container">
+                <BalanceChart data={chartData} />
+              </div>
+              <div className="piecharts-row">
+                {CATEGORIES.map(cat => {
+                  const uscitaTotale = spese.filter(s => s.tipo === 'USCITA').reduce((acc, s) => acc + s.importo, 0);
+                  const catTotale = spese.filter(s => s.tipo === 'USCITA' && s.categoria === cat).reduce((acc, s) => acc + s.importo, 0);
+                  const percent = uscitaTotale > 0 ? (catTotale / uscitaTotale) * 100 : 0;
+                  return (
+                    <PieChart key={cat} percent={percent} label={cat} />
+                  );
+                })}
+              </div>
+            </div>
+          </main>
         </div>
-      </header>
-      {/* Griglia principale responsive */}
-      <div className="dashboard-grid">
-        {/* Prima riga: saldo + entrate/uscite */}
-        <section className="dashboard-balance-row">
-          <div className="balance-block">
-            <span className="balance-label">current balance</span>
-            <span className="balance-value">€{saldo.toFixed(2)}</span>
-          </div>
-          <div className="inout-blocks">
-            <div className="in-block">
-              <span className="in-label">in</span>
-              <span className="in-value">+€{entrate.toFixed(2)}</span>
-            </div>
-            <div className="out-block">
-              <span className="out-label">out</span>
-              <span className="out-value">-€{uscite.toFixed(2)}</span>
-            </div>
-          </div>
-        </section>
-        {/* Seconda riga: spese recenti | grafici */}
-        <main className="dashboard-main-row">
-          <div className="expenses-list-block">
-            <div className="section-title">last expenses</div>
-            <ul className="expenses-list">
-              {[...spese].sort((a, b) => b.data_spesa.localeCompare(a.data_spesa)).slice(0, 5).map((spesa) => (
-                <li key={spesa.id} className="expense-item">
-                  <span className="expense-desc">{spesa.descrizione}</span>
-                  <span className="expense-cat">{spesa.categoria}</span>
-                  <span className={spesa.tipo === 'USCITA' ? 'expense-amount out' : 'expense-amount in'}>
-                    {spesa.tipo === 'USCITA' ? '-' : '+'}€{spesa.importo.toFixed(2)}
-                  </span>
-                  <span className="expense-date">{spesa.data_spesa}</span>
-                  <button
-                    onClick={() => handleDelete(spesa.id)}
-                    className="expense-delete"
-                    disabled={loading}
-                    aria-label="Elimina"
-                  >×</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="charts-block">
-            <div className="section-title">balance chart</div>
-            <div className="balance-chart-container">
-              <BalanceChart data={chartData} />
-            </div>
-            <div className="piecharts-row">
-              {CATEGORIES.map(cat => {
-                const uscitaTotale = spese.filter(s => s.tipo === 'USCITA').reduce((acc, s) => acc + s.importo, 0);
-                const catTotale = spese.filter(s => s.tipo === 'USCITA' && s.categoria === cat).reduce((acc, s) => acc + s.importo, 0);
-                const percent = uscitaTotale > 0 ? (catTotale / uscitaTotale) * 100 : 0;
-                return (
-                  <PieChart key={cat} percent={percent} label={cat} />
-                );
-              })}
-            </div>
-          </div>
-        </main>
+        <button className="floating-add-btn" onClick={() => setModalOpen(true)}>
+          + Aggiungi spesa
+        </button>
+        <AddExpenseModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onSubmit={handleSubmit}
+          form={form}
+          setForm={setForm}
+          loading={loading}
+          categories={CATEGORIES}
+        />
+        {/* Footer minimal */}
+        <footer className="dashboard-footer">
+          <span>© {new Date().getFullYear()} Spese Minimal</span>
+        </footer>
       </div>
-      <button className="floating-add-btn" onClick={() => setModalOpen(true)}>
-        + Aggiungi spesa
-      </button>
-      <AddExpenseModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleSubmit}
-        form={form}
-        setForm={setForm}
-        loading={loading}
-        categories={CATEGORIES}
-      />
-      {/* Footer minimal */}
-      <footer className="dashboard-footer">
-        <span>© {new Date().getFullYear()} Spese Minimal</span>
-      </footer>
-    </div>
+    </>
   );
 }
