@@ -18,8 +18,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     ]).select();
     if (error) return res.status(500).json({ error: error.message });
     return res.status(201).json(data && data[0]);
+  } else if (req.method === 'DELETE') {
+    // Cancella tutte le spese
+    const { error } = await supabase.from('expenses').delete().neq('id', 0); // cancella tutto
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json({ message: 'Tutte le spese sono state cancellate.' });
   } else {
-    res.setHeader('Allow', ['GET', 'POST']);
+    res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
