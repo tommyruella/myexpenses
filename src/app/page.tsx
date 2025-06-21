@@ -143,27 +143,49 @@ export default function Home() {
             <div className="inout-blocks">
               <div className="in-block">
                 <span className="in-label">in</span>
-                <span className="in-value">
+                <span className="in-value" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   +€{entrateMese.toFixed(2)}
+                  {/* Solo desktop: percentuale inline */}
+                  <span className="desktop-inline-perc">
+                    {entratePerc !== null && (
+                      <span className={"perc-" + (entratePerc >= 0 ? "positive" : "negative")} style={{ fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                        {(entratePerc ?? 0) > 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                        {(entratePerc ?? 0) < 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                        {entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}
+                      </span>
+                    )}
+                  </span>
                 </span>
+                {/* Solo mobile: percentuale sotto */}
                 {entratePerc !== null && (
-                  <span style={{ fontSize: 15, fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                    {(entratePerc ?? 0) > 0 && <span style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
-                    {(entratePerc ?? 0) < 0 && <span style={{fontSize:18, lineHeight:1}}>&darr;</span>}
-                    {entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}
+                  <span className="mobile-block-perc" style={{ fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {(entratePerc ?? 0) > 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                    {(entratePerc ?? 0) < 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                    <span className={"perc-" + (entratePerc >= 0 ? "positive" : "negative")}>{entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}</span>
                   </span>
                 )}
               </div>
               <div className="out-block">
                 <span className="out-label">out</span>
-                <span className="out-value">
+                <span className="out-value" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   -€{usciteMese.toFixed(2)}
+                  {/* Solo desktop: percentuale inline */}
+                  <span className="desktop-inline-perc">
+                    {uscitePerc !== null && (
+                      <span className={"perc-" + (uscitePerc >= 0 ? "negative" : "positive")} style={{ fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                        {(uscitePerc ?? 0) > 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                        {(uscitePerc ?? 0) < 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                        {uscitePerc !== null ? (uscitePerc >= 0 ? '+' : '') + uscitePerc.toFixed(1) + '%' : ''}
+                      </span>
+                    )}
+                  </span>
                 </span>
+                {/* Solo mobile: percentuale sotto */}
                 {uscitePerc !== null && (
-                  <span style={{ fontSize: 15, fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                    {(uscitePerc ?? 0) > 0 && <span style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
-                    {(uscitePerc ?? 0) < 0 && <span style={{fontSize:18, lineHeight:1}}>&darr;</span>}
-                    {uscitePerc !== null ? (uscitePerc >= 0 ? '+' : '') + uscitePerc.toFixed(1) + '%' : ''}
+                  <span className="mobile-block-perc" style={{ fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {(uscitePerc ?? 0) > 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                    {(uscitePerc ?? 0) < 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                    <span className={"perc-" + (uscitePerc >= 0 ? "negative" : "positive")}>{uscitePerc !== null ? (uscitePerc >= 0 ? '+' : '') + uscitePerc.toFixed(1) + '%' : ''}</span>
                   </span>
                 )}
               </div>
