@@ -212,12 +212,26 @@ body {
   grid-template-columns: 1fr;
   gap: 32px;
 }
+
+/* Unica regola desktop */
 .dashboard-balance-row {
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 50% 50%;
   align-items: stretch;
   width: 100%;
 }
+
+/* Mobile: override pulito */
+@media (max-width: 900px) {
+  .dashboard-balance-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+    width: 100% !important;
+    grid-template-columns: none !important;
+  }
+}
+
 .balance-block {
   display: flex;
   flex-direction: column;
@@ -226,7 +240,6 @@ body {
   min-width: 0;
   background: none;
   margin-left: 20px;
-  margin-right: 20px;
   border-radius: 0;
   padding: 0;
   box-shadow: none;
@@ -250,7 +263,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
   margin-left: 20px;
   margin-right: 20px;
   background: none;
@@ -299,7 +312,6 @@ body {
 .dashboard-main-row {
   display: grid;
   grid-template-columns: 50% 50%;
-  gap: 48px;
   align-items: start;
   width: 100%;
 }
@@ -551,8 +563,7 @@ body {
     gap: 18px;
   }
   .dashboard-balance-row {
-    grid-template-columns: 1fr;
-    gap: 18px;
+    grid-template-columns: 30% 70%;
   }
   .dashboard-main-row {
     grid-template-columns: 1fr;
@@ -586,7 +597,6 @@ body {
 
 .dashboard-main-row {
   margin-right: 20px;
-  gap: 20px
 }
 
 .expenses-list-block {
@@ -707,4 +717,25 @@ body {
   font-weight: 700;
   cursor: pointer;
   line-height: 1;
+}
+
+@media (max-width: 900px) {
+  .dashboard-main-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    grid-template-columns: none !important;
+  }
+  .dashboard-balance-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+    width: 100% !important;
+    grid-template-columns: none !important;
+  }
 }

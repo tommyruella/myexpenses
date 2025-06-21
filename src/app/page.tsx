@@ -97,6 +97,35 @@ export default function Home() {
   // Se non ci sono spese, mostra almeno un punto
   const chartData = saldoHistory.length > 0 ? saldoHistory : [{ date: new Date().toISOString().slice(0, 10), saldo: 1200 }];
 
+  // Calcolo entrate e uscite solo per il mese corrente
+  const now = new Date();
+  const currentMonth = now.toISOString().slice(0, 7); // "YYYY-MM"
+  let entrateMese = 0;
+  let usciteMese = 0;
+  let entrateMesePrec = 0;
+  let usciteMesePrec = 0;
+  // Calcola mese precedente (gestione gennaio)
+  const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const prevMonth = prevMonthDate.toISOString().slice(0, 7);
+  for (const s of spese) {
+    if (s.data_spesa.slice(0, 7) === currentMonth) {
+      if (s.tipo === "ENTRATA") {
+        entrateMese += s.importo;
+      } else {
+        usciteMese += s.importo;
+      }
+    } else if (s.data_spesa.slice(0, 7) === prevMonth) {
+      if (s.tipo === "ENTRATA") {
+        entrateMesePrec += s.importo;
+      } else {
+        usciteMesePrec += s.importo;
+      }
+    }
+  }
+  // Calcolo percentuali rispetto al mese precedente
+  const entratePerc = entrateMesePrec === 0 ? null : ((entrateMese - entrateMesePrec) / entrateMesePrec) * 100;
+  const uscitePerc = usciteMesePrec === 0 ? null : ((usciteMese - usciteMesePrec) / usciteMesePrec) * 100;
+
   return (
     <>
       <Navbar />
@@ -114,11 +143,29 @@ export default function Home() {
             <div className="inout-blocks">
               <div className="in-block">
                 <span className="in-label">in</span>
-                <span className="in-value">+€{entrate.toFixed(2)}</span>
+                <span className="in-value">
+                  +€{entrateMese.toFixed(2)}
+                </span>
+                {entratePerc !== null && (
+                  <span style={{ fontSize: 15, fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {(entratePerc ?? 0) > 0 && <span style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                    {(entratePerc ?? 0) < 0 && <span style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                    {entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}
+                  </span>
+                )}
               </div>
               <div className="out-block">
                 <span className="out-label">out</span>
-                <span className="out-value">-€{uscite.toFixed(2)}</span>
+                <span className="out-value">
+                  -€{usciteMese.toFixed(2)}
+                </span>
+                {uscitePerc !== null && (
+                  <span style={{ fontSize: 15, fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {(uscitePerc ?? 0) > 0 && <span style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                    {(uscitePerc ?? 0) < 0 && <span style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                    {uscitePerc !== null ? (uscitePerc >= 0 ? '+' : '') + uscitePerc.toFixed(1) + '%' : ''}
+                  </span>
+                )}
               </div>
             </div>
           </section>
@@ -164,7 +211,7 @@ export default function Home() {
           </main>
         </div>
         <button className="floating-add-btn" onClick={() => setModalOpen(true)}>
-          + Aggiungi spesa
+          +
         </button>
         <AddExpenseModal
           open={modalOpen}
