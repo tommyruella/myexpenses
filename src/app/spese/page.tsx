@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import "../globals.css";
 import ExpensesList from "./ExpensesList";
+import FloatingMenu from "../FloatingMenu";
+import "../floatingmenu.css";
 
 interface Spesa {
   id: number;
@@ -113,6 +115,7 @@ export default function SpesePage() {
           </select>
         </div>
         <ExpensesList spese={filteredSpese} />
+        <FloatingMenu />
       </div>
     </>
   );

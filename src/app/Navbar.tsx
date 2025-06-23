@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
 const NavbarContainer = styled.div`
   position: sticky;
@@ -98,7 +99,7 @@ export default function Navbar() {
   return (
     <NavbarContainer>
       <NavbarWrapper>
-        <LogoWrapper>
+        <LogoWrapper as={Link} href="/">
           <LogoText>tommytegamino</LogoText>
         </LogoWrapper>
         <RightText>dashboard</RightText>

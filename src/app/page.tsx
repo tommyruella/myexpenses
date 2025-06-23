@@ -4,7 +4,9 @@ import AddExpenseModal from "./dashboard/components/AddExpenseModal";
 import BalanceChart from "./BalanceChart";
 import PieChart from "./PieChart";
 import "./globals.css";
+import "./floatingmenu.css";
 import Navbar from "./Navbar";
+import FloatingMenu from "./FloatingMenu";
 
 interface Spesa {
   id: number;
@@ -190,7 +192,15 @@ export default function Home() {
           {/* Seconda riga: spese recenti | grafici */}
           <main className="dashboard-main-row">
             <div className="expenses-list-block">
-              <div className="section-title">last expenses</div>
+              <div className="section-title" style={{display: 'flex', alignItems: 'center', gap: 12}}>
+                last expenses
+                <a href="/spese" aria-label="Go to all expenses" style={{display:'inline-flex',alignItems:'center',marginLeft:6, color:'#181818', textDecoration:'none', transition:'color 0.18s'}}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{transform:'rotate(-45deg)'}}>
+                    <path d="M12 19V5"/>
+                    <path d="M5 12l7-7 7 7"/>
+                  </svg>
+                </a>
+              </div>
               <ul className="expenses-list">
                 {[...spese].sort((a, b) => b.data_spesa.localeCompare(a.data_spesa)).slice(0, 5).map((spesa) => (
                   <li key={spesa.id} className="expense-item">
@@ -228,9 +238,6 @@ export default function Home() {
             </div>
           </main>
         </div>
-        <button className="floating-add-btn" onClick={() => setModalOpen(true)}>
-          +
-        </button>
         <AddExpenseModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
@@ -244,6 +251,7 @@ export default function Home() {
         <footer className="dashboard-footer">
           <span>© {new Date().getFullYear()} Spese Minimal</span>
         </footer>
+        <FloatingMenu onAddClick={() => setModalOpen(true)} />
       </div>
     </>
   );
