@@ -75,15 +75,11 @@ export default function Home() {
 
   // Calcolo saldo, entrate, uscite
   let saldo = 1200;
-  let entrate = 0;
-  let uscite = 0;
   for (const s of spese) {
     if (s.tipo === "ENTRATA") {
       saldo += s.importo;
-      entrate += s.importo;
     } else {
       saldo -= s.importo;
-      uscite += s.importo;
     }
   }
 
