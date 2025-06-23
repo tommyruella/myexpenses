@@ -57,6 +57,9 @@
   color: #2563eb;
   opacity: 1;
 }
+.floatingmenu-link:hover .floatingmenu-euro {
+  color: #181818 !important;
+}
 
 .floatingmenu-handle, .floatingmenu-arrow {
   display: none !important;

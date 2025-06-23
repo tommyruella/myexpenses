@@ -25,18 +25,9 @@ const menuItems = [
 		href: "/spese",
 		label: "Spese",
 		icon: (
-			<svg
-				width="28"
-				height="28"
-				fill="none"
-				stroke="#181818"
-				strokeWidth="2.2"
-				viewBox="0 0 24 24"
-			>
-				<rect x="3" y="7" width="18" height="13" rx="3" />
-				<path d="M16 3v4M8 3v4" />
-				<path d="M3 11h18" />
-			</svg>
+			<span className="floatingmenu-euro" style={{fontSize: 28, fontWeight: 600, lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+				€
+			</span>
 		),
 	},
 	{
