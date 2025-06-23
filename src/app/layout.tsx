@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Flux"
+    title: "TommyTegamino's Tracker"
   },
   formatDetection: {
     telephone: false,
