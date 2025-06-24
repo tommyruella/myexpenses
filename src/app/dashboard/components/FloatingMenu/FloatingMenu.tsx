@@ -22,7 +22,7 @@ const menuItems = [
 		),
 	},
 	{
-		href: "/spese",
+		href: "/dashboard/pages/spese",
 		label: "Spese",
 		icon: (
 			<span className="floatingmenu-euro" style={{fontSize: 28, fontWeight: 600, lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Navbar from "../Navbar";
-import "../globals.css";
+import Navbar from "../../components/navbar/Navbar";
+import "../../../globals.css";
 import ExpensesList from "./ExpensesList";
-import FloatingMenu from "../FloatingMenu";
-import "../floatingmenu.css";
+import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
+import "../../components/FloatingMenu/floatingmenu.css";
 
 interface Spesa {
   id: number;

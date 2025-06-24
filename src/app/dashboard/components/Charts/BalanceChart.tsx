@@ -12,8 +12,8 @@ interface BalanceChartProps {
 }
 
 export default function BalanceChart({ data, showAxes = false, scale = 1 }: BalanceChartProps) {
-  const width = 320;
-  const height = 120;
+  const width = 400;
+  const height = 180;
   const padding = 24;
   const saldoVals = data.map(d => d.saldo);
   const minSaldo = Math.min(...saldoVals);
@@ -34,7 +34,7 @@ export default function BalanceChart({ data, showAxes = false, scale = 1 }: Bala
     `${pts[pts.length - 1].x},${h - pad}`
   ].join(' ');
   return (
-    <svg width={w} height={h} style={{ width: '100%', height: scale === 1 ? 120 : 240, display: 'block' }}>
+    <svg width={w} height={h} style={{ width: '100%', height: scale === 1 ? 180 : 100, display: 'block' }}>
       {showAxes && (
         <>
           <line x1={pad} y1={pad} x2={pad} y2={h - pad} stroke="#181818" strokeWidth={1.5} opacity={0.5} />

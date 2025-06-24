@@ -1,0 +1,263 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import AddExpenseModal from "../../components/Modal/AddExpenseModal";
+import BalanceChart from "../../components/Charts/BalanceChart";
+import PieChart from "../../components/Charts/PieChart";
+import '../../../globals.css';
+import "../../components/FloatingMenu/floatingmenu.css";
+import Navbar from "../../components/navbar/Navbar";
+import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
+
+interface Spesa {
+  id: number;
+  descrizione: string;
+  importo: number;
+  data_spesa: string;
+  categoria: string;
+  tipo: "USCITA" | "ENTRATA";
+}
+
+const CATEGORIES = ["HANGOUT","CLOTH", "FOOD", "TRANSPORT", "TRAVEL", "OTHERS"];
+
+export default function Home() {
+  const [spese, setSpese] = useState<Spesa[]>([]);
+  const [form, setForm] = useState({
+    descrizione: "",
+    importo: "",
+    data_spesa: "",
+    categoria: CATEGORIES[0],
+    tipo: "USCITA" as "USCITA" | "ENTRATA",
+  });
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchSpese();
+  }, []);
+
+  async function fetchSpese() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/spese");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setSpese(data);
+      } else {
+        setSpese([]);
+      }
+    } catch {
+      setSpese([]);
+    }
+    setLoading(false);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    await fetch("/api/spese", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        descrizione: form.descrizione,
+        importo: parseFloat(form.importo),
+        data_spesa: form.data_spesa,
+        categoria: form.categoria,
+        tipo: form.tipo,
+      }),
+    });
+    setForm({ descrizione: "", importo: "", data_spesa: "", categoria: CATEGORIES[0], tipo: "USCITA" });
+    fetchSpese();
+  }
+
+  async function handleDelete(id: number) {
+    setLoading(true);
+    await fetch(`/api/spese/${id}`, { method: "DELETE" });
+    fetchSpese();
+  }
+
+  // Mappa tutte le spese con categoria 'GYM' su 'OTHERS'
+  const speseNormalizzate = spese.map(s =>
+    s.categoria === 'GYM' ? { ...s, categoria: 'OTHERS' } : s
+  );
+
+  // Calcolo saldo, entrate, uscite
+  let saldo = 1200;
+  for (const s of speseNormalizzate) {
+    if (s.tipo === "ENTRATA") {
+      saldo += s.importo;
+    } else {
+      saldo -= s.importo;
+    }
+  }
+
+  // Calcolo storico saldo per il grafico (ordinato per data crescente)
+  const sortedSpese = [...speseNormalizzate].sort((a, b) => a.data_spesa.localeCompare(b.data_spesa));
+  let runningSaldo = 1200;
+  const saldoHistory = sortedSpese.map(s => {
+    runningSaldo += s.tipo === "ENTRATA" ? s.importo : -s.importo;
+    return { date: s.data_spesa, saldo: runningSaldo };
+  });
+  // Se non ci sono spese, mostra almeno un punto
+  const chartData = saldoHistory.length > 0 ? saldoHistory : [{ date: new Date().toISOString().slice(0, 10), saldo: 1200 }];
+
+  // Calcolo entrate e uscite solo per il mese corrente
+  const now = new Date();
+  const currentMonth = now.toISOString().slice(0, 7); // "YYYY-MM"
+  let entrateMese = 0;
+  let usciteMese = 0;
+  let entrateMesePrec = 0;
+  let usciteMesePrec = 0;
+  // Calcola mese precedente (gestione gennaio)
+  const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const prevMonth = prevMonthDate.toISOString().slice(0, 7);
+  for (const s of speseNormalizzate) {
+    if (s.data_spesa.slice(0, 7) === currentMonth) {
+      if (s.tipo === "ENTRATA") {
+        entrateMese += s.importo;
+      } else {
+        usciteMese += s.importo;
+      }
+    } else if (s.data_spesa.slice(0, 7) === prevMonth) {
+      if (s.tipo === "ENTRATA") {
+        entrateMesePrec += s.importo;
+      } else {
+        usciteMesePrec += s.importo;
+      }
+    }
+  }
+  // Calcolo percentuali rispetto al mese precedente
+  const entratePerc = entrateMesePrec === 0 ? null : ((entrateMese - entrateMesePrec) / entrateMesePrec) * 100;
+  const uscitePerc = usciteMesePrec === 0 ? null : ((usciteMese - usciteMesePrec) / usciteMesePrec) * 100;
+
+  return (
+    <>
+      <Navbar />
+      <div className="dashboard-root">
+        {/* Header decorativo */}
+        {/* Marquee rimossa */}
+        {/* Griglia principale responsive */}
+        <div className="dashboard-grid">
+          {/* Prima riga: saldo + entrate/uscite */}
+          <section className="dashboard-balance-row">
+            <div className="balance-block">
+              <span className="balance-label">current balance</span>
+              <span className="balance-value">€{saldo.toFixed(2)}</span>
+            </div>
+            <div className="inout-blocks">
+              <div className="in-block">
+                <span className="in-label">in</span>
+                <span className="in-value" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  +€{entrateMese.toFixed(2)}
+                  {/* Solo desktop: percentuale inline */}
+                  <span className="desktop-inline-perc">
+                    {entratePerc !== null && (
+                      <span className={"perc-" + (entratePerc >= 0 ? "positive" : "negative")} style={{ fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                        {(entratePerc ?? 0) > 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                        {(entratePerc ?? 0) < 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                        {entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}
+                      </span>
+                    )}
+                  </span>
+                </span>
+                {/* Solo mobile: percentuale sotto */}
+                {entratePerc !== null && (
+                  <span className="mobile-block-perc" style={{ fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {(entratePerc ?? 0) > 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                    {(entratePerc ?? 0) < 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                    <span className={"perc-" + (entratePerc >= 0 ? "positive" : "negative")}>{entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}</span>
+                  </span>
+                )}
+              </div>
+              <div className="out-block">
+                <span className="out-label">out</span>
+                <span className="out-value" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  -€{usciteMese.toFixed(2)}
+                  {/* Solo desktop: percentuale inline */}
+                  <span className="desktop-inline-perc">
+                    {uscitePerc !== null && (
+                      <span className={"perc-" + (uscitePerc >= 0 ? "negative" : "positive")} style={{ fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
+                        {(uscitePerc ?? 0) > 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                        {(uscitePerc ?? 0) < 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                        {uscitePerc !== null ? (uscitePerc >= 0 ? '+' : '') + uscitePerc.toFixed(1) + '%' : ''}
+                      </span>
+                    )}
+                  </span>
+                </span>
+                {/* Solo mobile: percentuale sotto */}
+                {uscitePerc !== null && (
+                  <span className="mobile-block-perc" style={{ fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {(uscitePerc ?? 0) > 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
+                    {(uscitePerc ?? 0) < 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
+                    <span className={"perc-" + (uscitePerc >= 0 ? "negative" : "positive")}>{uscitePerc !== null ? (uscitePerc >= 0 ? '+' : '') + uscitePerc.toFixed(1) + '%' : ''}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          </section>
+          {/* Seconda riga: spese recenti | grafici */}
+          <main className="dashboard-main-row">
+            <div className="expenses-list-block">
+              <div className="section-title" style={{display: 'flex', alignItems: 'center', gap: 12}}>
+                last expenses
+                <a href="/dashboard/pages/spese" aria-label="Go to all expenses" style={{display:'inline-flex',alignItems:'center',marginLeft:6, color:'#181818', textDecoration:'none', transition:'color 0.18s'}}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{transform:'rotate(45deg)'}}>
+                    <path d="M12 19V5"/>
+                    <path d="M5 12l7-7 7 7"/>
+                  </svg>
+                </a>
+              </div>
+              <ul className="expenses-list">
+                {[...speseNormalizzate].sort((a, b) => b.data_spesa.localeCompare(a.data_spesa)).slice(0, 5).map((spesa) => (
+                  <li key={spesa.id} className="expense-item">
+                    <span className="expense-desc">{spesa.descrizione}</span>
+                    <span className="expense-cat">{spesa.categoria}</span>
+                    <span className={spesa.tipo === 'USCITA' ? 'expense-amount out' : 'expense-amount in'}>
+                      {spesa.tipo === 'USCITA' ? '-' : '+'}€{spesa.importo.toFixed(2)}
+                    </span>
+                    <span className="expense-date">{spesa.data_spesa}</span>
+                    <button
+                      onClick={() => handleDelete(spesa.id)}
+                      className="expense-delete"
+                      disabled={loading}
+                      aria-label="Elimina"
+                    >×</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="charts-block">
+              <div className="section-title">balance chart</div>
+              <div className="balance-chart-container">
+                <BalanceChart data={chartData} />
+              </div>
+              <div className="piecharts-row">
+                {CATEGORIES.map(cat => {
+                  const uscitaTotale = speseNormalizzate.filter(s => s.tipo === 'USCITA').reduce((acc, s) => acc + s.importo, 0);
+                  const catTotale = speseNormalizzate.filter(s => s.tipo === 'USCITA' && s.categoria === cat).reduce((acc, s) => acc + s.importo, 0);
+                  const percent = uscitaTotale > 0 ? (catTotale / uscitaTotale) * 100 : 0;
+                  return (
+                    <PieChart key={cat} percent={percent} label={cat} />
+                  );
+                })}
+              </div>
+            </div>
+          </main>
+        </div>
+        <AddExpenseModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onSubmit={handleSubmit}
+          form={form}
+          setForm={setForm}
+          loading={loading}
+          categories={CATEGORIES}
+        />
+        {/* Footer minimal */}
+        <footer className="dashboard-footer">
+          <span>© {new Date().getFullYear()} Spese Minimal</span>
+        </footer>
+        <FloatingMenu onAddClick={() => setModalOpen(true)} />
+      </div>
+    </>
+  );
+}

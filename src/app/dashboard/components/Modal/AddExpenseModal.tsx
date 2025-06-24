@@ -32,10 +32,13 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
   }, [open]);
   if (!open) return null;
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-content" style={{ padding: 0, maxWidth: 420, borderRadius: 6, boxShadow: '0 6px 36px rgba(0,0,0,0.13)' }} onClick={e => e.stopPropagation()}>
-        <div style={{ padding: '36px 32px 28px 32px', display: 'flex', flexDirection: 'column', gap: 28 }}>
-          <h2 style={{ fontFamily: 'Inter, ui-sans-serif', fontWeight: 900, fontSize: 32, letterSpacing: -1, color: '#181818', margin: 0, textAlign: 'left', lineHeight: 1.1 }}>Add<br /><span style={{ color: '#888', fontWeight: 400, fontSize: 22 }}>Expense / Income</span></h2>
+    <div className="modal-backdrop" style={{
+      position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(245,245,247,0.82)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s', cursor: 'pointer'
+    }} onClick={onClose}>
+      <div className="modal-content" style={{ position: 'relative', padding: 0, maxWidth: 400, width: '92vw', borderRadius: 18, boxShadow: '0 8px 32px rgba(0,0,0,0.13)', background: '#fff', cursor: 'auto', overflow: 'hidden' }} onClick={e => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 18, right: 22, background: 'none', border: 'none', color: '#181818', fontSize: 32, fontWeight: 700, cursor: 'pointer', lineHeight: 1, opacity: 0.7, transition: 'opacity 0.18s' }}>&times;</button>
+        <div style={{ padding: '38px 28px 28px 28px', display: 'flex', flexDirection: 'column', gap: 28 }}>
+          <h2 style={{ fontFamily: 'Inter, ui-sans-serif', fontWeight: 900, fontSize: 30, letterSpacing: -1, color: '#181818', margin: 0, textAlign: 'left', lineHeight: 1.1 }}>Add <span style={{ color: '#888', fontWeight: 400, fontSize: 20 }}>Expense / Income</span></h2>
           <form onSubmit={onSubmit} autoComplete="off" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <label style={{ fontWeight: 700, fontSize: 15, color: '#181818', marginBottom: 2 }}>Description
               <input
@@ -46,7 +49,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
                 required
                 maxLength={40}
                 autoFocus
-                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%' }}
+                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
               />
             </label>
             <label style={{ fontWeight: 700, fontSize: 15, color: '#181818', marginBottom: 2 }}>Amount (€)
@@ -59,7 +62,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
                 min={0.01}
                 step={0.01}
                 inputMode="decimal"
-                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%' }}
+                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
               />
             </label>
             <label style={{ fontWeight: 700, fontSize: 15, color: '#181818', marginBottom: 2 }}>Date
@@ -68,14 +71,14 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
                 value={form.data_spesa}
                 onChange={e => setForm(f => ({ ...f, data_spesa: e.target.value }))}
                 required
-                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%' }}
+                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
               />
             </label>
             <label style={{ fontWeight: 700, fontSize: 15, color: '#181818', marginBottom: 2 }}>Category
               <select
                 value={form.categoria}
                 onChange={e => setForm(f => ({ ...f, categoria: e.target.value }))}
-                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%' }}
+                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -86,7 +89,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
               <select
                 value={form.tipo}
                 onChange={e => setForm(f => ({ ...f, tipo: e.target.value as "USCITA" | "ENTRATA" }))}
-                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%' }}
+                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
               >
                 <option value="USCITA">Expense</option>
                 <option value="ENTRATA">Income</option>
@@ -95,13 +98,12 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
             <button
               type="submit"
               disabled={loading}
-              style={{ fontSize: 20, fontWeight: 900, padding: '14px 0', borderRadius: 4, border: 'none', background: '#181818', color: '#fff', cursor: 'pointer', marginTop: 18, letterSpacing: 1, transition: 'opacity 0.2s', opacity: loading ? 0.5 : 1 }}
+              style={{ fontSize: 20, fontWeight: 900, padding: '14px 0', borderRadius: 8, border: 'none', background: '#181818', color: '#fff', cursor: loading ? 'not-allowed' : 'pointer', marginTop: 18, letterSpacing: 1, transition: 'opacity 0.2s, background 0.18s', opacity: loading ? 0.5 : 1, boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}
             >
               Add
             </button>
           </form>
         </div>
-        <button className="modal-close" onClick={onClose} aria-label="Close" style={{ position: 'absolute', top: 10, right: 16, background: 'none', border: 'none', color: '#181818', fontSize: 28, fontWeight: 700, cursor: 'pointer', lineHeight: 1 }}>×</button>
       </div>
     </div>
   );

@@ -74,13 +74,5 @@
 }
 .floatingmenu-root > .floatingmenu-link:nth-child(3) {
   order: 3;
-}
-
-@media (max-width: 900px) {
-  .floatingmenu-container {
-    /* nessuna differenza, stile unico */
-  }
-  .floatingmenu-root {
-    /* nessuna differenza, stile unico */
-  }
+  
 }
