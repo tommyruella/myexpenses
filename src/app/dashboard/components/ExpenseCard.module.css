@@ -1,0 +1,106 @@
+.expense-card {
+  border: none;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+  min-width: 320px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 44px 40px 40px 40px;
+  margin-bottom: 32px;
+  position: relative;
+  box-sizing: border-box;
+  gap: 28px;
+  height: auto;
+}
+
+.expense-card-remove {
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  background: none;
+  border: none;
+  color: #e00;
+  border-radius: 8px;
+  padding: 6px 18px 6px 10px;
+  font-size: 17px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: color 0.15s, background 0.15s;
+  outline: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expense-card-remove-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expense-card-remove-label {
+  display: inline;
+}
+
+.expense-card-amount {
+  font-weight: 900;
+  font-size: 38px;
+  color: #181818;
+  margin-bottom: 0;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+}
+
+.expense-card-desc {
+  color: #181818;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+.expense-card-meta {
+  color: #888;
+  font-size: 17px;
+  font-weight: 400;
+  margin-bottom: 0;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+@media (max-width: 600px) {
+  .expense-card {
+    padding: 28px 10px 24px 10px;
+    max-width: 98vw;
+    gap: 16px;
+  }
+  .expense-card-amount {
+    font-size: 26px;
+  }
+  .expense-card-desc {
+    font-size: 15px;
+  }
+  .expense-card-meta {
+    font-size: 12px;
+  }
+  .expense-card-remove {
+    top: 10px;
+    right: 8px;
+    font-size: 0;
+    padding: 2px 8px;
+    gap: 0;
+  }
+  .expense-card-remove-label {
+    display: none;
+  }
+  .expense-card-remove-icon {
+    width: 20px;
+    height: 20px;
+  }
+}

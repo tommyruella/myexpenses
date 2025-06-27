@@ -11,14 +11,20 @@ interface Spesa {
 
 interface ExpensesListProps {
   spese: Spesa[];
+  onExpenseClick?: (spesa: Spesa) => void;
 }
 
-export default function ExpensesList({ spese }: ExpensesListProps) {
+export default function ExpensesList({ spese, onExpenseClick }: ExpensesListProps) {
   return (
     <ul className="expenses-list expenses-list-mobile-margin">
       {spese.length === 0 && <li>No expenses found.</li>}
       {[...spese].sort((a, b) => b.data_spesa.localeCompare(a.data_spesa)).map((spesa) => (
-        <li key={spesa.id} className="expense-item">
+        <li
+          key={spesa.id}
+          className="expense-item"
+          onClick={() => onExpenseClick && onExpenseClick(spesa)}
+          style={onExpenseClick ? { cursor: 'pointer' } : {}}
+        >
           <span className="expense-desc">{spesa.descrizione}</span>
           <span className="expense-cat">{spesa.categoria}</span>
           <span className={spesa.tipo === 'USCITA' ? 'expense-amount out' : 'expense-amount in'}>

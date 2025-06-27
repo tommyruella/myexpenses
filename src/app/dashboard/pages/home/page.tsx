@@ -252,10 +252,6 @@ export default function Home() {
           loading={loading}
           categories={CATEGORIES}
         />
-        {/* Footer minimal */}
-        <footer className="dashboard-footer">
-          <span>© {new Date().getFullYear()} Spese Minimal</span>
-        </footer>
         <FloatingMenu onAddClick={() => setModalOpen(true)} />
       </div>
     </>

@@ -40,18 +40,6 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
         <div style={{ padding: '38px 28px 28px 28px', display: 'flex', flexDirection: 'column', gap: 28 }}>
           <h2 style={{ fontFamily: 'Inter, ui-sans-serif', fontWeight: 900, fontSize: 30, letterSpacing: -1, color: '#181818', margin: 0, textAlign: 'left', lineHeight: 1.1 }}>Add <span style={{ color: '#888', fontWeight: 400, fontSize: 20 }}>Expense / Income</span></h2>
           <form onSubmit={onSubmit} autoComplete="off" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <label style={{ fontWeight: 700, fontSize: 15, color: '#181818', marginBottom: 2 }}>Description
-              <input
-                type="text"
-                placeholder="Description"
-                value={form.descrizione}
-                onChange={e => setForm(f => ({ ...f, descrizione: e.target.value }))}
-                required
-                maxLength={40}
-                autoFocus
-                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
-              />
-            </label>
             <label style={{ fontWeight: 700, fontSize: 15, color: '#181818', marginBottom: 2 }}>Amount (€)
               <input
                 type="number"
@@ -62,6 +50,18 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
                 min={0.01}
                 step={0.01}
                 inputMode="decimal"
+                style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
+              />
+            </label>
+            <label style={{ fontWeight: 700, fontSize: 15, color: '#181818', marginBottom: 2 }}>Description
+              <input
+                type="text"
+                placeholder="Description"
+                value={form.descrizione}
+                onChange={e => setForm(f => ({ ...f, descrizione: e.target.value }))}
+                required
+                maxLength={40}
+                autoFocus
                 style={{ fontSize: 18, fontWeight: 500, border: 'none', borderBottom: '2px solid #eee', background: 'transparent', color: '#181818', padding: '8px 0', marginTop: 2, outline: 'none', width: '100%', transition: 'border-color 0.18s' }}
               />
             </label>
