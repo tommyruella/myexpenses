@@ -12,8 +12,6 @@ interface BalanceChartProps {
 }
 
 export default function BalanceChart({ data, showAxes = false, scale = 1 }: BalanceChartProps) {
-  const width = 400;
-  const height = 180;
   const padding = 24;
   const saldoVals = data.map(d => d.saldo);
   const minSaldo = Math.min(...saldoVals);

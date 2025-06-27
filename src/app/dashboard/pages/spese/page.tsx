@@ -7,7 +7,6 @@ import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
 import "../../components/FloatingMenu/floatingmenu.css";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
 import ExpenseCard from "../../components/ExpenseCard";
-import Modal from "../../components/Modal/Modal";
 
 interface Spesa {
   id: number;
