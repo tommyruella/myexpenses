@@ -97,6 +97,50 @@ export default function SpesePage() {
           position: 'relative',
         }}
       >
+        {/* FILTRI DI RICERCA */}
+        <div
+          className="filters-row filters-mobile-margin"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: 24,
+            marginRight: 20,
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Search description or category..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="expense-input filter-search-input"
+            style={{ minWidth: 180, flex: 2 }}
+          />
+          <select
+            value={filterCat}
+            onChange={(e) => setFilterCat(e.target.value)}
+            className="expense-input filter-cat-select"
+            style={{ minWidth: 120 }}
+          >
+            <option value="">All categories</option>
+            {[...new Set(spese.map((s) => s.categoria))].map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="expense-input filter-type-select"
+            style={{ minWidth: 120 }}
+          >
+            <option value="">All types</option>
+            <option value="USCITA">USCITA</option>
+            <option value="ENTRATA">ENTRATA</option>
+          </select>
+        </div>
+        {/* FINE FILTRI */}
         <ExpensesList
           spese={filteredSpese}
           onExpenseClick={setSelectedExpense}

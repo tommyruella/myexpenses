@@ -13,94 +13,108 @@
   margin-bottom: 32px;
   position: relative;
   box-sizing: border-box;
-  gap: 28px;
-  height: auto;
+  gap: 0;
+}
+
+.expense-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.expense-card-amount {
+  font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 900;
+  font-size: 44px;
+  color: #101010;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 0;
+  text-shadow: 0 1px 0 #f3f3f3;
 }
 
 .expense-card-remove {
-  position: absolute;
-  top: 28px;
-  right: 36px;
   background: none;
   border: none;
   color: #e00;
   border-radius: 8px;
-  padding: 6px 18px 6px 10px;
+  padding: 6px 14px 6px 10px;
   font-size: 17px;
   cursor: pointer;
   font-weight: 700;
   transition: color 0.15s, background 0.15s;
   outline: none;
-  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.expense-card-remove-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 6px;
+  margin-left: 18px;
 }
 
 .expense-card-remove-label {
   display: inline;
-}
-
-.expense-card-amount {
-  font-weight: 900;
-  font-size: 38px;
-  color: #181818;
-  margin-bottom: 0;
-  letter-spacing: -1.5px;
-  line-height: 1.1;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .expense-card-desc {
   color: #181818;
   font-size: 22px;
   font-weight: 700;
-  margin-bottom: 0;
+  margin-bottom: 10px;
   word-break: break-word;
   line-height: 1.3;
+  text-align: left;
+  font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.2px;
 }
 
 .expense-card-meta {
   color: #888;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 400;
   margin-bottom: 0;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
   line-height: 1.2;
+  text-align: left;
+  font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
 }
 
 @media (max-width: 600px) {
   .expense-card {
-    padding: 28px 10px 24px 10px;
+    padding: 22px 8px 16px 12px;
     max-width: 98vw;
-    gap: 16px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  .expense-card-header {
+    margin-bottom: 8px;
   }
   .expense-card-amount {
     font-size: 26px;
+    letter-spacing: -1px;
   }
   .expense-card-desc {
     font-size: 15px;
+    margin-bottom: 6px;
   }
   .expense-card-meta {
-    font-size: 12px;
+    font-size: 11px;
+    letter-spacing: 0.1px;
   }
   .expense-card-remove {
-    top: 10px;
-    right: 8px;
     font-size: 0;
     padding: 2px 8px;
     gap: 0;
+    margin-left: 0;
+    align-items: flex-start;
   }
   .expense-card-remove-label {
     display: none;
-  }
-  .expense-card-remove-icon {
-    width: 20px;
-    height: 20px;
   }
 }
