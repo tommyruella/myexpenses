@@ -43,6 +43,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   line-height: 1.5;
+  margin-bottom: 80px;
 }
 
 /* Custom animations */
@@ -181,6 +182,7 @@ body {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 100px;
     width: 100%;
   }
 }
@@ -292,7 +294,7 @@ body {
 }
 .in-label, .out-label {
   font-size: 52px;
-  margin-top: 5px;
+  margin-top: 10px;
   font-weight: 900;
   color: #181818;
   opacity: 1;
