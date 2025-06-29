@@ -215,12 +215,7 @@ export default function Home() {
                       {spesa.tipo === 'USCITA' ? '-' : '+'}€{spesa.importo.toFixed(2)}
                     </span>
                     <span className="expense-date">{spesa.data_spesa}</span>
-                    <button
-                      onClick={() => handleDelete(spesa.id)}
-                      className="expense-delete"
-                      disabled={loading}
-                      aria-label="Elimina"
-                    >×</button>
+                    {/* Pulsante elimina rimosso dalla homepage */}
                   </li>
                 ))}
               </ul>
