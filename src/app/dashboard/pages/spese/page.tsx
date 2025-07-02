@@ -102,8 +102,7 @@ export default function SpesePage() {
   const filteredSpese = spese.filter((s) => {
     const matchesSearch =
       search === "" ||
-      s.descrizione.toLowerCase().includes(search.toLowerCase()) ||
-      s.categoria.toLowerCase().includes(search.toLowerCase());
+      s.descrizione.toLowerCase().includes(search.toLowerCase());
     const matchesCat = filterCat === "" || s.categoria === filterCat;
     const matchesType = filterType === "" || s.tipo === filterType;
     return matchesSearch && matchesCat && matchesType;
