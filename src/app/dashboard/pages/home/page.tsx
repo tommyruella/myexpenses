@@ -41,7 +41,7 @@ export default function Home() {
       const res = await fetch("/api/spese");
       const data = await res.json();
       if (Array.isArray(data)) {
-        setSpese(data.map((s: any) => ({ ...s, importo: Number(s.importo) })));
+        setSpese(data.map((s: Spesa) => ({ ...s, importo: Number((s as Spesa).importo) })));
       } else {
         setSpese([]);
       }
@@ -69,11 +69,11 @@ export default function Home() {
     fetchSpese();
   }
 
-  async function handleDelete(id: number) {
-    setLoading(true);
-    await fetch(`/api/spese/${id}`, { method: "DELETE" });
-    fetchSpese();
-  }
+  // async function handleDelete(id: number) {
+  //   setLoading(true);
+  //   await fetch(`/api/spese/${id}`, { method: "DELETE" });
+  //   fetchSpese();
+  // }
 
   // Mappa tutte le spese con categoria 'GYM' su 'OTHERS'
   const speseNormalizzate = spese.map(s =>
