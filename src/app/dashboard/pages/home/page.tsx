@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
 import BalanceChart from "../../components/Charts/BalanceChart";
-import PieChart from "../../components/Charts/PieChart";
+// import PieChart from "../../components/Charts/PieChart";
 import '../../../globals.css';
 import "../../components/FloatingMenu/floatingmenu.css";
 import Navbar from "../../components/navbar/Navbar";
@@ -41,7 +41,7 @@ export default function Home() {
       const res = await fetch("/api/spese");
       const data = await res.json();
       if (Array.isArray(data)) {
-        setSpese(data);
+        setSpese(data.map((s: any) => ({ ...s, importo: Number(s.importo) })));
       } else {
         setSpese([]);
       }
@@ -100,31 +100,57 @@ export default function Home() {
   // Se non ci sono spese, mostra almeno un punto
   const chartData = saldoHistory.length > 0 ? saldoHistory : [{ date: new Date().toISOString().slice(0, 10), saldo: 1200 }];
 
-  // Calcolo entrate e uscite solo per il mese corrente
+  // Calcolo entrate e uscite mese corrente e precedente (logica ricreata da zero)
   const now = new Date();
-  const currentMonth = now.toISOString().slice(0, 7); // "YYYY-MM"
+  const padMonth = (m: number) => (m < 10 ? '0' + m : '' + m);
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const currentMonth = `${year}-${padMonth(month)}`;
+  // Gestione mese precedente (anche cambio anno)
+  let prevYear = year;
+  let prevMonthNum = month - 1;
+  if (prevMonthNum === 0) {
+    prevMonthNum = 12;
+    prevYear = year - 1;
+  }
+  const prevMonth = `${prevYear}-${padMonth(prevMonthNum)}`;
+
   let entrateMese = 0;
   let usciteMese = 0;
   let entrateMesePrec = 0;
   let usciteMesePrec = 0;
-  // Calcola mese precedente (gestione gennaio)
-  const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const prevMonth = prevMonthDate.toISOString().slice(0, 7);
+
   for (const s of speseNormalizzate) {
-    if (s.data_spesa.slice(0, 7) === currentMonth) {
-      if (s.tipo === "ENTRATA") {
-        entrateMese += s.importo;
-      } else {
-        usciteMese += s.importo;
+    // Normalizza la data in formato YYYY-MM
+    let spesaMonth = '';
+    if (typeof s.data_spesa === 'string' && s.data_spesa.length >= 7) {
+      spesaMonth = s.data_spesa.slice(0, 7);
+    } else {
+      // fallback: prova a parsare la data
+      const d = new Date(s.data_spesa);
+      if (!isNaN(d.getTime())) {
+        spesaMonth = `${d.getFullYear()}-${padMonth(d.getMonth() + 1)}`;
       }
-    } else if (s.data_spesa.slice(0, 7) === prevMonth) {
-      if (s.tipo === "ENTRATA") {
-        entrateMesePrec += s.importo;
+    }
+    // DEBUG: log per ogni spesa
+    console.log('[DEBUG] Spesa:', s, 'spesaMonth:', spesaMonth, 'currentMonth:', currentMonth, 'prevMonth:', prevMonth);
+    if (spesaMonth === currentMonth) {
+      if (s.tipo === 'ENTRATA') {
+        entrateMese += Number(s.importo);
       } else {
-        usciteMesePrec += s.importo;
+        usciteMese += Number(s.importo);
+      }
+    } else if (spesaMonth === prevMonth) {
+      if (s.tipo === 'ENTRATA') {
+        entrateMesePrec += Number(s.importo);
+      } else {
+        usciteMesePrec += Number(s.importo);
       }
     }
   }
+
+  // Log finale dei risultati
+  console.log('[DEBUG] entrateMese:', entrateMese, 'usciteMese:', usciteMese, 'entrateMesePrec:', entrateMesePrec, 'usciteMesePrec:', usciteMesePrec);
   // Calcolo percentuali rispetto al mese precedente
   const entratePerc = entrateMesePrec === 0 ? null : ((entrateMese - entrateMesePrec) / entrateMesePrec) * 100;
   const uscitePerc = usciteMesePrec === 0 ? null : ((usciteMese - usciteMesePrec) / usciteMesePrec) * 100;
@@ -225,16 +251,7 @@ export default function Home() {
               <div className="balance-chart-container">
                 <BalanceChart data={chartData} />
               </div>
-              <div className="piecharts-row">
-                {CATEGORIES.map(cat => {
-                  const uscitaTotale = speseNormalizzate.filter(s => s.tipo === 'USCITA').reduce((acc, s) => acc + s.importo, 0);
-                  const catTotale = speseNormalizzate.filter(s => s.tipo === 'USCITA' && s.categoria === cat).reduce((acc, s) => acc + s.importo, 0);
-                  const percent = uscitaTotale > 0 ? (catTotale / uscitaTotale) * 100 : 0;
-                  return (
-                    <PieChart key={cat} percent={percent} label={cat} />
-                  );
-                })}
-              </div>
+              {/* PieChart rimossi dalla home */}
             </div>
           </main>
         </div>

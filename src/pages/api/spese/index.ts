@@ -6,7 +6,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Recupera tutte le spese
     const { data, error } = await supabase.from('expenses').select('*').order('data_spesa', { ascending: false });
     if (error) return res.status(500).json({ error: error.message });
-    return res.status(200).json(data);
+    // Ensure importo is a number and data_spesa is a YYYY-MM-DD string
+    const safeData = (data || []).map((s: any) => ({
+      ...s,
+      importo: Number(s.importo),
+      data_spesa: s.data_spesa ? new Date(s.data_spesa).toISOString().slice(0, 10) : '',
+    }));
+    return res.status(200).json(safeData);
   } else if (req.method === 'POST') {
     // Inserisce una nuova spesa
     const { descrizione, importo, data_spesa, categoria, tipo } = req.body;

@@ -12,18 +12,11 @@ const NavbarContainer = styled.div`
 
 const NavbarWrapper = styled.nav`
   width: 100%;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, sans-serif;
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   position: relative;
-
+  z-index: 100;
   &::after {
     content: "";
     position: absolute;
@@ -39,6 +32,18 @@ const NavbarWrapper = styled.nav`
       transparent
     );
   }
+`;
+
+const NavbarInner = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 24px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 `;
 
 const LogoWrapper = styled.span`
@@ -99,10 +104,12 @@ export default function Navbar() {
   return (
     <NavbarContainer>
       <NavbarWrapper>
-        <LogoWrapper as={Link} href="/">
-          <LogoText>tommytegamino</LogoText>
-        </LogoWrapper>
-        <RightText>dashboard</RightText>
+        <NavbarInner>
+          <LogoWrapper as={Link} href="/">
+            <LogoText>tommytegamino</LogoText>
+          </LogoWrapper>
+          <RightText>dashboard</RightText>
+        </NavbarInner>
       </NavbarWrapper>
     </NavbarContainer>
   );

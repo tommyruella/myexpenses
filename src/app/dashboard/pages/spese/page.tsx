@@ -1,4 +1,17 @@
 "use client";
+import PieChart from "../../components/Charts/PieChart";
+
+// Calcolo percentuali per PieChart (solo USCITA)
+const CATEGORIES = ["HANGOUT","CLOTH", "FOOD", "TRANSPORT", "TRAVEL", "OTHERS"];
+function getPieData(spese: Spesa[]) {
+  const uscitaTotale = spese.reduce((acc: number, s: Spesa) => s.tipo === 'USCITA' ? acc + s.importo : acc, 0);
+  return CATEGORIES.map(cat => {
+    const catTotale = spese.reduce((acc: number, s: Spesa) => (s.tipo === 'USCITA' && s.categoria === cat) ? acc + s.importo : acc, 0);
+    const percent = uscitaTotale > 0 ? (catTotale / uscitaTotale) * 100 : 0;
+    return { cat, percent };
+  });
+}
+// ...existing code...
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import "../../../globals.css";
@@ -7,6 +20,7 @@ import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
 import "../../components/FloatingMenu/floatingmenu.css";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
 import ExpenseCard from "../../components/ExpenseCard";
+import MonthlyTrendChart from "../../components/Charts/MonthlyTrendChart";
 
 interface Spesa {
   id: number;
@@ -71,6 +85,19 @@ export default function SpesePage() {
     fetchSpese();
   }
 
+  // Calcolo trend mensile (ultimi 6 mesi)
+  const monthlyTotals: { [month: string]: number } = {};
+  spese.forEach(s => {
+    if (s.tipo === "USCITA") {
+      const month = s.data_spesa.slice(0, 7); // YYYY-MM
+      monthlyTotals[month] = (monthlyTotals[month] || 0) + s.importo;
+    }
+  });
+  const monthlyTrend = Object.entries(monthlyTotals)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .slice(-6)
+    .map(([month, total]) => ({ month, total }));
+
   // Applica ricerca e filtri
   const filteredSpese = spese.filter((s) => {
     const matchesSearch =
@@ -96,54 +123,104 @@ export default function SpesePage() {
           position: 'relative',
         }}
       >
-        {/* FILTRI DI RICERCA */}
-        <div
-          className="filters-row filters-mobile-margin"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 12,
-            marginBottom: 24,
-            marginRight: 20,
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Search description or category..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="expense-input filter-search-input"
-            style={{ minWidth: 180, flex: 2 }}
-          />
-          <select
-            value={filterCat}
-            onChange={(e) => setFilterCat(e.target.value)}
-            className="expense-input filter-cat-select"
-            style={{ minWidth: 120 }}
-          >
-            <option value="">All categories</option>
-            {[...new Set(spese.map((s) => s.categoria))].map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-          <select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            className="expense-input filter-type-select"
-            style={{ minWidth: 120 }}
-          >
-            <option value="">All types</option>
-            <option value="USCITA">USCITA</option>
-            <option value="ENTRATA">ENTRATA</option>
-          </select>
+        {/* Desktop: lista spese full width, trend sotto; Mobile: layout colonna */}
+        <div className="expenses-fullsize-layout">
+          {/* Filtri rimossi da qui, ora sono solo sotto il titolo */}
+          <div className="expenses-list-col-full">
+            <div className="balance-block" style={{marginBottom: 8, marginLeft: 0}}>
+              <span className="balance-label" style={{fontSize: 52, fontWeight: 900, color: '#181818', marginBottom: 5, letterSpacing: 0, textTransform: 'none'}}>
+                details
+              </span>
+            </div>
+            <div className="filters-bar">
+              <input
+                type="text"
+                placeholder="Cerca descrizione o categoria..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="filter-search-input"
+              />
+              <div className="filters-row-below">
+                <select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  className="filter-type-select"
+                >
+                  <option value="">Tutte le tipologie</option>
+                  <option value="USCITA">USCITA</option>
+                  <option value="ENTRATA">ENTRATA</option>
+                </select>
+                <select
+                  value={filterCat}
+                  onChange={(e) => setFilterCat(e.target.value)}
+                  className="filter-cat-select"
+                >
+                  <option value="">Tutte le categorie</option>
+                  {[...new Set(spese.map((s) => s.categoria))].map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="filter-extra-select"
+                  onChange={e => {
+                    const v = e.target.value;
+                    if (v === "asc") {
+                      setSpese([...spese].sort((a, b) => a.importo - b.importo));
+                    } else if (v === "desc") {
+                      setSpese([...spese].sort((a, b) => b.importo - a.importo));
+                    } else {
+                      fetchSpese();
+                    }
+                  }}
+                  defaultValue=""
+                >
+                  <option value="">Ordina per valore</option>
+                  <option value="asc">Dal più basso</option>
+                  <option value="desc">Dal più alto</option>
+                </select>
+              </div>
+            </div>
+            <ExpensesList
+              spese={filteredSpese}
+              onExpenseClick={setSelectedExpense}
+              pageSize={7}
+            />
+          </div>
+          <div className="trend-pie-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 32,
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            marginTop: 32
+          }}>
+            <div style={{minWidth: 260, width: '100%'}}>
+              <div style={{ fontWeight: 900, fontSize: 52, marginBottom: 22, color: '#181818', letterSpacing: 0, fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif', textTransform: 'none', textAlign: 'left' }}>
+                trend
+              </div>
+              <MonthlyTrendChart data={monthlyTrend} />
+            </div>
+            <div style={{minWidth: 260, width: '100%'}}>
+              <div style={{ fontWeight: 900, fontSize: 52, marginBottom: 22, color: '#181818', letterSpacing: 0, fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif', textTransform: 'none', textAlign: 'left' }}>
+                pie charts
+              </div>
+              <div className="piecharts-grid" style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 12,
+                justifyItems: 'center',
+                alignItems: 'start',
+                width: '100%'
+              }}>
+                {getPieData(spese).map(({cat, percent}) => (
+                  <PieChart key={cat} percent={percent} label={cat} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        {/* FINE FILTRI */}
-        <ExpensesList
-          spese={filteredSpese}
-          onExpenseClick={setSelectedExpense}
-        />
         <AddExpenseModal
           open={modalOpen && !selectedExpense}
           onClose={() => setModalOpen(false)}
