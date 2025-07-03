@@ -35,7 +35,7 @@ function getPieData(spese: Spesa[]) {
 
 
 function SpesePageInner() {
-  const { spese, loading, fetchSpese, setSpese } = useSpese();
+  const { spese, loading, fetchSpese } = useSpese();
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("");
   const [filterType, setFilterType] = useState("");
@@ -53,7 +53,7 @@ function SpesePageInner() {
     categoria: "OTHERS",
     tipo: "USCITA",
   });
-  const [selectedExpense, setSelectedExpense] = useState<any>(null);
+  const [selectedExpense, setSelectedExpense] = useState<Spesa | null>(null);
   const [sortOrder, setSortOrder] = useState("");
 
   React.useEffect(() => {
