@@ -31,9 +31,12 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
     setPage((p) => Math.min(totalPages - 1, p + 1));
   }
 
+  // Calcola il totale delle spese filtrate (ENTRATA/USCITA con segno)
+  const totalFiltered = spese.reduce((acc, s) => acc + (s.tipo === 'USCITA' ? -s.importo : s.importo), 0);
+
   return (
-    <div style={{ width: '100%' }}>
-      <ul className="expenses-list expenses-list-mobile-margin">
+    <div style={{ width: '100%'}}>
+      <ul className="expenses-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {spese.length === 0 && <li>No expenses found.</li>}
         {visible.map((spesa) => (
           <li
@@ -51,32 +54,37 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
           </li>
         ))}
       </ul>
-      {totalPages > 1 && (
-        <div className="expenses-pagination-footer" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 10, marginTop: 8, width: '100%' }}>
-          <button
-            onClick={prevPage}
-            disabled={page === 0}
-            aria-label="Pagina precedente"
-            className="expenses-pagination-arrow"
-            style={{
-              background: '#e0e0e0', color: '#181818', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 22, fontWeight: 900, cursor: page === 0 ? 'not-allowed' : 'pointer', opacity: page === 0 ? 0.4 : 1, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
-            }}
-          >
-            <FiChevronLeft size={22} />
-          </button>
-          <button
-            onClick={nextPage}
-            disabled={page === totalPages - 1}
-            aria-label="Pagina successiva"
-            className="expenses-pagination-arrow"
-            style={{
-              background: '#e0e0e0', color: '#181818', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 22, fontWeight: 900, cursor: page === totalPages - 1 ? 'not-allowed' : 'pointer', opacity: page === totalPages - 1 ? 0.4 : 1, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
-            }}
-          >
-            <FiChevronRight size={22} />
-          </button>
-        </div>
-      )}
+      <div className="expenses-pagination-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginTop: 20, width: '100%' }}>
+        <span style={{ fontWeight: 600, fontSize: 16, color: '#222', minWidth: 120, textAlign: 'left' }}>
+          TOTAL: <span style={{ color: totalFiltered < 0 ? '#fecaca' : '#a7f3d0' }}>{totalFiltered >= 0 ? '+' : ''}€{totalFiltered.toFixed(2)}</span>
+        </span>
+        {totalPages > 1 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <button
+              onClick={prevPage}
+              disabled={page === 0}
+              aria-label="Pagina precedente"
+              className="expenses-pagination-arrow"
+              style={{
+                background: '#e0e0e0', color: '#181818', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 22, fontWeight: 900, cursor: page === 0 ? 'not-allowed' : 'pointer', opacity: page === 0 ? 0.4 : 1, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
+              }}
+            >
+              <FiChevronLeft size={22} />
+            </button>
+            <button
+              onClick={nextPage}
+              disabled={page === totalPages - 1}
+              aria-label="Pagina successiva"
+              className="expenses-pagination-arrow"
+              style={{
+                background: '#e0e0e0', color: '#181818', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 22, fontWeight: 900, cursor: page === totalPages - 1 ? 'not-allowed' : 'pointer', opacity: page === totalPages - 1 ? 0.4 : 1, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
+              }}
+            >
+              <FiChevronRight size={22} />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

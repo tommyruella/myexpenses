@@ -45,7 +45,10 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubm
                 type="number"
                 placeholder="Amount (€)"
                 value={form.importo}
-                onChange={e => setForm(f => ({ ...f, importo: e.target.value }))}
+                onChange={e => {
+                  const value = e.target.value;
+                  if (value === '' || parseFloat(value) >= 0) setForm(f => ({ ...f, importo: value }));
+                }}
                 required
                 min={0.01}
                 step={0.01}
