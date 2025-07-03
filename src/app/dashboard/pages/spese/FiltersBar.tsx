@@ -1,6 +1,6 @@
 import React from "react";
 import { MdSwapVert } from "react-icons/md";
-import { FaTshirt, FaUtensils, FaBus, FaPlane, FaUsers, FaPiggyBank, FaQuestionCircle, FaGlobe, FaGift } from "react-icons/fa";
+import { FaTshirt, FaUtensils, FaBus, FaUsers, FaPiggyBank, FaQuestionCircle, FaGlobe, FaGift } from "react-icons/fa";
 
 interface FiltersBarProps {
   search: string;
@@ -21,8 +21,8 @@ export default function FiltersBar({
   setFilterCat,
   filterType,
   setFilterType,
-  sortOrder,
-  setSortOrder,
+  // sortOrder,
+  // setSortOrder,
   categories,
 }: FiltersBarProps) {
   
