@@ -58,7 +58,7 @@ function SpesePageInner() {
 
   React.useEffect(() => {
     if (filterType === "ENTRATA") {
-      setFilterCat("OTHERS");
+      setFilterCat(""); 
     }
   }, [filterType]);
 
@@ -115,6 +115,10 @@ function SpesePageInner() {
   if (sortOrder === "asc") sortedSpese = [...filteredSpese].sort((a, b) => a.importo - b.importo);
   else if (sortOrder === "desc") sortedSpese = [...filteredSpese].sort((a, b) => b.importo - a.importo);
 
+  // Calcolo totale in e out su tutte le spese filtrate
+  const totaleIn = speseNormalizzate.filter(s => s.tipo === "ENTRATA").reduce((acc, s) => acc + s.importo, 0);
+  const totaleOut = speseNormalizzate.filter(s => s.tipo === "USCITA").reduce((acc, s) => acc + s.importo, 0);
+
   return (
     <>
       <Navbar />
@@ -128,11 +132,17 @@ function SpesePageInner() {
       }}>
         <div className="expenses-fullsize-layout">
           <div className="expenses-list-col-full">
+            <div>
+          
+
+
+            </div>
             <div style={{ marginBottom: 8 }}>
               <span className="balance-label" style={{ fontSize: 52, fontWeight: 900, color: "#181818" }}>
-                details
+                in details
               </span>
             </div>
+            {/* Blocchi totali in/out */}
             <FiltersBar
               search={search}
               setSearch={setSearch}
