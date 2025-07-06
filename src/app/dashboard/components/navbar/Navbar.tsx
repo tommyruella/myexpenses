@@ -16,7 +16,7 @@ export default function Navbar() {
       }}
     >
       <div style={{height: 60, display: "flex", justifyContent: "space-between", flexDirection: "row", padding: "0 20px", alignItems: "center"}}>
-        <Link href="/" style={{fontWeight: 900, fontSize: 20, color: "inherit", textDecoration: "none"}}>tommytegamino</Link>
+        <Link href="/" style={{fontWeight: 700, fontSize: 20, color: "inherit", textDecoration: "none"}}>tommytegamino</Link>
         <div>dashboard</div>
       </div>
     </div>
