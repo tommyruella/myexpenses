@@ -128,7 +128,7 @@
 
 .expenses-list .expense-item {
   display: grid;
-  width: 120%;
+  width: 100%;
   grid-template-columns: 1fr 1fr 1fr 1fr;  
   border-bottom: 1px solid var(--line-color);
   align-items: center;
