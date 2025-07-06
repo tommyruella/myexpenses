@@ -12,7 +12,7 @@ interface BalanceChartProps {
 }
 
 export default function BalanceChart({ data, showAxes = false, scale = 1 }: BalanceChartProps) {
-  const padding = 24;
+  const padding = 18; // padding top e bottom
   const saldoVals = data.map(d => d.saldo);
   const minSaldo = Math.min(...saldoVals);
   const maxSaldo = Math.max(...saldoVals);
@@ -27,14 +27,18 @@ export default function BalanceChart({ data, showAxes = false, scale = 1 }: Bala
   const h = svgHeight * scale;
   const pad = padding * scale;
   // Calcolo punti: l'ultimo punto arriva esattamente a w-pad (bordo destro visibile)
+  // Applica padding solo se ci sono almeno 2 punti, altrimenti centra il punto singolo
   const pts = data.length === 1
     ? [{ x: w / 2, y: h / 2 }]
     : data.map((d, i) => {
+        // padding su x e y
         const x = pad + i * ((w - 2 * pad) / (data.length - 1));
-        const y = h - pad - ((d.saldo - minSaldo) / range) * (h - 2 * pad);
+        let y = pad + (h - 2 * pad) - ((d.saldo - minSaldo) / range) * (h - 2 * pad);
+        y = Math.max(pad, Math.min(h - pad, y));
         return { x, y };
       });
   const line = pts.map(p => `${p.x},${p.y}`).join(' ');
+  // Il polygon deve chiudersi esattamente sul bordo inferiore del canvas SVG
   const area = [
     `${pts[0].x},${h - pad}`,
     ...pts.map(p => `${p.x},${p.y}`),
@@ -52,7 +56,7 @@ export default function BalanceChart({ data, showAxes = false, scale = 1 }: Bala
           <line x1={pad} y1={h - pad} x2={w - pad} y2={h - pad} stroke="#181818" strokeWidth={1.5} opacity={0.5} />
         </>
       )}
-      <polygon points={area} fill="#181818" opacity={0.08} />
+      <polygon points={area} fill="#181818" opacity={0.08}/>
       <polyline
         fill="none"
         stroke="#181818"

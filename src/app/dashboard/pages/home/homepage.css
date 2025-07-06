@@ -1,0 +1,327 @@
+:root {
+  --main-color: #181818;
+  --secondary: #666;
+  --line-color: #eee;
+  --spacing: 20px;
+  --min-width: 920px;
+}
+
+.dashboard-root {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+/* ====== BILANCIO (IN/OUT) ====== */
+.dashboard-balance-row {
+  display: flex;
+  justify-content: space-between;
+  min-width: var(--min-width);
+}
+
+.dashboard-balance-row .balance-block {
+  display: flex;
+ align-items: flex-start;
+ flex-direction: column;
+}
+
+.dashboard-balance-row .balance-label {
+  font-size: 52px;
+  letter-spacing: -2px;
+  font-weight: 900;
+  color: var(--main-color);
+  margin-bottom: 5px;
+
+}
+
+.dashboard-balance-row .balance-value {
+  font-size: 30px;
+  letter-spacing: -2px;
+  font-weight: 900;
+  color: var(--main-color);
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+/* ====== IN/OUT ====== */
+.dashboard-balance-row .inout-blocks {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.dashboard-balance-row .inout-blocks .single-inout-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.dashboard-balance-row .inout-blocks .single-inout-block .inout-label {
+  font-size: 52px;
+  letter-spacing: -1.5px;
+  font-weight: 900;
+  color: var(--main-color);
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.dashboard-balance-row .inout-blocks .single-inout-block .inout-value {
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: var(--main-color);
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.dashboard-balance-row .inout-blocks .single-inout-block .percentage-inout {
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 10px;
+  gap: 2px;
+}
+
+/* ====== SPESE+CHART ====== */
+
+.dashboard-main-row {
+  display: flex;
+  justify-content: space-between;
+  min-width: var(--min-width);
+}
+/* ===SPESE=== */
+
+.dashboard-main-row .expenses-list-block {
+ display: flex;
+ align-items: flex-start;
+ flex-direction: column;
+ gap: 12;
+ margin-right: 40px;
+}
+
+.dashboard-main-row .expenses-list-block .section-title {
+  font-size: 52px;
+  letter-spacing: -2px;
+  font-weight: 900;
+  color: var(--main-color);
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.expenses-list {
+  display: grid;
+  margin: 0px;
+  padding: 0px;
+}
+
+.expenses-list .expense-item {
+  display: grid;
+  width: 120%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;  
+  border-bottom: 1px solid var(--line-color);
+  align-items: center;
+  padding: 12px 0;
+}
+
+.expenses-list .expense-item .expense-desc {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+    overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expenses-list .expense-item .expense-cat {
+  font-size: 14px;
+  text-align: center;
+  color: var(--secondary);  
+}
+
+.expenses-list .expense-item .expense-amount {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--main-color);
+  text-align: center; 
+}
+
+.expenses-list .expense-item .expense-date {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--secondary);
+  text-align: right; 
+}
+
+/* ===SPESE=== */
+
+.dashboard-main-row .chart-block {
+  display: flex;
+  flex-direction: column;
+  text-align: ;
+  gap: 12;
+  transform: translateX(28px);
+  padding-bottom: 65px;
+}
+
+.dashboard-main-row .chart-block .section-title {
+  font-size: 52px;
+  letter-spacing: -2px;
+  font-weight: 900;
+  color: var(--main-color);
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.dashboard-main-row .chart-block .balance-chart-container {
+  width: 80%;
+  height: 118%;
+  position: relative;
+  border-radius: 2%;
+  border:  var(--line-color) .5px solid;
+}
+
+
+@media (max-width: 390px) {
+
+  .dashboard-root {
+    overflow-x: hidden;
+  }
+
+  .dashboard-grid {
+    display: flex;
+    align-items: center;
+    padding: auto;
+    gap: 20px;
+  }
+
+  .dashboard-balance-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* <-- Allinea a sinistra */
+    margin-left: 20px; 
+    min-width: unset !important;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .dashboard-balance-row .balance-block {
+    display: flex;
+    flex-flow: column wrap;
+  }
+   
+  .dashboard-balance-row .balance-label {
+    font-size: 42px;
+    margin-bottom: 0;
+  }
+
+  .dashboard-balance-row .inout-blocks {
+    display: grid;
+    grid-auto-flow: column;
+  }
+
+  .dashboard-balance-row .balance-value {
+    font-size: 40px;
+  }
+
+  .dashboard-balance-row .inout-blocks .single-inout-block .inout-label {
+    font-size: 42px;
+    margin-bottom: 0;
+  }
+
+  .dashboard-balance-row .inout-blocks .single-inout-block .inout-value {
+    display: flex;
+    flex-direction: column;
+    font-size: 32px;
+    gap: 5px
+  }
+
+  .dashboard-balance-row .inout-blocks .single-inout-block .percentage-inout {
+    padding-left: 0;
+  }
+  
+  .dashboard-main-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-16px);
+    margin-left: 20px;
+    gap: 20px;
+  }
+
+  .dashboard-main-row .expenses-list-block {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+
+  .dashboard-main-row .expenses-list-block .section-title {
+    font-size: 42px;
+  }
+
+  .dashboard-main-row .expenses-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard-main-row .expenses-list .expense-item {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr;  
+    border-bottom: 1px solid var(--line-color);
+    align-items: center;
+    padding: 12px 0;
+  }
+
+  .dashboard-main-row .expenses-list .expense-item .expense-desc {
+    font-size: 12px;
+  }
+
+  .dashboard-main-row .expenses-list .expense-item .expense-cat {
+    font-size: 12px; 
+  }
+
+  .dashboard-main-row .expenses-list .expense-item .expense-amount {
+    font-size: 12px;   
+  }
+
+  .dashboard-main-row .expenses-list .expense-item .expense-date {
+    font-size: 12px;
+    text-align: right; 
+  } 
+
+  .dashboard-main-row .chart-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-24px);
+    gap: 20px;
+  }
+
+  .dashboard-main-row .chart-block .section-title {
+    font-size: 42px;
+    transform: translateX(-16px);
+  }
+
+  .dashboard-main-row .chart-block .balance-chart-container {
+    width: 118%;
+    position: relative;
+    border-radius: 2%;
+    transform: translateX(30px);
+    border:  var(--line-color) .5px solid;
+  }
+
+
+}

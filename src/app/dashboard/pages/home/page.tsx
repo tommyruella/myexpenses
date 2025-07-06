@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
 import BalanceChart from "../../components/Charts/BalanceChart";
 // import PieChart from "../../components/Charts/PieChart";
-import '../../../globals.css';
+import "./homepage.css";
 import "../../components/FloatingMenu/floatingmenu.css";
 import Navbar from "../../components/navbar/Navbar";
 import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
@@ -159,9 +159,6 @@ export default function Home() {
     <>
       <Navbar />
       <div className="dashboard-root">
-        {/* Header decorativo */}
-        {/* Marquee rimossa */}
-        {/* Griglia principale responsive */}
         <div className="dashboard-grid">
           {/* Prima riga: saldo + entrate/uscite */}
           <section className="dashboard-balance-row">
@@ -170,12 +167,12 @@ export default function Home() {
               <span className="balance-value">€{saldo.toFixed(2)}</span>
             </div>
             <div className="inout-blocks">
-              <div className="in-block">
-                <span className="in-label">in</span>
-                <span className="in-value" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <div className="single-inout-block">
+                <span className="inout-label">in</span>
+                <div className="inout-value">
                   +€{entrateMese.toFixed(2)}
                   {/* Solo desktop: percentuale inline */}
-                  <span className="desktop-inline-perc">
+                <div className="percentage-inout">
                     {entratePerc !== null && (
                       <span className={"perc-" + (entratePerc >= 0 ? "positive" : "negative")} style={{ fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
                         {(entratePerc ?? 0) > 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
@@ -183,23 +180,15 @@ export default function Home() {
                         {entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}
                       </span>
                     )}
-                  </span>
-                </span>
-                {/* Solo mobile: percentuale sotto */}
-                {entratePerc !== null && (
-                  <span className="mobile-block-perc" style={{ fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                    {(entratePerc ?? 0) > 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
-                    {(entratePerc ?? 0) < 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
-                    <span className={"perc-" + (entratePerc >= 0 ? "positive" : "negative")}>{entratePerc !== null ? (entratePerc >= 0 ? '+' : '') + entratePerc.toFixed(1) + '%' : ''}</span>
-                  </span>
-                )}
+                </div>
+                </div>
               </div>
-              <div className="out-block">
-                <span className="out-label">out</span>
-                <span className="out-value" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <div className="single-inout-block">
+                <span className="inout-label" style={{color: "gray"}}>out</span>
+                <span className="inout-value" style={{color: "gray"}}>
                   -€{usciteMese.toFixed(2)}
                   {/* Solo desktop: percentuale inline */}
-                  <span className="desktop-inline-perc">
+                  <span className="percentage-inout">
                     {uscitePerc !== null && (
                       <span className={"perc-" + (uscitePerc >= 0 ? "negative" : "positive")} style={{ fontSize: 15, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 2 }}>
                         {(uscitePerc ?? 0) > 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
@@ -209,21 +198,13 @@ export default function Home() {
                     )}
                   </span>
                 </span>
-                {/* Solo mobile: percentuale sotto */}
-                {uscitePerc !== null && (
-                  <span className="mobile-block-perc" style={{ fontWeight: 600, marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                    {(uscitePerc ?? 0) > 0 && <span className="arrow-negative" style={{fontSize:18, lineHeight:1}}>&uarr;</span>}
-                    {(uscitePerc ?? 0) < 0 && <span className="arrow-positive" style={{fontSize:18, lineHeight:1}}>&darr;</span>}
-                    <span className={"perc-" + (uscitePerc >= 0 ? "negative" : "positive")}>{uscitePerc !== null ? (uscitePerc >= 0 ? '+' : '') + uscitePerc.toFixed(1) + '%' : ''}</span>
-                  </span>
-                )}
               </div>
             </div>
           </section>
           {/* Seconda riga: spese recenti | grafici */}
           <main className="dashboard-main-row">
             <div className="expenses-list-block">
-              <div className="section-title" style={{display: 'flex', alignItems: 'center', gap: 12}}>
+              <div className="section-title">
                 last expenses
                 <a href="/dashboard/pages/spese" aria-label="Go to all expenses" style={{display:'inline-flex',alignItems:'center',marginLeft:6, color:'#181818', textDecoration:'none', transition:'color 0.18s'}}>
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{transform:'rotate(45deg)'}}>
@@ -246,7 +227,7 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <div className="charts-block">
+            <div className="chart-block">
               <div className="section-title">balance chart</div>
               <div className="balance-chart-container">
                 <BalanceChart data={chartData} />

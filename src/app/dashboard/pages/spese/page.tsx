@@ -10,9 +10,6 @@ import ExpenseCard from "../../components/ExpenseCard";
 import MonthlyTrendChart from "../../components/Charts/MonthlyTrendChart";
 import PieChart from "../../components/Charts/PieChart";
 import "../../components/FloatingMenu/floatingmenu.css";
-import "./expenses.module.css";
-
-
 import type { Spesa } from "../../context/SpeseContext";
 
 const CATEGORIES = ["HANGOUT", "CLOTH", "FOOD", "TRANSPORT", "TRAVEL", "EARNINGS", "OTHERS"];
@@ -130,13 +127,8 @@ function SpesePageInner() {
         padding: "32px 0 0 0",
         minHeight: "80vh",
       }}>
-        <div className="expenses-fullsize-layout">
-          <div className="expenses-list-col-full">
-            <div>
-          
-
-
-            </div>
+        <div>
+          <div className="expenses-list">
             <div style={{ marginBottom: 8 }}>
               <span className="balance-label" style={{ fontSize: 52, fontWeight: 900, color: "#181818" }}>
                 in details

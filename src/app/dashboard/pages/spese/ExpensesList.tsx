@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import "../home/homepage.css"; // Importa lo stile della homepage per mantenere la coerenza
 
 interface Spesa {
   id: number;
@@ -36,14 +37,17 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
 
   return (
     <div style={{ width: '100%'}}>
-      <ul className="expenses-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+      <ul className="expenses-list">
         {spese.length === 0 && <li>No expenses found.</li>}
         {visible.map((spesa) => (
           <li
             key={spesa.id}
             className="expense-item"
             onClick={() => onExpenseClick && onExpenseClick(spesa)}
-            style={onExpenseClick ? { cursor: 'pointer' } : {}}
+            style={{
+                      width: '100%',
+                      ...(onExpenseClick ? { cursor: 'pointer' } : {})
+                    }}
           >
             <span className="expense-desc">{spesa.descrizione}</span>
             <span className="expense-cat">{spesa.categoria}</span>
