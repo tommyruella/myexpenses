@@ -168,7 +168,6 @@
 .dashboard-main-row .chart-block {
   display: flex;
   flex-direction: column;
-  text-align: ;
   gap: 12;
   transform: translateX(28px);
   padding-bottom: 65px;
