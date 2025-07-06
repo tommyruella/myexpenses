@@ -128,7 +128,7 @@
 
 .expenses-list .expense-item {
   display: grid;
-  width: 100%;
+  width: 120%;
   grid-template-columns: 1fr 1fr 1fr 1fr;  
   border-bottom: 1px solid var(--line-color);
   align-items: center;
@@ -277,7 +277,7 @@
 
   .dashboard-main-row .expenses-list .expense-item {
     display: grid;
-    width: 100%;
+    width: 120%;
     grid-template-columns: 1fr 1fr 1fr 1fr;  
     border-bottom: 1px solid var(--line-color);
     align-items: center;
