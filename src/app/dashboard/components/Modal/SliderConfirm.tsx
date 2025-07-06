@@ -14,12 +14,12 @@ const SliderConfirm: React.FC<SliderConfirmProps> = ({ onConfirm, disabled }) =>
   const [dragging, setDragging] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  function handleMouseDown(e: React.MouseEvent) {
+  function handleMouseDown() {
     if (disabled) return;
     setDragging(true);
   }
   
-  function handleMouseUp(e: MouseEvent) {
+  function handleMouseUp() {
     if (!dragging) return;
     setDragging(false);
     if (dragX > SLIDER_WIDTH - THUMB_SIZE - 8) {

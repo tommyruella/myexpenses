@@ -113,8 +113,8 @@ function SpesePageInner() {
   else if (sortOrder === "desc") sortedSpese = [...filteredSpese].sort((a, b) => b.importo - a.importo);
 
   // Calcolo totale in e out su tutte le spese filtrate
-  const totaleIn = speseNormalizzate.filter(s => s.tipo === "ENTRATA").reduce((acc, s) => acc + s.importo, 0);
-  const totaleOut = speseNormalizzate.filter(s => s.tipo === "USCITA").reduce((acc, s) => acc + s.importo, 0);
+  // const totaleIn = speseNormalizzate.filter(s => s.tipo === "ENTRATA").reduce((acc, s) => acc + s.importo, 0);
+  // const totaleOut = speseNormalizzate.filter(s => s.tipo === "USCITA").reduce((acc, s) => acc + s.importo, 0);
 
   return (
     <>
