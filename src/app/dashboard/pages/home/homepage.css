@@ -266,6 +266,7 @@ svg {
     justify-content: flex-start; /* <-- Allinea a sinistra */
     margin-left: 20px; 
     min-width: unset !important;
+    transform: translateX(4PX);
     gap: 10px;
     width: 100%;
   }
