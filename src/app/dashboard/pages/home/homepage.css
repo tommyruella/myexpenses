@@ -6,6 +6,7 @@
   --min-width: 900px;
   --font-weight: 700;
   --spacingnew: 80px;
+  --min-width-lb: 450px;
 }
 
 
@@ -70,7 +71,7 @@ svg {
 .dashboard-balance-row .inout-blocks {
     display: flex;
     flex-direction: row;
-    min-width: 480px;
+    min-width: var(--min-width-lb);
     gap: 40px;
 }
 
@@ -182,7 +183,7 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 12;
-  min-width: 480px;
+  min-width: var(--min-width-lb);
   padding-bottom: 65px;
   
 }
