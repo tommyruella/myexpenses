@@ -19,7 +19,6 @@ svg {
 }
 
 .dashboard-root {
-  margin-left: 30px;
   display: flex;
   flex-direction: column;
   max-width: 100%;
