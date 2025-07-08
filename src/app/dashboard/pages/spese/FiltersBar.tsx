@@ -27,7 +27,7 @@ export default function FiltersBar({
 }: FiltersBarProps) {
   
     return (
-    <div style={{ width: "100%", marginBottom: 20 }}>
+    <div style={{marginBottom: 20, boxSizing: 'border-box'}}>
       <input
         type="text"
         placeholder="Search…"
@@ -39,12 +39,14 @@ export default function FiltersBar({
           setFilterCat("");
         }}
         style={{
-          marginBottom: 12,
+          display: "flex",
           width: "100%",
-          padding: "10px 14px",
+          padding: "12px",
+          margin: "0 0 14px 0",
           borderRadius: 8,
           border: "1px solid #ccc",
           fontSize: 16,
+          boxSizing: "border-box",
         }}
       />
 
@@ -52,8 +54,7 @@ export default function FiltersBar({
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: ".8rem",
-          width: "100%",
+          gap: 20,
         }}
       >
         {/* Tipologia */}
@@ -67,6 +68,12 @@ export default function FiltersBar({
               transform: "translateY(-50%)",
               pointerEvents: "none",
               color: "#555",
+              width: 15,
+              height: 15,
+              minWidth: 15,
+              minHeight: 15,
+              maxWidth: 16,
+              maxHeight: 16,
             }}
           />
           <select
@@ -101,7 +108,7 @@ export default function FiltersBar({
           {(() => {
             // Scegli l'icona in base alla categoria selezionata
             const iconProps = {
-              size: 18,
+              size: 15,
               style: {
                 position: "absolute" as const,
                 top: "50%",
@@ -109,6 +116,12 @@ export default function FiltersBar({
                 transform: "translateY(-50%)",
                 pointerEvents: undefined,
                 color: "#555",
+                width: 15,
+                height: 15,
+                minWidth: 15,
+                minHeight: 15,
+                maxWidth: 16,
+                maxHeight: 16,
               }
             };
             switch (filterCat) {

@@ -128,7 +128,7 @@ function SpesePageInner() {
         minHeight: "80vh",
       }}>
         <div>
-          <div className="expenses-list">
+          <div className="expenses-list" style={{minWidth: "min(90vw)"}}>
             <div style={{ marginBottom: 8 }}>
               <span className="balance-label" style={{ fontSize: 52, fontWeight: 900, color: "#181818" }}>
                 in details

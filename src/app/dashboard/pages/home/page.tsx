@@ -20,6 +20,7 @@ interface Spesa {
 const CATEGORIES = ["HANGOUT","CLOTH", "FOOD", "TRANSPORT", "TRAVEL", "OTHERS"];
 
 export default function Home() {
+
   const [spese, setSpese] = useState<Spesa[]>([]);
   const [form, setForm] = useState({
     descrizione: "",

@@ -5,6 +5,7 @@
   --spacing: 20px;
   --min-width: 900px;
   --font-weight: 700;
+  --spacing: 100px;
 }
 
 
@@ -36,14 +37,15 @@ svg {
 /* ====== BILANCIO (IN/OUT) ====== */
 .dashboard-balance-row {
   display: flex;
-  justify-content: space-between;
-  min-width: var(--min-width);
+  justify-content: flex-start;
+  gap: var(--spacing);
 }
 
 .dashboard-balance-row .balance-block {
   display: flex;
  align-items: flex-start;
  flex-direction: column;
+ min-width: 450px;
 }
 
 .dashboard-balance-row .balance-label {
@@ -68,7 +70,8 @@ svg {
 .dashboard-balance-row .inout-blocks {
     display: flex;
     flex-direction: row;
-    gap: 30px;
+    min-width: 480px;
+    gap: var(--spacing);
 }
 
 .dashboard-balance-row .inout-blocks .single-inout-block {
@@ -108,8 +111,8 @@ svg {
 
 .dashboard-main-row {
   display: flex;
-  justify-content: space-between;
-  min-width: var(--min-width);
+  justify-content: flex-start;
+  gap: var(--spacing);
 }
 /* ===SPESE=== */
 
@@ -117,8 +120,7 @@ svg {
  display: flex;
  align-items: flex-start;
  flex-direction: column;
- gap: 20px;
- margin-right: 40px;
+ width: max-content;
 }
 
 .dashboard-main-row .expenses-list-block .section-title {
@@ -134,15 +136,16 @@ svg {
   display: grid;
   margin: 0px;
   padding: 0px;
+  width: max-content;
 }
 
 .expenses-list .expense-item {
   display: grid;
-  width: 120%;
+  min-width: 450px;
   grid-template-columns: 1fr 1fr 1fr 1fr;  
   border-bottom: 1px solid var(--line-color);
   align-items: center;
-  padding: 12px 0;
+  padding: 14px 0;
 }
 
 .expenses-list .expense-item .expense-desc {
@@ -179,8 +182,9 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 12;
-  transform: translateX(-61px);
+  min-width: 480px;
   padding-bottom: 65px;
+  
 }
 
 .dashboard-main-row .chart-block .section-title {
@@ -193,11 +197,12 @@ svg {
 }
 
 .dashboard-main-row .chart-block .balance-chart-container {
-  width: 80%;
+  width: max-content;
   height: 118%;
   position: relative;
   border-radius: 2%;
   border:  var(--line-color) .5px solid;
+  max-width: 100%;
 }
 
 @media (min-width: 390px) and (max-width: 950px) {
@@ -378,6 +383,4 @@ svg {
     transform: translateX(30px);
     border:  var(--line-color) .5px solid;
   }
-
-
 }

@@ -36,8 +36,8 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
   const totalFiltered = spese.reduce((acc, s) => acc + (s.tipo === 'USCITA' ? -s.importo : s.importo), 0);
 
   return (
-    <div style={{ width: '100%'}}>
-      <ul className="expenses-list">
+    <div >
+      <ul className="expenses-list" style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
         {spese.length === 0 && <li>No expenses found.</li>}
         {visible.map((spesa) => (
           <li
@@ -45,6 +45,7 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
             className="expense-item"
             onClick={() => onExpenseClick && onExpenseClick(spesa)}
             style={{
+                      minWidth: 'unset',
                       width: '100%',
                       ...(onExpenseClick ? { cursor: 'pointer' } : {})
                     }}
