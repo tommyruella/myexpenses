@@ -179,7 +179,7 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 12;
-  transform: translateX(28px);
+  transform: translateX(-61px);
   padding-bottom: 65px;
 }
 
