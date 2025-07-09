@@ -1,6 +1,7 @@
 import React from "react";
 import { MdSwapVert } from "react-icons/md";
 import { FaTshirt, FaUtensils, FaBus, FaUsers, FaPiggyBank, FaQuestionCircle, FaGlobe, FaGift } from "react-icons/fa";
+import  "./expensespage.css"; // Importa lo stile specifico per le spese
 
 interface FiltersBarProps {
   search: string;
@@ -51,11 +52,7 @@ export default function FiltersBar({
       />
 
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 20,
-        }}
+        className="filters-bar"
       >
         {/* Tipologia */}
         <div style={{ position: "relative", width: "100%" }}>

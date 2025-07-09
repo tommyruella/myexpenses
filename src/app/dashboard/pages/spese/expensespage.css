@@ -1,0 +1,168 @@
+:root {
+  --main-color: #181818;
+  --secondary: #666;
+  --line-color: #eee;
+}
+
+
+select {
+  appearance: none; /* nasconde freccia di default */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  padding: 0.4rem 1.2rem 0.4rem 0.6rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  border-radius: 0;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #000;
+  background-color: #fff;
+}
+
+.expenses-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.expenses-block {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 90vw;
+}
+
+.filters-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.title-label {
+    font-size: 52px;
+    letter-spacing: -2px;
+    font-weight: var(--font-weight);
+    color: var(--main-color);
+    margin-bottom: 10px;
+}
+
+.expenses-list-page {
+  display: grid;
+  margin: 0px;
+  padding: 0px;
+}
+
+.expenses-list-page .expense-item-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;  
+  border-bottom: 1px solid var(--line-color);
+  align-items: center;
+  padding: 14px 0;
+}
+
+.expenses-list-page .expense-item-page .expense-desc {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expenses-list-page .expense-item-page .expense-cat {
+  font-size: 14px;
+  text-align: center;
+  color: var(--secondary);  
+}
+
+.expenses-list-page .expense-item-page .expense-amount {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--main-color);
+  text-align: center; 
+}
+
+.expenses-list-page .expense-item-page .expense-date {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--secondary);
+  text-align: right; 
+}
+
+.expenses-pagination-arrows {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.central-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 90vw;
+    gap: 50px;
+}
+
+
+
+@media (max-width: 390px) {
+
+    .filters-bar {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .expenses-block {
+        width: unset;
+    }
+
+    .expenses-pagination-arrows {
+        gap: 8px;
+    }
+
+    .title-label {
+        font-size: 42px;
+    }
+
+    .expenses-list-page {
+        display: grid;
+        margin: 0px;
+        padding: 0px;
+        min-width: 300px;
+    }
+
+    .expense-item-page {
+        display: grid;
+        max-width: 300px;
+        box-sizing: border-box;
+        grid-template-columns: 1fr 1fr 1fr 1fr;  
+        border-bottom: 1px solid var(--line-color);
+        align-items: center;
+    }
+
+    .expense-item-page .expense-desc {
+    font-size: 12px;
+    }
+
+    .expense-item-page .expense-cat {
+        font-size: 12px; 
+    }
+
+    .expense-item-page .expense-amount {
+        font-size: 12px;   
+    }
+
+    .expense-item-page .expense-date {
+        font-size: 12px;
+        text-align: right; 
+    }
+}
+
+
+

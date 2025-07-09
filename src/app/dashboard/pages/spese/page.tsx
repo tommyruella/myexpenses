@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { SpeseProvider, useSpese } from "../../context/SpeseContext";
+import { Spesa, SpeseProvider, useSpese } from "../../context/SpeseContext";
 import Navbar from "../../components/navbar/Navbar";
 import FiltersBar from "./FiltersBar";
 import ExpensesList from "./ExpensesList";
@@ -10,7 +10,7 @@ import ExpenseCard from "../../components/ExpenseCard";
 import MonthlyTrendChart from "../../components/Charts/MonthlyTrendChart";
 import PieChart from "../../components/Charts/PieChart";
 import "../../components/FloatingMenu/floatingmenu.css";
-import type { Spesa } from "../../context/SpeseContext";
+import "./expensespage.css"; 
 
 const CATEGORIES = ["HANGOUT", "CLOTH", "FOOD", "TRANSPORT", "TRAVEL", "EARNINGS", "OTHERS"];
 
@@ -119,22 +119,12 @@ function SpesePageInner() {
   return (
     <>
       <Navbar />
-      <div style={{
-        width: "100%",
-        maxWidth: "min(90vw)",
-        justifyContent: "center",
-        margin: "0 auto",
-        padding: "32px 0 0 0",
-        minHeight: "80vh",
-      }}>
-        <div>
-          <div className="expenses-list" style={{minWidth: "min(90vw)"}}>
-            <div style={{ marginBottom: 8 }}>
-              <span className="balance-label" style={{ fontSize: 52, fontWeight: 900, color: "#181818" }}>
+      <div className="main-container">
+        <div className="expenses-page">
+          <div className="expenses-block">
+              <div className="title-label">
                 in details
-              </span>
-            </div>
-            {/* Blocchi totali in/out */}
+              </div>
             <FiltersBar
               search={search}
               setSearch={setSearch}
@@ -146,23 +136,16 @@ function SpesePageInner() {
               sortOrder={sortOrder}
               setSortOrder={setSortOrder}
             />
-            <ExpensesList spese={sortedSpese} onExpenseClick={setSelectedExpense} pageSize={7} />
+            <ExpensesList spese={sortedSpese} onExpenseClick={setSelectedExpense} />
           </div>
 
-          <div className="trend-pie-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 32,
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            marginTop: 14
-          }}>
-            <div style={{ minWidth: 260 }}>
-              <div style={{ fontWeight: 900, fontSize: 52, marginBottom: 22, color: '#181818' }}>trend</div>
+          <div className="central-grid">
+            <div className="trend-block">
+              <div className="title-label">trend</div>
               <MonthlyTrendChart data={monthlyTrend} />
             </div>
-            <div style={{ minWidth: 260 }}>
-              <div style={{ fontWeight: 900, fontSize: 52, marginBottom: 22, color: '#181818' }}>pie charts</div>
+            <div className="pie-charts-block">
+              <div className="title-label">pie charts</div>
               <div className="piecharts-grid" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',

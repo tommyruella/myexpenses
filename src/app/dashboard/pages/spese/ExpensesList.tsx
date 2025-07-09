@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import "../home/homepage.css"; // Importa lo stile della homepage per mantenere la coerenza
+import "./expensespage.css"; // Importa lo stile specifico per le spese
 
 interface Spesa {
   id: number;
@@ -37,12 +38,12 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
 
   return (
     <div >
-      <ul className="expenses-list" style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
+      <ul className="expenses-list-page">
         {spese.length === 0 && <li>No expenses found.</li>}
         {visible.map((spesa) => (
           <li
             key={spesa.id}
-            className="expense-item"
+            className="expense-item-page"
             onClick={() => onExpenseClick && onExpenseClick(spesa)}
             style={{
                       minWidth: 'unset',
@@ -64,7 +65,7 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
           TOTAL: <span style={{ color: totalFiltered < 0 ? '#fecaca' : '#a7f3d0' }}>{totalFiltered >= 0 ? '+' : ''}€{totalFiltered.toFixed(2)}</span>
         </span>
         {totalPages > 1 && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="expenses-pagination-arrows" >
             <button
               onClick={prevPage}
               disabled={page === 0}
@@ -74,7 +75,7 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
                 background: '#e0e0e0', color: '#181818', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 22, fontWeight: 900, cursor: page === 0 ? 'not-allowed' : 'pointer', opacity: page === 0 ? 0.4 : 1, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
               }}
             >
-              <FiChevronLeft size={22} />
+              <FiChevronLeft size={18}/>
             </button>
             <button
               onClick={nextPage}
@@ -85,7 +86,7 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
                 background: '#e0e0e0', color: '#181818', border: 'none', borderRadius: '50%', width: 36, height: 36, fontSize: 22, fontWeight: 900, cursor: page === totalPages - 1 ? 'not-allowed' : 'pointer', opacity: page === totalPages - 1 ? 0.4 : 1, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
               }}
             >
-              <FiChevronRight size={22} />
+              <FiChevronRight size={18} />
             </button>
           </div>
         )}
