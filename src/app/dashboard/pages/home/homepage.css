@@ -280,6 +280,7 @@ svg {
 
   .dashboard-root {
     overflow-x: hidden;
+    display: flex !important;
   }
 
   .dashboard-grid {
