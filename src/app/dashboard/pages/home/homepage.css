@@ -222,6 +222,10 @@ svg {
     width: unset;
   }
 
+  .expenses-list .expense-item {
+    width: 400px;
+  }
+
   .dashboard-grid {
     display: flex;
     align-items: center;
