@@ -125,7 +125,7 @@ svg {
   letter-spacing: -2px;
   font-weight: var(--font-weight);
   color: var(--main-color);
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   white-space: nowrap;
 }
 
