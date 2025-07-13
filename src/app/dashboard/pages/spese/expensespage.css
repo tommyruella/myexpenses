@@ -109,6 +109,20 @@ select:focus {
     gap: 50px;
 }
 
+.charts-grid {
+    display: flex;
+    flex-direction: flex-start;
+}
+
+.charts-grid .trend-block {
+  display: flex;
+  flex-direction: flex-start;
+  min-width: 40vw;
+}
+
+.charts-grid .pie-charts-block {
+    min-width: 40vw;
+}
 
 
 @media (max-width: 390px) {

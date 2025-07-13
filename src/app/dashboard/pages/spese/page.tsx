@@ -138,8 +138,7 @@ function SpesePageInner() {
             />
             <ExpensesList spese={sortedSpese} onExpenseClick={setSelectedExpense} />
           </div>
-
-          <div className="central-grid">
+          <div className="charts-grid">
             <div className="trend-block">
               <div className="title-label">trend</div>
               <MonthlyTrendChart data={monthlyTrend} />

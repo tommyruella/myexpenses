@@ -1,43 +1,63 @@
 import React from "react";
+import "../../pages/spese/expensespage.css"
 
 interface MonthlyTrendChartProps {
   data: { month: string; total: number }[];
 }
 
-// Minimal bar chart, Apple-style, coerente con il sito
 export default function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
-  const chartData = data.slice(-8);
+  const chartData = data.slice(-8).reverse(); // Inverti l'ordine qui per mostrare gli ultimi 8 mesi
   const max = Math.max(...chartData.map(d => d.total), 1);
-  // Grigio usato nella lista spese: #ececec
+
   return (
-    <div style={{ width: "100%", maxWidth: 480, margin: "0 auto" }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {chartData.map(({ month, total }) => (
-          <div key={month} style={{ display: "flex", alignItems: "center", gap: 18, minHeight: 28 }}>
-            <span style={{ width: 44, fontSize: 15, color: "#181818", fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase', fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif' }}>{month.slice(5)}</span>
-            <div style={{
-              border: "1.5px solid #ececec",
-              borderRadius: 7,
-              height: 16,
-              width: `${Math.max(32, (total / max) * 240)}px`,
-              minWidth: 32,
-              background: '#fff',
-              transition: "width 0.3s",
-              display: 'flex',
-              alignItems: 'center',
-              position: 'relative',
-            }} />
-            <span style={{
-              color: '#181818',
-              fontWeight: 900,
-              fontSize: 15,
-              letterSpacing: -0.5,
-              fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
-              marginLeft: 10,
-              minWidth: 54,
-              textAlign: 'right',
-              display: 'inline-block'
-            }}>
+          <div
+            key={month}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "48px 1fr 64px",
+              alignItems: "center",
+              gap: 8,
+              fontFamily:
+                'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+            }}
+          >
+            {/* Mese */}
+            <span
+              style={{
+                fontSize: 13,
+                color: "#222",
+                letterSpacing: 0.4,
+                textTransform: "uppercase",
+              }}
+            >
+              {month.slice(5)}
+            </span>
+
+            {/* Barra */}
+            <div
+              style={{
+                background: "#eee",
+                height: 10,
+                border: "1px solid #000",
+                borderRadius: 3,
+                width: `${Math.max(24, (total / max) * 240)}px`,
+                minWidth: 24,
+                transition: "width 0.3s",
+              }}
+            />
+
+            {/* Valore */}
+            <span
+              style={{
+                fontSize: 13,
+                color: "#111",
+                textAlign: "right",
+                fontVariantNumeric: "tabular-nums",
+              }}
+            >
               €{total.toFixed(2)}
             </span>
           </div>

@@ -133,7 +133,6 @@ svg {
   display: grid;
   margin: 0px;
   padding: 0px;
-  width: min(450px, 35vh);
   justify-content: flex-start;
 }
 
@@ -141,6 +140,7 @@ svg {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;  
   border-bottom: 1px solid var(--line-color);
+  width: min(400px, 45vw);
   align-items: center;
   padding: 14px 0;
 }
