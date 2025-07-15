@@ -119,6 +119,7 @@ function SpesePageInner() {
   return (
     <>
       <Navbar />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100vw" }}>
       <div className="main-container">
         <div className="expenses-page">
           <div className="expenses-block">
@@ -204,6 +205,8 @@ function SpesePageInner() {
         )}
 
         {/* FloatingMenu sempre in fondo alla pagina, sopra ogni overlay/modal */}
+        
+      </div>
         <FloatingMenu onAddClick={() => setModalOpen(true)} />
       </div>
     </>

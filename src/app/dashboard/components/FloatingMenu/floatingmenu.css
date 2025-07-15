@@ -3,19 +3,16 @@
 .floatingmenu-container {
   position: fixed;
   z-index: 300;
-  left: 50%;
   bottom: 16px;
-  top: unset;
-  right: unset;
   width: auto;
   height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   pointer-events: auto;
-  transform: translateX(-50%);
 }
+
 .floatingmenu-root {
   position: static;
   left: unset;
@@ -44,6 +41,7 @@
   font-size: 19px;
   text-decoration: none;
   padding: 8px 14px;
+  border: none;
   border-radius: 10px;
   transition: background 0.18s, color 0.18s;
   background: transparent;
@@ -52,11 +50,7 @@
   align-items: center;
   justify-content: center;
 }
-.floatingmenu-link:hover {
-  background: #f3f7ff;
-  color: #2563eb;
-  opacity: 1;
-}
+
 .floatingmenu-link:hover .floatingmenu-euro {
   color: #181818 !important;
 }

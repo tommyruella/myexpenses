@@ -5,9 +5,14 @@
   --spacing: 20px;
   --font-weight: 700;
   --spacingnew: 80px;
-  --min-width-lb: 50vw;
+  --min-width-lb: 45vw;
 }
 
+html, body {
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
 
 svg {
   display: block;
@@ -23,6 +28,7 @@ svg {
   max-width: 100%;
   align-items: center;
   margin: 60px;
+  max-width: 90vw;
 }
 
 .dashboard-grid {
@@ -37,6 +43,7 @@ svg {
 .dashboard-balance-row {
   display: flex;
   justify-content: space-between;
+  width: max-content;
 }
 
 .dashboard-balance-row .balance-block {
@@ -44,6 +51,7 @@ svg {
  align-items: flex-start;
  flex-direction: column;
  min-width: var(--min-width-lb);
+ width: max-content
 }
 
 .dashboard-balance-row .balance-label {
@@ -211,13 +219,6 @@ svg {
     margin-bottom: 50px;
   }
 
-  .dashboard-main-row .expenses-list-block {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    width: max-content;
-  }
-
   .expenses-list {
     width: unset;
   }
@@ -235,10 +236,7 @@ svg {
   .dashboard-balance-row {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* <-- Allinea a sinistra */
-    min-width: unset;
-    width: unset;
-    box-sizing: border-box;
+    min-width: var(--min-width-lb);
     gap: 10px;
   }
 
@@ -262,6 +260,11 @@ svg {
     align-items: flex-start;
   }
 
+  .inout-blocks {
+    width: unset;
+    gap: 20px !important;
+  }
+
   .dashboard-main-row .chart-block .balance-chart-container {
     width: 100%;
     margin: 0;
@@ -275,16 +278,17 @@ svg {
     width: unset;
   }
 
-  .expenses-list-block {
+  .dashboard-main.row .expenses-list-block {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    width: max-content;
+    min-width: unset;
   }
 
   .dashboard-root {
     overflow-x: hidden;
     display: flex !important;
+    min-width: 100%;
   }
 
   .dashboard-grid {
@@ -356,6 +360,7 @@ svg {
 
   .dashboard-main-row .expenses-list .expense-item {
     display: grid;
+    width: unset;
     min-width: 300px;
     box-sizing: border-box;
     grid-template-columns: 1fr 1fr 1fr 1fr;  
@@ -387,6 +392,7 @@ svg {
     align-items: flex-start;
     box-sizing: border-box;
     min-width: unset;
+    width: unset;
   }
 
 

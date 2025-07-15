@@ -27,6 +27,11 @@ select:focus {
   background-color: #fff;
 }
 
+.main-container {
+  width: 100vw;
+  transform: translateX(-1.5%)
+}
+
 .expenses-page {
     display: flex;
     flex-direction: column;
@@ -122,10 +127,39 @@ select:focus {
 
 .charts-grid .pie-charts-block {
     min-width: 40vw;
+    margin-bottom: 100px;
+}
+
+.trend-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content;
 }
 
 
 @media (max-width: 390px) {
+
+    .charts-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .trend-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 80vw;
+    }
+
+    .pie-charts-block {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        width: 80vw;
+        margin-top: 30px;
+    }
 
     .filters-bar {
         display: flex;
