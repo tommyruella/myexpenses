@@ -21,7 +21,7 @@ const PieChart: React.FC<PieChartProps> = ({ percent, label }) => {
       alignItems: 'center',
       justifyContent: 'flex-start',
       width: 80,
-      margin: '0 auto',
+      marginTop: 10,
     }}>
       <div style={{
         position: 'relative',

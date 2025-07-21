@@ -8,17 +8,14 @@
   height: auto;
   display: flex;
   flex-direction: column;
+  left: 50%;
+  transform: translateX(-50%);
   align-items: center;
-  justify-content: center;
   pointer-events: auto;
 }
 
 .floatingmenu-root {
   position: static;
-  left: unset;
-  right: unset;
-  bottom: unset;
-  top: unset;
   border-radius: 18px;
   flex-direction: row;
   align-items: center;
