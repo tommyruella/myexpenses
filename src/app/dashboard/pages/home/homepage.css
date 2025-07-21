@@ -361,7 +361,7 @@ svg {
   .dashboard-main-row .expenses-list .expense-item {
     display: grid;
     width: unset;
-    min-width: 300px;
+    max-width: 300px;
     box-sizing: border-box;
     grid-template-columns: 1fr 1fr 1fr 1fr;  
     border-bottom: 1px solid var(--line-color);
@@ -388,6 +388,7 @@ svg {
 
   .dashboard-main-row .chart-block {
     margin: 0px;
+    max-width: 300px;
     transform: unset;
     align-items: flex-start;
     box-sizing: border-box;
