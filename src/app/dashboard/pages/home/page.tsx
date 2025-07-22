@@ -101,25 +101,15 @@ export default function Home() {
   // Se non ci sono spese, mostra almeno un punto
   const chartData = saldoHistory.length > 0 ? saldoHistory : [{ date: new Date().toISOString().slice(0, 10), saldo: 1200 }];
 
-  // Calcolo entrate e uscite mese corrente e precedente (logica ricreata da zero)
+  // Calcolo entrate e uscite mese corrente
   const now = new Date();
   const padMonth = (m: number) => (m < 10 ? '0' + m : '' + m);
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
   const currentMonth = `${year}-${padMonth(month)}`;
-  // Gestione mese precedente (anche cambio anno)
-  let prevYear = year;
-  let prevMonthNum = month - 1;
-  if (prevMonthNum === 0) {
-    prevMonthNum = 12;
-    prevYear = year - 1;
-  }
-  const prevMonth = `${prevYear}-${padMonth(prevMonthNum)}`;
 
   let entrateMese = 0;
   let usciteMese = 0;
-  let entrateMesePrec = 0;
-  let usciteMesePrec = 0;
 
   for (const s of speseNormalizzate) {
     // Normalizza la data in formato YYYY-MM
@@ -133,19 +123,12 @@ export default function Home() {
         spesaMonth = `${d.getFullYear()}-${padMonth(d.getMonth() + 1)}`;
       }
     }
-    // DEBUG: log per ogni spesa
-    console.log('[DEBUG] Spesa:', s, 'spesaMonth:', spesaMonth, 'currentMonth:', currentMonth, 'prevMonth:', prevMonth);
+    // Calcola solo per il mese corrente
     if (spesaMonth === currentMonth) {
       if (s.tipo === 'ENTRATA') {
         entrateMese += Number(s.importo);
       } else {
         usciteMese += Number(s.importo);
-      }
-    } else if (spesaMonth === prevMonth) {
-      if (s.tipo === 'ENTRATA') {
-        entrateMesePrec += Number(s.importo);
-      } else {
-        usciteMesePrec += Number(s.importo);
       }
     }
   }
@@ -184,7 +167,7 @@ export default function Home() {
   let mediaUscite = 0;
   let countMesi = 0;
   
-  for (const [_, meseData] of mesiStorici) {
+  for (const meseData of mesiStorici.values()) {
     mediaEntrate += meseData.entrate;
     mediaUscite += meseData.uscite;
     countMesi++;
