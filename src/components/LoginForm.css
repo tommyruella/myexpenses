@@ -1,0 +1,230 @@
+/* Blocca scroll globalmente per la pagina di login ma permette pull-to-refresh */
+body:has(.login-container) {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
+  height: 100dvh;
+  position: fixed;
+  width: 100%;
+  overscroll-behavior-y: contain;
+  background-color: #ffffff;
+}
+
+html:has(.login-container) {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
+  height: 100dvh;
+  background-color: #ffffff;
+}
+
+.login-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.login-card {
+  transform: translate(20vw);
+  background: rgba(255, 255, 255, 1);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  border: 1px solid rgba(238, 238, 238, 1);
+  border-radius: 2%;
+  padding: 50px 40px;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: none;
+  position: relative;
+  z-index: 100;
+}
+
+.login-header {
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.login-header h1 {
+  color: #181818;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+
+.login-header p {
+  color: #666;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input {
+  width: 100%;
+  padding: 18px 45px 18px 18px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 0;
+  color: #181818;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #181818;
+  background: #ffffff;
+}
+
+.password-input::placeholder {
+  color: #999;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-password:hover {
+  color: #181818;
+  background: none;
+}
+
+.toggle-password svg {
+  display: block;
+}
+
+.error-message {
+  color: #181818;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: left;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  letter-spacing: -0.3px;
+}
+
+.login-button {
+  background: #181818;
+  color: #ffffff;
+  border: 1px solid #181818;
+  border-radius: 0;
+  padding: 18px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: lowercase;
+}
+
+.login-button:hover:not(:disabled) {
+  background: #ffffff;
+  color: #181818;
+  border-color: #181818;
+  transform: none;
+  box-shadow: none;
+}
+
+.login-button:active:not(:disabled) {
+  background: #f5f5f5;
+  transform: none;
+}
+
+.login-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background: #f5f5f5;
+  color: #999;
+  border-color: #eee;
+}
+
+@media (max-width: 390px) {
+  .login-container {
+    padding: 15px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+  
+  .login-card {
+    transform: none;
+    padding: 35px 25px;
+    margin: 0;
+    border: 1px solid #eee;
+    max-width: 320px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin-top: 40vh;
+    margin-bottom: auto;
+  }
+  
+  .login-header h1 {
+    font-size: 36px;
+    letter-spacing: -1.5px;
+  }
+  
+  .login-header p {
+    font-size: 13px;
+  }
+  
+  .password-input {
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 16px 40px 16px 16px;
+  }
+  
+  .login-button {
+    padding: 16px;
+    font-size: 13px;
+  }
+}

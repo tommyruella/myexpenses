@@ -1,7 +1,14 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 
 export default function Navbar() {
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("authTime");
+    window.location.reload();
+  };
+
   return (
     <div
       style={{
@@ -17,7 +24,32 @@ export default function Navbar() {
     >
       <div style={{height: 60, display: "flex", justifyContent: "space-between", flexDirection: "row", padding: "0 20px", alignItems: "center"}}>
         <Link href="/" style={{fontWeight: 700, fontSize: 20, color: "inherit", textDecoration: "none"}}>tommytegamino</Link>
-        <div>dashboard</div>
+        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+          <div>dashboard</div>
+          <button 
+            onClick={handleLogout}
+            style={{
+              background: "none",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              padding: "6px 12px",
+              fontSize: "12px",
+              cursor: "pointer",
+              color: "#666",
+              transition: "all 0.2s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#f5f5f5";
+              e.currentTarget.style.color = "#333";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "none";
+              e.currentTarget.style.color = "#666";
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );

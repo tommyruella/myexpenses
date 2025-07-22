@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import AuthWrapper from "../components/AuthWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   description: "my personal tracker",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "Tommy's Tracker"
   },
   formatDetection: {
@@ -26,7 +27,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#0f0f0f',
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -38,9 +39,9 @@ export default function RootLayout({
     <html lang="it" className={inter.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0f0f0f" />
+        <meta name="theme-color" content="#ffffff" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Tommy's Tracker" />
 
         {/* Favicon e icone */}
@@ -49,7 +50,9 @@ export default function RootLayout({
         <meta name="msapplication-TileImage" content="/icons/logo.svg" />
       </head>
       <body className={`${inter.className} antialiased bg-gray-950`}>
-        {children}
+        <AuthWrapper>
+          {children}
+        </AuthWrapper>
       </body>
     </html>
   );
