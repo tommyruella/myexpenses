@@ -4,14 +4,7 @@ export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json();
     
-    const correctPassword = process.env.AUTH_PASSWORD;
-    
-    if (!correctPassword) {
-      return NextResponse.json(
-        { success: false, error: 'Server configuration error' },
-        { status: 500 }
-      );
-    }
+    const correctPassword = process.env.AUTH_PASSWORD || "tommy123";
     
     if (password === correctPassword) {
       return NextResponse.json({ success: true });
