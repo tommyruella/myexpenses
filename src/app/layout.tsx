@@ -7,12 +7,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TommyTegamino's Tracker",
+  title: "Tommy's Tracker",
   description: "my personal tracker",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "TommyTegamino's Tracker 2.0"
+    title: "Tommy's Tracker"
   },
   formatDetection: {
     telephone: false,
@@ -41,8 +41,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#0f0f0f" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="TommyTegamino's Tracker" />
-        
+        <meta name="apple-mobile-web-app-title" content="Tommy's Tracker" />
+
         {/* Favicon e icone */}
         <link rel="icon" href="/icons/logo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icons/logo.svg" />
