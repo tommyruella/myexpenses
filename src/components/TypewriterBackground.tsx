@@ -82,7 +82,7 @@ const TypewriterBackground = () => {
     }
 
     return () => clearTimeout(timeout);
-  }, [currentWordIndex, charIndex, isDeleting, currentPhraseIndex]);
+  }, [currentWordIndex, charIndex, isDeleting, currentPhraseIndex, currentPhrase, phrases.length]);
 
   // Generate display words based on current state
   const displayedWords = currentPhrase.map((word, index) => {

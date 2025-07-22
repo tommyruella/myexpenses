@@ -59,7 +59,7 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
         setError(result.error || "Seems like u are not allowed here");
         setIsAuthenticated(false);
       }
-    } catch (error) {
+    } catch (_error) {
       setError("Connection error. Please try again.");
       setIsAuthenticated(false);
     } finally {
