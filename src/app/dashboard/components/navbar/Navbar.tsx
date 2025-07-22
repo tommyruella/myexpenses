@@ -24,8 +24,31 @@ export default function Navbar() {
     >
       <div style={{height: 60, display: "flex", justifyContent: "space-between", flexDirection: "row", padding: "0 20px", alignItems: "center"}}>
         <Link href="/" style={{fontWeight: 700, fontSize: 20, color: "inherit", textDecoration: "none"}}>tommytegamino</Link>
-        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-          <div>dashboard</div>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <Link href="/dashboard/pages/home" style={{ 
+            color: "inherit", 
+            textDecoration: "none",
+            fontSize: "14px",
+            fontWeight: 500,
+            transition: "color 0.2s ease"
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = "#007AFF"}
+          onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}
+          >
+            Expenses
+          </Link>
+          <Link href="/dashboard/pages/health" style={{ 
+            color: "inherit", 
+            textDecoration: "none",
+            fontSize: "14px",
+            fontWeight: 500,
+            transition: "color 0.2s ease"
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = "#007AFF"}
+          onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}
+          >
+            Health
+          </Link>
           <button 
             onClick={handleLogout}
             style={{
