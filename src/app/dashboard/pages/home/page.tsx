@@ -150,11 +150,57 @@ export default function Home() {
     }
   }
 
+  // Calcolo media dei mesi precedenti (escludendo il mese corrente)
+  const mesiStorici = new Map<string, { entrate: number; uscite: number }>();
+  
+  for (const s of speseNormalizzate) {
+    let spesaMonth = '';
+    if (typeof s.data_spesa === 'string' && s.data_spesa.length >= 7) {
+      spesaMonth = s.data_spesa.slice(0, 7);
+    } else {
+      const d = new Date(s.data_spesa);
+      if (!isNaN(d.getTime())) {
+        spesaMonth = `${d.getFullYear()}-${padMonth(d.getMonth() + 1)}`;
+      }
+    }
+    
+    // Considera solo i mesi precedenti (non il mese corrente)
+    if (spesaMonth && spesaMonth !== currentMonth) {
+      if (!mesiStorici.has(spesaMonth)) {
+        mesiStorici.set(spesaMonth, { entrate: 0, uscite: 0 });
+      }
+      
+      const meseData = mesiStorici.get(spesaMonth)!;
+      if (s.tipo === 'ENTRATA') {
+        meseData.entrate += Number(s.importo);
+      } else {
+        meseData.uscite += Number(s.importo);
+      }
+    }
+  }
+
+  // Calcolo medie
+  let mediaEntrate = 0;
+  let mediaUscite = 0;
+  let countMesi = 0;
+  
+  for (const [_, meseData] of mesiStorici) {
+    mediaEntrate += meseData.entrate;
+    mediaUscite += meseData.uscite;
+    countMesi++;
+  }
+  
+  if (countMesi > 0) {
+    mediaEntrate = mediaEntrate / countMesi;
+    mediaUscite = mediaUscite / countMesi;
+  }
+
   // Log finale dei risultati
-  console.log('[DEBUG] entrateMese:', entrateMese, 'usciteMese:', usciteMese, 'entrateMesePrec:', entrateMesePrec, 'usciteMesePrec:', usciteMesePrec);
-  // Calcolo percentuali rispetto al mese precedente
-  const entratePerc = entrateMesePrec === 0 ? null : ((entrateMese - entrateMesePrec) / entrateMesePrec) * 100;
-  const uscitePerc = usciteMesePrec === 0 ? null : ((usciteMese - usciteMesePrec) / usciteMesePrec) * 100;
+  console.log('[DEBUG] entrateMese:', entrateMese, 'usciteMese:', usciteMese, 'mediaEntrate:', mediaEntrate, 'mediaUscite:', mediaUscite, 'countMesi:', countMesi);
+  
+  // Calcolo percentuali rispetto alla media dei mesi precedenti
+  const entratePerc = mediaEntrate === 0 ? null : ((entrateMese - mediaEntrate) / mediaEntrate) * 100;
+  const uscitePerc = mediaUscite === 0 ? null : ((usciteMese - mediaUscite) / mediaUscite) * 100;
 
   return (
     <>
