@@ -1,0 +1,98 @@
+
+/* Variabili globali per colori e valori riutilizzabili */
+:root {
+  --color-text-main: #111;
+  --color-text-secondary: #888;
+  --color-value: #222;
+  --font-label: 500;
+  --font-value: 600;
+  --herosection-label-size: 30px;
+  --herosection-value-size: 70px;
+  --herosection-gap: 10vw;
+  --herosection-card-minwidth: 200px;
+  --red: #fecaca;
+  --green: #A7F3A7;
+}
+
+/* HEROSECTION: griglia 3 card bold e tipografica */
+.herosection {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  width: auto;
+  max-width: 100vw;
+}
+
+.herosection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: var(--herosection-gap);
+  min-width: auto; 
+  max-width: 100vw;
+}
+
+.herosection-card {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  min-width: var(--herosection-card-minwidth);
+}
+
+.herosection-label {
+  color: var(--color-text-main);
+  font-weight: var(--font-label);
+  letter-spacing: -2px;
+  font-size: var(--herosection-label-size);
+  display: flex;
+  align-items: flex-end;
+}
+
+.herosection-value-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.herosection-value {
+  font-size: var(--herosection-value-size);
+  letter-spacing: -6px;
+  font-weight: var(--font-value);
+  color: var(--color-value);
+  line-height: 1.1;
+  width: max-content;
+}
+
+.herosection-icon {
+  position: absolute;
+  top: -8px;
+  right: -50px;
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.herosection-diff {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  letter-spacing: -1px;
+  font-weight: 400;
+  min-height: 1.2em;
+  padding-top: 10px;
+}
+
+.diff-positive {
+  color: var(--green);
+  font-weight: 300;
+}
+
+.diff-negative {
+  color: var(--red);
+  font-weight: 300;
+}
+
+@media (max-width: 900px) {
+
+}

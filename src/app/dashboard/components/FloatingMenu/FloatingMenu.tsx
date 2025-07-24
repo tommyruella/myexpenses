@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { FiHome, FiPlus } from "react-icons/fi";
+import { FiHome, FiPlus, FiHeart } from "react-icons/fi";
 import { PiCurrencyEurBold } from "react-icons/pi"; // Estetica scontrino/monospace
 
 const menuItems = [
@@ -9,6 +9,11 @@ const menuItems = [
     href: "/",
     label: "Home",
     icon: <FiHome size={26} color="#181818" />,
+  },
+  {
+    href: "/dashboard/pages/health",
+    label: "Health",
+    icon: <FiHeart size={26} color="#181818" />,
   },
   {
     href: "/dashboard/pages/spese",
@@ -25,7 +30,8 @@ const menuItems = [
 
 export default function FloatingMenu({ onAddClick }: { onAddClick?: () => void }) {
   const router = useRouter();
-  const items = [menuItems[0], menuItems[2], menuItems[1]];
+  // Ordine: Home, Health, Aggiungi, Spese
+  const items = [menuItems[0], menuItems[1], menuItems[3], menuItems[2]];
 
   return (
     <div className="floatingmenu-container">
