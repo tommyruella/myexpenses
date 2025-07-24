@@ -10,8 +10,6 @@ export default function HealthPage() {
   // const [sleep, setSleep] = useState<SleepData[]>([]);
   // const [training, setTraining] = useState<TrainingData[]>([]);
 type GarminData = { passi: number; battito_medio: number; distanza_totale: number; calorie_totali: number };
-type SleepData = { data: string; durata_secondi: number };
-type TrainingData = { data: string; tipo_attivita: string };
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,23 +19,11 @@ type TrainingData = { data: string; tipo_attivita: string };
       setError(null);
       try {
         // Prendi tutti i record garmin per la media
-        const [garminAllRes, sleepRes, trainingRes] = await Promise.all([
-          fetch('/api/health/garmin?all=1'),
-          fetch('/api/health/sleep'),
-          fetch('/api/health/training'),
-        ]);
+        const garminAllRes = await fetch('/api/health/garmin?all=1');
         let debugMsg = '';
         if (!garminAllRes.ok) {
           const err = await garminAllRes.json();
           debugMsg += `Garmin API: ${garminAllRes.status} - ${err.error || JSON.stringify(err)}\n`;
-        }
-        if (!sleepRes.ok) {
-          const err = await sleepRes.json();
-          debugMsg += `Sleep API: ${sleepRes.status} - ${err.error || JSON.stringify(err)}\n`;
-        }
-        if (!trainingRes.ok) {
-          const err = await trainingRes.json();
-          debugMsg += `Training API: ${trainingRes.status} - ${err.error || JSON.stringify(err)}\n`;
         }
         if (debugMsg) {
           throw new Error(debugMsg);
@@ -45,10 +31,6 @@ type TrainingData = { data: string; tipo_attivita: string };
         const garminAllData = await garminAllRes.json();
         setGarminAll(Array.isArray(garminAllData) ? garminAllData : []);
         setGarmin(Array.isArray(garminAllData) && garminAllData.length > 0 ? garminAllData[0] : null);
-        const sleepData = await sleepRes.json();
-        const trainingData = await trainingRes.json();
-        // setSleep(sleepData || []);
-        // setTraining(trainingData || []);
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message);
