@@ -7,8 +7,8 @@ import "./health.css";
 export default function HealthPage() {
   const [garmin, setGarmin] = useState<GarminData | null>(null);
   const [garminAll, setGarminAll] = useState<GarminData[]>([]);
-  const [sleep, setSleep] = useState<SleepData[]>([]);
-  const [training, setTraining] = useState<TrainingData[]>([]);
+  // const [sleep, setSleep] = useState<SleepData[]>([]);
+  // const [training, setTraining] = useState<TrainingData[]>([]);
 type GarminData = { passi: number; battito_medio: number; distanza_totale: number; calorie_totali: number };
 type SleepData = { data: string; durata_secondi: number };
 type TrainingData = { data: string; tipo_attivita: string };
@@ -47,8 +47,8 @@ type TrainingData = { data: string; tipo_attivita: string };
         setGarmin(Array.isArray(garminAllData) && garminAllData.length > 0 ? garminAllData[0] : null);
         const sleepData = await sleepRes.json();
         const trainingData = await trainingRes.json();
-        setSleep(sleepData || []);
-        setTraining(trainingData || []);
+        // setSleep(sleepData || []);
+        // setTraining(trainingData || []);
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message);
