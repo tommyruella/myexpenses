@@ -49,8 +49,12 @@ type TrainingData = { data: string; tipo_attivita: string };
         const trainingData = await trainingRes.json();
         setSleep(sleepData || []);
         setTraining(trainingData || []);
-      } catch (e: any) {
-        setError(e.message || 'Errore nel recupero dati');
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError('Errore nel recupero dati');
+        }
       } finally {
         setLoading(false);
       }
@@ -74,23 +78,7 @@ type TrainingData = { data: string; tipo_attivita: string };
     return sign + perc.toFixed(1) + '%';
   }
 
-  // Calcolo media sonno in minuti e sessioni settimana
-  const mediaSonnoNum = sleep.length
-    ? Math.round(sleep.reduce((acc, s) => acc + (typeof s.durata_secondi === 'number' ? s.durata_secondi : 0), 0) / sleep.length / 60)
-    : 0;
-  const mediaSonno = mediaSonnoNum ? mediaSonnoNum + 'm' : '-';
-  const sessioniSettimana = training.length;
-
-  // Prepara dati riepilogo (ultimi 5 giorni)
-  const summaryData = Array.from({ length: 5 }).map((_, i) => {
-    const giorno = sleep[i]?.data || training[i]?.data || '-';
-    return {
-      giorno,
-      sonno: sleep[i]?.durata_secondi ? Math.round(sleep[i].durata_secondi / 60) + 'm' : '-',
-      allenamento: training[i]?.tipo_attivita || '-',
-      benessere: '-',
-    };
-  });
+  // ...existing code...
 
   return (
     <>
