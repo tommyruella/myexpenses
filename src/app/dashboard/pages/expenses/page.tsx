@@ -135,8 +135,6 @@ function SpesePageInner() {
               filterType={filterType}
               setFilterType={setFilterType}
               categories={CATEGORIES}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
             />
             <ExpensesList spese={sortedSpese} onExpenseClick={setSelectedExpense} />
           </div>
