@@ -10,8 +10,6 @@ interface FiltersBarProps {
   setFilterCat: (val: string) => void;
   filterType: string;
   setFilterType: (val: string) => void;
-  sortOrder: string;
-  setSortOrder: (val: string) => void;
   categories: string[];
 }
 
@@ -22,8 +20,6 @@ export default function FiltersBar({
   setFilterCat,
   filterType,
   setFilterType,
-  sortOrder,
-  setSortOrder,
   categories,
 }: FiltersBarProps) {
     return (
