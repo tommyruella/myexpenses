@@ -1,17 +1,16 @@
-
 "use client";
 import React, { useState } from "react";
-import { Spesa, SpeseProvider, useSpese } from "./expensecontext";
-import Navbar from "../../components/NavbarTemp/Navbar";
+import { Spesa, SpeseProvider, useSpese } from "../context/SpeseContext";
+import Navbar from "../components/NavbarTemp/Navbar";
 import FiltersBar from "./FiltersBar";
 import ExpensesList from "./ExpensesList";
-import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
-import AddExpenseModal from "../../components/Modal/AddExpenseModal";
-import ExpenseCard from "../../components/Expensecard/ExpenseCard";
-import MonthlyTrendChart from "../../components/Charts/MonthlyTrendChart";
-import PieChart from "../../components/Charts/PieChart";
-import "../../components/FloatingMenu/floatingmenu.css";
-import "./expensespage.css"; 
+import FloatingMenu from "../components/FloatingMenu/FloatingMenu";
+import AddExpenseModal from "../components/Modal/AddExpenseModal";
+import ExpenseCard from "../components/Expensecard";
+import MonthlyTrendChart from "../components/Charts/MonthlyTrendChart";
+import PieChart from "../components/Charts/PieChart";
+import "../components/FloatingMenu/floatingmenu.css";
+import "./expensespage.css";
 
 const CATEGORIES = ["HANGOUT", "CLOTH", "FOOD", "TRANSPORT", "TRAVEL", "EARNINGS", "OTHERS"];
 
@@ -30,7 +29,6 @@ function getPieData(spese: Spesa[]) {
     return { cat, percent };
   });
 }
-
 
 function SpesePageInner() {
   const { spese, loading, fetchSpese } = useSpese();
@@ -78,7 +76,6 @@ function SpesePageInner() {
     fetchSpese();
   }
 
-
   // Normalizza le categorie (GYM -> OTHERS) come in home
   const speseNormalizzate = spese.map((s: Spesa) =>
     s.categoria === 'GYM' ? { ...s, categoria: 'OTHERS' } : s
@@ -112,10 +109,6 @@ function SpesePageInner() {
   let sortedSpese = filteredSpese;
   if (sortOrder === "asc") sortedSpese = [...filteredSpese].sort((a, b) => a.importo - b.importo);
   else if (sortOrder === "desc") sortedSpese = [...filteredSpese].sort((a, b) => b.importo - a.importo);
-
-  // Calcolo totale in e out su tutte le spese filtrate
-  // const totaleIn = speseNormalizzate.filter(s => s.tipo === "ENTRATA").reduce((acc, s) => acc + s.importo, 0);
-  // const totaleOut = speseNormalizzate.filter(s => s.tipo === "USCITA").reduce((acc, s) => acc + s.importo, 0);
 
   return (
     <>

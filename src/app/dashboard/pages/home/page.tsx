@@ -6,7 +6,7 @@ import BalanceChart from "../../components/Charts/BalanceChart";
 // import PieChart from "../../components/Charts/PieChart";
 import "./homepage.css";
 import "../../components/FloatingMenu/floatingmenu.css";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/NavbarTemp/Navbar";
 import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
 
 interface Spesa {
