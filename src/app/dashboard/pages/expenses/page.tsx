@@ -52,7 +52,7 @@ function SpesePageInner() {
     tipo: "USCITA",
   });
   const [selectedExpense, setSelectedExpense] = useState<Spesa | null>(null);
-  const [sortOrder, setSortOrder] = useState("");
+
 
   React.useEffect(() => {
     if (filterType === "ENTRATA") {
@@ -110,8 +110,6 @@ function SpesePageInner() {
   }
 
   let sortedSpese = filteredSpese;
-  if (sortOrder === "asc") sortedSpese = [...filteredSpese].sort((a, b) => a.importo - b.importo);
-  else if (sortOrder === "desc") sortedSpese = [...filteredSpese].sort((a, b) => b.importo - a.importo);
 
   // Calcolo totale in e out su tutte le spese filtrate
   // const totaleIn = speseNormalizzate.filter(s => s.tipo === "ENTRATA").reduce((acc, s) => acc + s.importo, 0);
