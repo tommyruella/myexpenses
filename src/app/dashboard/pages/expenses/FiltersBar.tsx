@@ -1,7 +1,7 @@
 import React from "react";
 import { MdSwapVert } from "react-icons/md";
 import { FaTshirt, FaUtensils, FaBus, FaUsers, FaPiggyBank, FaQuestionCircle, FaGlobe, FaGift } from "react-icons/fa";
-import  "./expensespage.css"; // Importa lo stile specifico per le spese
+import "./expensespage.css";
 
 interface FiltersBarProps {
   search: string;
@@ -22,20 +22,17 @@ export default function FiltersBar({
   setFilterCat,
   filterType,
   setFilterType,
-  // sortOrder,
-  // setSortOrder,
+  sortOrder,
+  setSortOrder,
   categories,
 }: FiltersBarProps) {
-  
     return (
     <div style={{marginBottom: 20, boxSizing: 'border-box'}}>
       <input
-        type="text"
         placeholder="Search…"
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
-          // Regola: digitando resetta i filtri (mutualmente esclusivi)
           setFilterType("");
           setFilterCat("");
         }}
@@ -51,9 +48,7 @@ export default function FiltersBar({
         }}
       />
 
-      <div
-        className="filters-bar"
-      >
+      <div className="filters-bar">
         {/* Tipologia */}
         <div style={{ position: "relative", width: "100%" }}>
           <MdSwapVert
@@ -78,10 +73,8 @@ export default function FiltersBar({
             onChange={(e) => {
               const val = e.target.value;
               setFilterType(val);
-              // Regola: selezionando filterType resetta search e filterCat (mutualmente esclusivi)
               setSearch("");
               setFilterCat("");
-              // Se ENTRATA, resetta anche filterCat (tutte le entrate sono "All categories")
               if (val === "ENTRATA") setFilterCat("");
             }}
             style={{
@@ -103,7 +96,6 @@ export default function FiltersBar({
         {/* Categoria */}
         <div style={{ position: "relative", width: "100%" }}>
           {(() => {
-            // Scegli l'icona in base alla categoria selezionata
             const iconProps = {
               size: 15,
               style: {
@@ -129,7 +121,7 @@ export default function FiltersBar({
               case "HANGOUT": return <FaUsers {...iconProps} />;
               case "EARNINGS": return <FaPiggyBank {...iconProps} />;
               case "OTHERS": return <FaGift {...iconProps} />;
-              case "": return <FaQuestionCircle {...iconProps} />; // All categories
+              case "": return <FaQuestionCircle {...iconProps} />;
               default: return <FaQuestionCircle {...iconProps} />;
             }
           })()}
@@ -137,7 +129,6 @@ export default function FiltersBar({
             value={filterCat}
             onChange={(e) => {
               setFilterCat(e.target.value);
-              // Regola: selezionando filterCat resetta search e filterType (mutualmente esclusivi)
               setSearch("");
               setFilterType("");
             }}

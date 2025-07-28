@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import "../home/homepage.css"; // Importa lo stile della homepage per mantenere la coerenza
-import "./expensespage.css"; // Importa lo stile specifico per le spese
+import "../home/homepage.css";
+import "./expensespage.css";
 
 interface Spesa {
   id: number;

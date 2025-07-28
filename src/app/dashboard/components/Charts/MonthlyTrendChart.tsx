@@ -1,5 +1,5 @@
 import React from "react";
-import "../../pages/spese/expensespage.css"
+import "../../pages/expenses/expensespage.css"
 
 interface MonthlyTrendChartProps {
   data: { month: string; total: number }[];

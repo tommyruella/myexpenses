@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/navbar/Navbar';
+import Navbar from '../../components/Navbar/Navbar';
 import "./health.css";
 
 export default function HealthPage() {
   const [garmin, setGarmin] = useState<GarminData | null>(null);
   const [garminAll, setGarminAll] = useState<GarminData[]>([]);
-  // const [sleep, setSleep] = useState<SleepData[]>([]);
-  // const [training, setTraining] = useState<TrainingData[]>([]);
 type GarminData = { passi: number; battito_medio: number; distanza_totale: number; calorie_totali: number };
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,7 +86,7 @@ type GarminData = { passi: number; battito_medio: number; distanza_totale: numbe
                     if (diff.startsWith('-')) return 'diff-negative';
                     return '';
                   })()}>
-                    {diffPercent(garmin?.passi, calcolaMediaPrecedente('passi'))} rispetto alla media
+                    {diffPercent(garmin?.passi, calcolaMediaPrecedente('passi'))} compared to the avg
                   </span>
                 </div>
               </div>
@@ -106,7 +104,7 @@ type GarminData = { passi: number; battito_medio: number; distanza_totale: numbe
                     if (diff.startsWith('-')) return 'diff-negative';
                     return '';
                   })()}>
-                    {diffPercent(garmin?.calorie_totali, calcolaMediaPrecedente('calorie_totali'))} rispetto alla media
+                    {diffPercent(garmin?.calorie_totali, calcolaMediaPrecedente('calorie_totali'))} compared to the avg
                   </span>
                 </div>
               </div>
@@ -123,7 +121,7 @@ type GarminData = { passi: number; battito_medio: number; distanza_totale: numbe
                     if (diff.startsWith('-')) return 'diff-negative';
                     return '';
                   })()}>
-                    {diffPercent(garmin?.battito_medio, calcolaMediaPrecedente('battito_medio'))} rispetto alla media
+                    {diffPercent(garmin?.battito_medio, calcolaMediaPrecedente('battito_medio'))} compared to the avg
                   </span>
                 </div>
               </div>

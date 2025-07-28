@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useEffect, useState } from "react";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
@@ -5,7 +6,7 @@ import BalanceChart from "../../components/Charts/BalanceChart";
 // import PieChart from "../../components/Charts/PieChart";
 import "./homepage.css";
 import "../../components/FloatingMenu/floatingmenu.css";
-import Navbar from "../../components/navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
 
 interface Spesa {
@@ -44,7 +45,7 @@ export default function Home() {
       if (Array.isArray(data)) {
         setSpese(data.map((s: Spesa) => ({ ...s, importo: Number((s as Spesa).importo) })));
       } else {
-        setSpese([]);
+  // PieChart component removed from homepage
       }
     } catch {
       setSpese([]);

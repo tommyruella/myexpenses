@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./ExpenseCard.module.css";
 import { FaTrash } from "react-icons/fa";
-import SliderConfirm from "./Modal/SliderConfirm";
+import SliderConfirm from "../Modal/SliderConfirm";
 
 export interface Expense {
   id: string | number;

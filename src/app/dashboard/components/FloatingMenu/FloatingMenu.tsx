@@ -16,7 +16,7 @@ const menuItems = [
     icon: <FiHeart size={26} color="#181818" />,
   },
   {
-    href: "/dashboard/pages/spese",
+    href: "/dashboard/pages/expenses",
     label: "Spese",
     icon: <PiCurrencyEurBold size={26} color="#181818" />,
   },

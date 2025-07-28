@@ -1,12 +1,13 @@
+
 "use client";
 import React, { useState } from "react";
-import { Spesa, SpeseProvider, useSpese } from "../../context/SpeseContext";
-import Navbar from "../../components/navbar/Navbar";
+import { Spesa, SpeseProvider, useSpese } from "./expensecontext";
+import Navbar from "../../components/Navbar/Navbar";
 import FiltersBar from "./FiltersBar";
 import ExpensesList from "./ExpensesList";
 import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
-import ExpenseCard from "../../components/ExpenseCard";
+import ExpenseCard from "../../components/Expensecard/ExpenseCard";
 import MonthlyTrendChart from "../../components/Charts/MonthlyTrendChart";
 import PieChart from "../../components/Charts/PieChart";
 import "../../components/FloatingMenu/floatingmenu.css";
