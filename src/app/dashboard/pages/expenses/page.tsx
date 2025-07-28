@@ -109,7 +109,7 @@ function SpesePageInner() {
     });
   }
 
-  let sortedSpese = filteredSpese;
+  const sortedSpese = filteredSpese;
 
   // Calcolo totale in e out su tutte le spese filtrate
   // const totaleIn = speseNormalizzate.filter(s => s.tipo === "ENTRATA").reduce((acc, s) => acc + s.importo, 0);
