@@ -7,7 +7,7 @@ import FiltersBar from "./FiltersBar";
 import ExpensesList from "./ExpensesList";
 import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
-import ExpenseCard from "../../components/Expensecard/ExpenseCard";
+import ExpenseCard from "../../components/ExpenseCard/ExpenseCard";
 import MonthlyTrendChart from "../../components/Charts/MonthlyTrendChart";
 import PieChart from "../../components/Charts/PieChart";
 import "../../components/FloatingMenu/floatingmenu.css";
