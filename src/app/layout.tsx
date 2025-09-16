@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthWrapper from "../components/AuthWrapper";
+import './globals.css'
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,6 +49,16 @@ export default function RootLayout({
         <link rel="icon" href="/icons/logo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icons/logo.svg" />
         <meta name="msapplication-TileImage" content="/icons/logo.svg" />
+
+        {/* Aggiunte per migliorare integrazione come app su iOS/Android */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Tommy's Expenses" />
+        <meta name="theme-color" content="#181818" />
       </head>
       <body className={`${inter.className} antialiased bg-gray-950`}>
         <AuthWrapper>
