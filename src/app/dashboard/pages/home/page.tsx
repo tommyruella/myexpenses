@@ -3,11 +3,10 @@
 import React, { useEffect, useState } from "react";
 import AddExpenseModal from "../../components/Modal/AddExpenseModal";
 import BalanceChart from "../../components/Charts/BalanceChart";
-// import PieChart from "../../components/Charts/PieChart";
-import "./homepage.css";
 import "../../components/FloatingMenu/floatingmenu.css";
 import Navbar from "../../components/NavbarTemp/Navbar";
 import FloatingMenu from "../../components/FloatingMenu/FloatingMenu";
+import "./homepage.css";
 
 interface Spesa {
   id: number;
@@ -194,7 +193,7 @@ export default function Home() {
           {/* Prima riga: saldo + entrate/uscite */}
           <section className="dashboard-balance-row">
             <div className="balance-block">
-              <span className="balance-label">current balance</span>
+              <span className="title-label">balance</span>
               <span className="balance-value">€{saldo.toFixed(2)}</span>
             </div>
             <div className="inout-blocks">
@@ -235,18 +234,18 @@ export default function Home() {
           {/* Seconda riga: spese recenti | grafici */}
           <main className="dashboard-main-row">
             <div className="expenses-list-block">
-              <div className="section-title">
+              <div className="title-label">
                 last expenses
-                <a href="/dashboard/pages/spese" aria-label="Go to all expenses" style={{display:'inline-flex',alignItems:'center',marginLeft:6, color:'#181818', textDecoration:'none', transition:'color 0.18s'}}>
+                <a href="/dashboard/pages/expenses" aria-label="Go to all expenses" style={{display:'inline-flex',alignItems:'center',marginLeft:6, color:'#181818', textDecoration:'none', transition:'color 0.18s'}}>
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{transform:'rotate(45deg)'}}>
                     <path d="M12 19V5"/>
                     <path d="M5 12l7-7 7 7"/>
                   </svg>
                 </a>
               </div>
-              <ul className="expenses-list">
+              <ul className="expenses-list-page">
                 {[...speseNormalizzate].sort((a, b) => b.data_spesa.localeCompare(a.data_spesa)).slice(0, 5).map((spesa) => (
-                  <li key={spesa.id} className="expense-item">
+                  <li key={spesa.id} className="expense-item-page">
                     <span className="expense-desc">{spesa.descrizione}</span>
                     <span className="expense-cat">{spesa.categoria}</span>
                     <span className={spesa.tipo === 'USCITA' ? 'expense-amount out' : 'expense-amount in'}>
@@ -259,7 +258,7 @@ export default function Home() {
               </ul>
             </div>
             <div className="chart-block">
-              <div className="section-title">balance chart</div>
+              <div className="title-label">balance chart</div>
               <div className="balance-chart-container">
                 <BalanceChart data={chartData} />
               </div>

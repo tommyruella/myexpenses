@@ -62,7 +62,7 @@ export default function ExpensesList({ spese, onExpenseClick, pageSize = 7 }: Ex
       </ul>
       <div className="expenses-pagination-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, marginTop: 20, width: '100%' }}>
         <span style={{ fontWeight: 600, fontSize: 16, color: '#222', minWidth: 120, textAlign: 'left' }}>
-          TOTAL: <span style={{ color: totalFiltered < 0 ? '#fecaca' : '#a7f3d0' }}>{totalFiltered >= 0 ? '+' : ''}€{totalFiltered.toFixed(2)}</span>
+          TOTAL: <span style={{ color: totalFiltered < 0 ? '#fecaca' : '#b1e3bfff' }}>{totalFiltered >= 0 ? '+' : ''}€{totalFiltered.toFixed(2)}</span>
         </span>
         {totalPages > 1 && (
           <div className="expenses-pagination-arrows" >

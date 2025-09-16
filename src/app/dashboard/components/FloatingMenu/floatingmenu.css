@@ -3,7 +3,7 @@
 .floatingmenu-container {
   position: fixed;
   z-index: 300;
-  bottom: 16px;
+  bottom: 40px;
   width: auto;
   height: auto;
   display: flex;

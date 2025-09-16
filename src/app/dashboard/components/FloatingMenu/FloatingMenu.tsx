@@ -11,11 +11,6 @@ const menuItems = [
     icon: <FiHome size={26} color="#181818" />,
   },
   {
-    href: "/dashboard/pages/health",
-    label: "Health",
-    icon: <FiHeart size={26} color="#181818" />,
-  },
-  {
     href: "/dashboard/pages/expenses",
     label: "Spese",
     icon: <PiCurrencyEurBold size={26} color="#181818" />,
@@ -30,8 +25,8 @@ const menuItems = [
 
 export default function FloatingMenu({ onAddClick }: { onAddClick?: () => void }) {
   const router = useRouter();
-  // Ordine: Home, Health, Aggiungi, Spese
-  const items = [menuItems[0], menuItems[1], menuItems[3], menuItems[2]];
+  // Ordine: Home, Aggiungi, Spese
+  const items = [menuItems[1], menuItems[0], menuItems[2]];
 
   return (
     <div className="floatingmenu-container">

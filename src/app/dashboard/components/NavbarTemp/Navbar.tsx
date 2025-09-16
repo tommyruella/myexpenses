@@ -16,11 +16,12 @@ export default function Navbar() {
         position: "sticky",
         top: 0,
         zIndex: 999,
-        width: "100%",
+        width: "100vw",
         background: "rgba(255,255,255,0.7)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        borderBottom: "1px solid #eee"
+        borderBottom: "1px solid #eee",
+        transform: "translateX(-10px)"
       }}
     >
       <div style={{height: 60, display: "flex", justifyContent: "space-between", flexDirection: "row", padding: "0 20px", alignItems: "center"}}>

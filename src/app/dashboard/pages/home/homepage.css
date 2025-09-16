@@ -2,158 +2,119 @@
   --main-color: #181818;
   --secondary: #666;
   --line-color: #eee;
-  --spacing: 20px;
-  --font-weight: 700;
-  --spacingnew: 80px;
-  --min-width-lb: 45vw;
+  --font-weight: 600;
+  --red: #fecaca;
+  --green: #b1e3bfff;
 }
 
-html, body {
-  width: 95vw;
-  max-width: 95vw;
-  overflow-x: hidden;
-}
-
-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 0;
-  padding: 0;
+.body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: inline;
 }
 
 .dashboard-root {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  align-items: center;
-  margin: 60px;
-  max-width: 90vw;
+    padding-top: 40px !important;
+    padding: 80px;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    box-sizing: border-box;
 }
 
-.dashboard-grid {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  gap: 20px;
-}
-
-/* ====== BILANCIO (IN/OUT) ====== */
 .dashboard-balance-row {
-  display: flex;
-  justify-content: space-between;
-  width: max-content;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+}
+  
+.balance-block {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
-.dashboard-balance-row .balance-block {
-  display: flex;
- align-items: flex-start;
- flex-direction: column;
- min-width: var(--min-width-lb);
- width: max-content
+.title-label {
+    font-size: 52px;
+    letter-spacing: -2px;
+    font-weight: var(--font-weight);
+    color: var(--main-color);
+    margin-bottom: 10px;
 }
 
-.dashboard-balance-row .balance-label {
-  font-size: 52px;
-  letter-spacing: -2px;
-  font-weight: var(--font-weight);
-  color: var(--main-color);
-  margin-bottom: 5px;
-
+.inout-blocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    align-items: end;
+    gap: 20px;
 }
 
-.dashboard-balance-row .balance-value {
-  font-size: 30px;
-  letter-spacing: -2px;
-  font-weight: var(--font-weight);
-  color: var(--main-color);
-  margin-bottom: 5px;
-  white-space: nowrap;
-}
-
-/* ====== IN/OUT ====== */
-.dashboard-balance-row .inout-blocks {
+.inout-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--main-color);
+    margin-bottom: 10px;
+    gap: 10px;
     display: flex;
     flex-direction: row;
-    min-width: var(--min-width-lb);
-    gap: 40px;
+    letter-spacing: -3px;
 }
 
-.dashboard-balance-row .inout-blocks .single-inout-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+.perc-positive {
+    letter-spacing: -1px;
+    color: var(--green);
 }
 
-.dashboard-balance-row .inout-blocks .single-inout-block .inout-label {
-  font-size: 52px;
-  letter-spacing: -1.5px;
-  font-weight: var(--font-weight);
-  color: var(--main-color);
-  margin-bottom: 5px;
-  white-space: nowrap;
+.perc-negative {
+    letter-spacing: -1px;
+    color: var(--red);
 }
 
-.dashboard-balance-row .inout-blocks .single-inout-block .inout-value {
-  font-size: 30px;
-  font-weight: var(--font-weight);
-  letter-spacing: -2px;
-  color: var(--main-color);
-  margin-bottom: 5px;
-  white-space: nowrap;
+.single-inout-block {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-right: 0px;
 }
 
-.dashboard-balance-row .inout-blocks .single-inout-block .percentage-inout {
-  font-size: 14px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  padding-left: 10px;
-  gap: 2px;
+.inout-label {
+    font-size: 52px;
+    letter-spacing: -2px;
+    font-weight: var(--font-weight);
+    color: var(--main-color);
+    margin-bottom: 10px;
 }
 
-/* ====== SPESE+CHART ====== */
-
-.dashboard-main-row {
-  display: flex;
-  justify-content: space-between;
-}
-/* ===SPESE=== */
-
-.dashboard-main-row .expenses-list-block {
-  display: flex;
-  align-items: flex-start; /* <-- allinea a sinistra */
-  flex-direction: column;
-  min-width: var(--min-width-lb);
+.balance-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--main-color);
+    margin-bottom: 10px;
 }
 
-.dashboard-main-row .expenses-list-block .section-title {
-  font-size: 52px;
-  letter-spacing: -2px;
-  font-weight: var(--font-weight);
-  color: var(--main-color);
-  margin-bottom: 10px;
-  white-space: nowrap;
+.expenses-list-block {
+  box-sizing: border-box;
 }
 
-.expenses-list {
-  display: grid;
-  margin: 0px;
+.expenses-list-page {
+  width: unset;
+  max-width: unset;
   padding: 0px;
-  justify-content: flex-start;
+  margin-bottom: 20px;
 }
 
-.expenses-list .expense-item {
+.expenses-list-page .expense-item-page {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;  
   border-bottom: 1px solid var(--line-color);
-  width: min(400px, 45vw);
   align-items: center;
   padding: 14px 0;
 }
 
-.expenses-list .expense-item .expense-desc {
+.expenses-list-page .expense-item-page .expense-desc {
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
@@ -161,250 +122,109 @@ svg {
   text-overflow: ellipsis;
 }
 
-.expenses-list .expense-item .expense-cat {
+.expenses-list-page .expense-item-page .expense-cat {
   font-size: 14px;
   text-align: center;
   color: var(--secondary);  
 }
 
-.expenses-list .expense-item .expense-amount {
+.expenses-list-page .expense-item-page .expense-amount {
   font-size: 14px;
   font-weight: 500;
   color: var(--main-color);
   text-align: center; 
 }
 
-.expenses-list .expense-item .expense-date {
+.expenses-list-page .expense-item-page .expense-date {
   font-size: 12px;
   font-weight: 300;
   color: var(--secondary);
   text-align: right; 
 }
 
-/* ===SPESE=== */
 
-.dashboard-main-row .chart-block {
-  display: flex;
-  flex-direction: column;
-  gap: 12;
-  min-width: var(--min-width-lb);
-  padding-bottom: 65px;
-  
-}
-
-.dashboard-main-row .chart-block .section-title {
-  font-size: 52px;
-  letter-spacing: -2px;
-  font-weight: var(--font-weight);
-  color: var(--main-color);
-  margin-bottom: 5px;
-  white-space: nowrap;
-}
-
-.dashboard-main-row .chart-block .balance-chart-container {
-  width: max-content;
-  height: 118%;
-  position: relative;
-  border-radius: 2%;
-  border:  var(--line-color) .5px solid;
-  max-width: 100%;
-}
-
-@media (min-width: 390px) and (max-width: 950px) {
-
-  .dashboard-root {
-    overflow-x: hidden;
-    margin: unset;
-    margin-Top: 20px;
-    margin-bottom: 50px;
-  }
-
-  .expenses-list {
-    width: unset;
-  }
-
-  .expenses-list .expense-item {
-    width: 400px;
-  }
-
-  .dashboard-grid {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+@media (max-width: 900px) {
 
   .dashboard-balance-row {
     display: flex;
     flex-direction: column;
-    min-width: var(--min-width-lb);
-    gap: 10px;
-  }
-
-  .dashboard-balance-row .balance-block {
-    display: flex;
-    flex-flow: column wrap;
-    box-sizing: border-box;
-    min-width: unset;
-  }
-
-  .dashboard-main-row {
-    display: flex;
-    flex-direction: column;
-    gap: 20px
-  }
-
-  .dashboard-main-row .chart-block {
-    margin: 0px;
-    width: 100%;
-    transform: unset;
-    align-items: flex-start;
-  }
-
-  .inout-blocks {
-    width: unset;
-    gap: 20px !important;
-  }
-
-  .dashboard-main-row .chart-block .balance-chart-container {
-    width: 100%;
-    margin: 0;
-    transform: unset;
+    gap: 5px;
   }
 }
 
 @media (max-width: 390px) {
 
-  .expenses-list {
-    width: unset;
-  }
-
-  .dashboard-main.row .expenses-list-block {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    min-width: unset;
-  }
-
-  .dashboard-root {
-    overflow-x: hidden;
-    display: flex !important;
-    min-width: 100%;
-  }
-
-  .dashboard-grid {
-    display: flex;
-    align-items: center;
-    padding: auto;
-    gap: 20px;
+.dashboard-root {
+    padding-top: 20px !important;
+    grid-template-columns: 1fr;
   }
 
   .dashboard-balance-row {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* <-- Allinea a sinistra */
-    min-width: unset;
-    transform: unset;
-    box-sizing: border-box;
-    gap: 10px;
+    row-gap: 0px;
   }
 
-  .dashboard-balance-row .balance-block {
-    display: flex;
-    flex-flow: column;
-    box-sizing: border-box;
-    min-width: unset;
-  }
-   
-  .dashboard-balance-row .balance-label {
-    font-size: 42px;
-    margin-bottom: 0;
-  }
-
-  .dashboard-balance-row .inout-blocks {
+  .inout-blocks {
     display: grid;
-    grid-auto-flow: column;
-    min-width: unset;
-    gap: 20px
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: 20px;
   }
 
-  .dashboard-balance-row .balance-value {
-    font-size: 40px;
-  }
-
-  .dashboard-balance-row .inout-blocks .single-inout-block .inout-label {
-    font-size: 42px;
-    margin-bottom: 0;
-  }
-
-  .dashboard-balance-row .inout-blocks .single-inout-block .inout-value {
+  .inout-value {
+    font-size: 30px;
     display: flex;
     flex-direction: column;
-    font-size: 32px;
-    gap: 5px
+    gap: 0px;
   }
 
-  .dashboard-balance-row .inout-blocks .single-inout-block .percentage-inout {
-    padding-left: 0;
-  }
-  
-  .dashboard-main-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px
+  .perc-negative {
+    letter-spacing: -1px;
+    color: var(--red);
   }
 
-  .dashboard-main-row .expenses-list-block .section-title {
+  .perc-positive {
+    letter-spacing: -1px;
+    color: var(--green);
+  }
+
+  .title-label {
+    font-size: 42px;
+}
+  .inout-label {
     font-size: 42px;
   }
 
-  .dashboard-main-row .expenses-list .expense-item {
-    display: grid;
+  .dashboard-root {
+    padding: 40px;
+  }
+
+  .expenses-list-block {
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+  .expenses-list-page {
+    box-sizing: border-box;
     width: unset;
-    max-width: 300px;
-    box-sizing: border-box;
+    max-width: unset;
+    display: grid;
+    margin: 0px;
+    min-width: 300px;
+    }
+
+  .expense-item-page {
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;  
     border-bottom: 1px solid var(--line-color);
     align-items: center;
-    padding: 12px 0;
-  }
-
-  .dashboard-main-row .expenses-list .expense-item .expense-desc {
-    font-size: 12px;
-  }
-
-  .dashboard-main-row .expenses-list .expense-item .expense-cat {
-    font-size: 12px; 
-  }
-
-  .dashboard-main-row .expenses-list .expense-item .expense-amount {
-    font-size: 12px;   
-  }
-
-  .dashboard-main-row .expenses-list .expense-item .expense-date {
-    font-size: 12px;
-    text-align: right; 
-  }
-
-  .dashboard-main-row .chart-block {
-    margin: 0px;
-    max-width: 300px;
-    transform: unset;
-    align-items: flex-start;
-    box-sizing: border-box;
-    min-width: unset;
-    width: unset;
-  }
-
-
-  .dashboard-main-row .chart-block .section-title {
-    font-size: 42px;
-    transform: unset;
-  }
-
-  .dashboard-main-row .chart-block .balance-chart-container {
-    width: 118%;
-    border-radius: 2%;
-    border:  var(--line-color) .5px solid;
-  }
+    padding: 14px 0;
+    }
 }
+
+
+
+    
+
+
