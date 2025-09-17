@@ -1,84 +1,59 @@
 import React from "react";
+import styles from "./PieChart.module.css";
 import "../../pages/expenses/expensespage.css"
 
 interface PieChartProps {
   percent: number; // 0-100
   label: string;
+  size?: number; // pixels
+  thickness?: number; // stroke width in px
+  color?: string; // foreground color
+  bgColor?: string; // background circle color
+  animate?: boolean;
 }
 
-const PieChart: React.FC<PieChartProps> = ({ percent, label }) => {
-  const r = 24;
+const clamp = (v: number, a = 0, b = 100) => Math.max(a, Math.min(b, v));
+
+const PieChart: React.FC<PieChartProps> = ({ percent, label, size = 72, thickness = 7, color = '#181818', bgColor = '#ececec', animate = true }) => {
+  const value = clamp(percent, 0, 100);
+  const r = 24; // radius in SVG coordinate space
   const c = 2 * Math.PI * r;
-  const value = Math.max(0, Math.min(percent, 100));
   const offset = c * (1 - value / 100);
-  const rotation = -90;
-  const color = '#181818';
+
+  const rootStyle: React.CSSProperties = {
+    ['--pie-size' as any]: `${size}px`,
+    ['--pie-color' as any]: color,
+    ['--pie-bg' as any]: bgColor,
+    ['--pie-thickness' as any]: `${thickness}px`,
+  };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      width: 80,
-      marginTop: 10,
-    }}>
-      <div style={{
-        position: 'relative',
-        width: 70,
-        height: 70,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <svg width={70} height={70} viewBox="0 0 70 70" style={{ transform: `rotate(${rotation}deg)` }}>
+    <div className={styles.root} style={rootStyle} role="group" aria-label={`${label} ${Math.round(value)} percento`}>
+      <div className={styles.svgWrapper}>
+        <svg width={size} height={size} viewBox="0 0 70 70" aria-hidden="true">
           <circle
+            className={styles.circleBg}
             cx={35}
             cy={35}
             r={r}
             fill="none"
-            stroke="#ececec"
-            strokeWidth={7}
+            strokeWidth={thickness}
           />
           <circle
+            className={styles.circleFg}
             cx={35}
             cy={35}
             r={r}
             fill="none"
-            stroke={color}
-            strokeWidth={7}
+            strokeWidth={thickness}
             strokeDasharray={c}
             strokeDashoffset={offset}
-            strokeLinecap="round"
-            style={{ transition: 'stroke-dashoffset 0.6s cubic-bezier(.4,2,.6,1)' }}
+            style={{ transition: animate ? undefined : 'none' }}
           />
         </svg>
-        <span style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          fontWeight: 500,
-          fontSize: 14,
-          color: color,
-          pointerEvents: 'none',
-          fontFamily: 'Inter, ui-sans-serif, monospace',
-        }}>
-          {Math.round(percent)}%
-        </span>
+        <span className={styles.percentLabel} aria-hidden>{Math.round(value)}%</span>
       </div>
-      <span style={{
-        fontSize: 13,
-        fontWeight: 600,
-        color: '#181818',
-        marginTop: 8,
-        letterSpacing: 0,
-        textAlign: 'center',
-        maxWidth: 70,
-        lineHeight: 1.2,
-      }}>
-        {label}
-      </span>
+      <span className={styles.caption}>{label}</span>
     </div>
   );
 };

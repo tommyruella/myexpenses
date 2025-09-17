@@ -1,0 +1,66 @@
+/* Minimal PieChart styles: pulito e coerente col tema */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: var(--pie-size, 72px);
+  margin-top: 6px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--pie-color, #181818);
+}
+
+.svgWrapper {
+  position: relative;
+  width: var(--pie-size, 72px);
+  height: var(--pie-size, 72px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circleBg {
+  stroke: var(--pie-bg, #f0f0f0);
+  stroke-width: var(--pie-thickness, 6px);
+  opacity: 1;
+}
+
+.circleFg {
+  stroke: var(--pie-color, #181818);
+  stroke-width: var(--pie-thickness, 6px);
+  transition: stroke-dashoffset 420ms cubic-bezier(.2,.8,.2,1);
+  stroke-linecap: butt;
+}
+
+.percentLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: calc(var(--pie-size, 72px) / 6.5);
+  color: inherit;
+  pointer-events: none;
+}
+
+.caption {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.85);
+  margin-top: 4px;
+  text-align: center;
+  max-width: calc(var(--pie-size, 72px) + 8px);
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .root { width: calc(var(--pie-size, 64px)); }
+  .svgWrapper { width: calc(var(--pie-size, 64px)); height: calc(var(--pie-size, 64px)); }
+  .percentLabel { font-size: calc(var(--pie-size, 64px) / 6.5); }
+  .caption { font-size: 11px; }
+}

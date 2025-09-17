@@ -113,7 +113,7 @@ select:focus {
     margin-top: 20px;
     display: flex;
     gap: 30px;
-    flex-direction: flex-start;
+    justify-content: space-between;
     box-sizing: border-box;
 }
 
@@ -121,6 +121,15 @@ select:focus {
   display: flex;
   flex-direction: flex-start;
   min-width: 40vw;
+}
+
+.piecharts-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 300
+    0px;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .charts-grid .pie-charts-block {
@@ -135,6 +144,19 @@ select:focus {
   width: max-content;
 }
 
+@media (max-width: 900px) {
+
+  .charts-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: start;
+  }
+
+  .pie-charts-block {
+    min-width: 100vw;
+}
+}
 
 @media (max-width: 390px) {
 
