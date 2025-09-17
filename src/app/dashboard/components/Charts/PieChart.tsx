@@ -20,15 +20,15 @@ const PieChart: React.FC<PieChartProps> = ({ percent, label, size = 72, thicknes
   const c = 2 * Math.PI * r;
   const offset = c * (1 - value / 100);
 
-  const rootStyle: React.CSSProperties = {
-    ['--pie-size' as any]: `${size}px`,
-    ['--pie-color' as any]: color,
-    ['--pie-bg' as any]: bgColor,
-    ['--pie-thickness' as any]: `${thickness}px`,
+  const cssVars: Record<string, string> = {
+    '--pie-size': `${size}px`,
+    '--pie-color': color,
+    '--pie-bg': bgColor,
+    '--pie-thickness': `${thickness}px`,
   };
 
   return (
-    <div className={styles.root} style={rootStyle} role="group" aria-label={`${label} ${Math.round(value)} percento`}>
+    <div className={styles.root} style={cssVars as React.CSSProperties} role="group" aria-label={`${label} ${Math.round(value)} percento`}>
       <div className={styles.svgWrapper}>
         <svg width={size} height={size} viewBox="0 0 70 70" aria-hidden="true">
           <circle
